@@ -4,4 +4,15 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMLMS.Data\SMLMS.Data.csproj" />
+    <ProjectReference Include="..\SMLMS.Helper\SMLMS.Helper.csproj" />
+    <ProjectReference Include="..\SMLMS.Model\SMLMS.Model.csproj" />
+  </ItemGroup>
+
 </Project>
