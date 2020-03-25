@@ -6,5 +6,6 @@ namespace SMLMS.Data.Repositories
 {
     class Class1
     {
+        public string g { get; set; }
     }
 }
