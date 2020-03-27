@@ -37,13 +37,20 @@ namespace SMLMS.REST
         {
             services.AddControllers();
 
-
             services.AddDbContext<ApplicationDbContext>(options =>
-     options.UseSqlServer(
-    Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(
+                Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //options.UseSqlServer(
+            //Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
+            //    .AddDefaultUI()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
             // ===== Add Jwt Authentication ========
