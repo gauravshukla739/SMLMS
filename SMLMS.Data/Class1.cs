@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace SMLMS.Data
-{//test
+{//test code
     public class Class1
     {
     }
