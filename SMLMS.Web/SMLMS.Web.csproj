@@ -24,10 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\core\" />
+    <Folder Include="ClientApp\src\app\core\auth-guard\" />
+    <Folder Include="ClientApp\src\app\core\intercepter\" />
+    <Folder Include="ClientApp\src\app\core\services\" />
     <Folder Include="ClientApp\src\app\shared\" />
-    <Folder Include="ClientApp\src\app\NewFolder2\" />
-    <Folder Include="ClientApp\src\app\feature\" />
+    <Folder Include="ClientApp\src\app\layout\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

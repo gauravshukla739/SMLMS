@@ -1,0 +1,29 @@
+<div id="login" class="login loginpage offset-xl-4 offset-lg-3 offset-md-3 offset-0 col-12 col-md-6 col-xl-4">
+      <h1><a href="#" title="Login Page" tabindex="-1"><img src="assets/images/Logo-new-navbar.png" /></a></h1>
+
+      <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+        <p>
+          <label for="user_login">Username<br />
+            <input type="text" name="userName" class="input" [(ngModel)]="user.userName" required #userName="ngModel" />
+         
+          <div *ngIf="f.submitted && userName.invalid" class="alert-danger">
+            <div *ngIf="userName.errors.required">Name is required</div>
+          </div>
+         </label>
+        <p>
+          <label for="user_pass">Password<br />
+            <input type="password" name="pwd" id="user_pass" class="input"  [(ngModel)]="user.password" required #password="ngModel" />
+            <div *ngIf="f.submitted && password.invalid" class="alert-danger">
+              <div *ngIf="password.errors.required">Password is required</div>
+            </div>
+          </label>
+        </p>
+        <p class="forgetmenot">
+          <label class="icheck-label form-label" for="rememberme"><input name="rememberme" type="checkbox"
+              id="rememberme" value="forever" class="icheck-minimal-aero" checked> Remember me</label>
+        </p>
+        <p class="submit">
+          <input type="submit"  class="btn btn-accent btn-block" value="Sign In" />
+        </p>
+      </form>
+</div>

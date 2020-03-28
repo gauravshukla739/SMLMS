@@ -1,0 +1,59 @@
+<section id="main-content" class=" ">
+  <section class="wrapper main-wrapper row">
+
+    <div class="clearfix"></div>
+    <!-- MAIN CONTENT AREA STARTS -->
+
+    <div class="col-xl-12">
+      <section class="box ">
+        <header class="panel_header">
+          <h2 class="title float-left">Permissions</h2>
+          <!--div class="actions panel_actions float-right">
+                      <a class="box_toggle fa fa-chevron-down"></a>
+                      <a class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></a>
+                      <a class="box_close fa fa-times"></a>
+                  </div-->
+        </header>
+        <div class="content-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-12 padding-0">
+              <div class="role_settings">
+                <div class="setting_check">
+                  <label class="setting_role"></label>
+                  <label>
+                    Presenter
+                  </label>
+                  <label>
+                    Collaborator
+                  </label>
+                  <label>
+                    Group Admin
+                  </label>
+                </div>
+                <div class="setting_check" *ngFor = "let p of permissions">
+                  <label class="setting_role">{{p.Permission}}</label>
+                  <label class="color-check">
+                    <input type="checkbox" [(ngModel)]="p.CanPresenter" (click)="confirmClick($event)" (change)="setPermission($event ,p)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="color-check">
+                    <input type="checkbox" [(ngModel)]="p.CanCollaborator" (click)="confirmClick($event)" (change)="setPermission($event ,p)">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="color-check">
+                    <input type="checkbox" [(ngModel)]="p.CanGroupAdmin" (click)="confirmClick($event)" (change)="setPermission($event ,p)">
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+             
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+
+    <!-- MAIN CONTENT AREA ENDS -->
+  </section>
+</section>
