@@ -74,7 +74,7 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var user = new ApplicationUser { UserName = _user.Email, Email = _user.Email };
+                var user = new ApplicationUser { UserName = _user.Email, Email = _user.Email};
                 var result = await _userManager.CreateAsync(user, _user.Password);
                 if (result.Succeeded)
                 {

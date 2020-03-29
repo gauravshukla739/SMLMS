@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SMLMS.Data.Entity;
 using SMLMS.Data.Interfaces;
+using SMLMS.Helper.AppSetting;
 using SMLMS.Services.interfaces;
 using SMLMS.Services.services;
 
@@ -40,10 +41,12 @@ namespace SMLMS.REST
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
+            services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
 
             services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //options.UseSqlServer(
@@ -86,6 +89,9 @@ namespace SMLMS.REST
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                               opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddSwaggerGen(c =>
             {
