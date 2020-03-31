@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.Web", "SMLMS.Web\SMLMS.Web.csproj", "{BD0FFD94-82BE-49C4-B244-9A103A957F65}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.Services", "SMLMS.Services\SMLMS.Services.csproj", "{8D35A8E0-8A09-48C9-ABD2-F7D58AF0800F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.Model", "SMLMS.Model\SMLMS.Model.csproj", "{F4C6A70A-531F-4AAA-B1C4-6F008E2D8B05}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.REST", "SMLMS.REST\SMLMS.REST.csproj", "{8EFF6A07-CCCB-40F7-988B-241E7341780E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMLMS.Helper", "SMLMS.Helper\SMLMS.Helper.csproj", "{23BBB6E9-D81C-44C5-94A5-3DB9E23DDF59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.Helper", "SMLMS.Helper\SMLMS.Helper.csproj", "{23BBB6E9-D81C-44C5-94A5-3DB9E23DDF59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMLMS.Data", "SMLMS.Data\SMLMS.Data.csproj", "{8BB13F4F-744A-48BA-9F5C-543BC07D440E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SMLMS.Data", "SMLMS.Data\SMLMS.Data.csproj", "{8BB13F4F-744A-48BA-9F5C-543BC07D440E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMLMS.Web", "SMLMS.Web\SMLMS.Web.csproj", "{891B75A6-A503-442C-9A9D-3263E3576341}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BD0FFD94-82BE-49C4-B244-9A103A957F65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD0FFD94-82BE-49C4-B244-9A103A957F65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD0FFD94-82BE-49C4-B244-9A103A957F65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD0FFD94-82BE-49C4-B244-9A103A957F65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D35A8E0-8A09-48C9-ABD2-F7D58AF0800F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D35A8E0-8A09-48C9-ABD2-F7D58AF0800F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D35A8E0-8A09-48C9-ABD2-F7D58AF0800F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{8BB13F4F-744A-48BA-9F5C-543BC07D440E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BB13F4F-744A-48BA-9F5C-543BC07D440E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BB13F4F-744A-48BA-9F5C-543BC07D440E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891B75A6-A503-442C-9A9D-3263E3576341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891B75A6-A503-442C-9A9D-3263E3576341}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891B75A6-A503-442C-9A9D-3263E3576341}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891B75A6-A503-442C-9A9D-3263E3576341}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
