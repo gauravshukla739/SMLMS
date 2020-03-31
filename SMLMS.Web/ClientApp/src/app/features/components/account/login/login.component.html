@@ -1,29 +1,77 @@
-<div id="login" class="login loginpage offset-xl-4 offset-lg-3 offset-md-3 offset-0 col-12 col-md-6 col-xl-4">
-      <h1><a href="#" title="Login Page" tabindex="-1"><img src="assets/images/Logo-new-navbar.png" /></a></h1>
 
-      <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
-        <p>
-          <label for="user_login">Username<br />
-            <input type="text" name="userName" class="input" [(ngModel)]="user.userName" required #userName="ngModel" />
-         
-          <div *ngIf="f.submitted && userName.invalid" class="alert-danger">
-            <div *ngIf="userName.errors.required">Name is required</div>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="css/custom.css">-->
+
+
+<style>
+  img {
+    max-width: 100%;
+}
+.entery-main {
+    background-image: url(../../assets/images/log-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+.login-outer {
+    margin: 0 auto;
+}
+  .entery {
+    margin: 29px 0 19px;
+    border: 8px solid #1141a0;
+    padding: 50px;
+    max-width: 350px;
+  }
+  .login-header {
+    margin: 10px 0 20px;
+  }
+.form-label {
+    margin: 0;
+}
+.form-control {
+    border-width: 0 0 1px 0;
+    border-radius: 0;
+    padding: 5px 0;
+    line-height: 1;
+    height: auto;
+}
+.form-control:focus {
+    box-shadow: none;
+    border-color: #ff9933;
+}
+</style>
+
+  <section class="d-flex align-items-center entery-main">
+    <div class="login-outer d-flex">
+      <div class="img-only">
+        <img src="assets/images/login-left.png" alt="">
+      </div>
+      <div class="entery login d-flex justify-content-center flex-column">
+        <img src="ClientApp/src/assets/images/brand.png" alt="">
+        <h2 class="login-header">Partal Login</h2>
+        <form action="">
+          <div class="form-group">
+            <label for="" class="form-label">User Name<sup>*</sup></label>
+            <input type="text" class="form-control requried" />
           </div>
-         </label>
-        <p>
-          <label for="user_pass">Password<br />
-            <input type="password" name="pwd" id="user_pass" class="input"  [(ngModel)]="user.password" required #password="ngModel" />
-            <div *ngIf="f.submitted && password.invalid" class="alert-danger">
-              <div *ngIf="password.errors.required">Password is required</div>
-            </div>
-          </label>
-        </p>
-        <p class="forgetmenot">
-          <label class="icheck-label form-label" for="rememberme"><input name="rememberme" type="checkbox"
-              id="rememberme" value="forever" class="icheck-minimal-aero" checked> Remember me</label>
-        </p>
-        <p class="submit">
-          <input type="submit"  class="btn btn-accent btn-block" value="Sign In" />
-        </p>
-      </form>
-</div>
+          <div class="form-group">
+            <label for="" class="form-label">Password<sup>*</sup></label>
+            <input type="password" class="form-control requried" />
+          </div>
+          <a href="" class="forget-pass">Forget Password</a>
+          <input type="submit" class="button" value="Login">
+        </form>
+      </div>
+    </div>
+  </section>
+
+  
+  <!--<img src="C:\Users\Gaurav\source\repos\SMLMS\SMLMS.Web\ClientApp\src\assets\image\brand.png" />-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

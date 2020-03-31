@@ -9,7 +9,7 @@ import { AuthGuard } from '../core/auth-guard/auth-guard';
 
 const routes: Routes = [
   { path: '', component: MainLayoutComponent , 
-  //canActivate:[AuthGuard],
+  canActivate:[AuthGuard],
   children:[
     { path: '', component: SettingComponent },
     { path: 'permissions', component: SettingComponent }
