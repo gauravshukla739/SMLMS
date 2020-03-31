@@ -1,0 +1,17 @@
+<div class="pagination" *ngIf="totalRecord > 0">
+	<div class="description">
+		<span class="page-counts">{{ getMin() }} - {{ getMax() }} of {{ totalRecord }} Record</span>
+		<!-- <span class="page-totals">{{ totalPages() }} pages</span> -->
+	</div>
+	<div class="numbers">
+		<button class="link" (click)="onPrev()" [disabled]="pageNumber === 1 || loading" [ngClass]="{ 'disabled': pageNumber === 1 || loading }">&lt; Previous</button>
+		
+		<button
+			*ngFor="let pageNum of getPages()"
+			(click)="onPage(pageNum)"
+			[disabled]="pageNumber === pageNum"
+			[ngClass]="{'active': pageNum === pageNumber, 'disabled': loading}">{{ pageNum }}</button>
+
+		<button class="link" (click)="onNext(true)" [disabled]="lastPage() || loading" [ngClass]="{ 'disabled': lastPage() || loading }">Next &gt;</button>
+	</div>
+</div>
