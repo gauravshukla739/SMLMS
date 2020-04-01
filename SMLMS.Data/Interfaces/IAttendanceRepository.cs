@@ -7,6 +7,6 @@ namespace SMLMS.Data.Interfaces
 {
     public interface IAttendanceRepository : IRepository<Attendence, string>
     {
-        //void AddUserAttendance();
+        Attendence AddUserAttendance(Attendence attendence);
     }
 }

@@ -13,6 +13,7 @@ namespace SMLMS.Data.Interfaces
         IModuleRepository ModuleRepository { get; }
         IRoleModulePermissionRepository RoleModulePermissionRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
+        IAttendanceRepository AttendanceRepository { get; }
         void Commit();
     }
 }
