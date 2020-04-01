@@ -6,6 +6,7 @@ namespace SMLMS.Data.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        ILeaveRepositry LeaveRepositry { get; }
         IUserRepository UserRepository { get; }
         IUserRoleRepository UserRoleRepository { get; }
 

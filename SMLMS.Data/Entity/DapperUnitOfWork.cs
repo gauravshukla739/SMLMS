@@ -18,6 +18,7 @@ namespace SMLMS.Data.Entity
         public IRoleRepository _roleRepository;
         public IModuleRepository _moduleRepository;
         public IRoleModulePermissionRepository _roleModulePermissionRepository;
+        public ILeaveRepositry _ILeaveRepositry;
 
         private bool _disposed;
         #endregion
@@ -30,6 +31,15 @@ namespace SMLMS.Data.Entity
         }
 
         #region IUnitOfWork Members
+
+        public ILeaveRepositry LeaveRepositry
+        {
+            get
+            {
+                return _ILeaveRepositry
+                    ?? (_ILeaveRepositry = new LeaveRepositry(_transaction));
+            }
+        }
 
 
         public IUserRepository UserRepository
@@ -105,6 +115,7 @@ namespace SMLMS.Data.Entity
         private void resetRepositories()
         {
             _userRepository = null;
+
         }
 
         private void dispose(bool disposing)
