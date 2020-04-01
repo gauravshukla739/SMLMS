@@ -10,8 +10,9 @@ namespace SMLMS.Services.interfaces
     public interface IDepartmentService
     {
         Task<ServiceResponse> CreateOrUpdate(DepartmentDto Name);
-        Task<ServiceResponse> Delete(string Name);
-        Task<ServiceResponse> Get();
+        Task<ServiceResponse> Delete(Guid Id);
+        Task<ServiceResponse> GetById(Guid Id);
+        Task<ServiceResponse> All();
 
     }
 }

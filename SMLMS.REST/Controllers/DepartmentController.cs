@@ -25,5 +25,22 @@ namespace SMLMS.REST.Controllers
         {
             return await _departmentService.CreateOrUpdate(model);
         }
+
+        [HttpGet("{Id}")]
+        public async Task<ServiceResponse> GetById(Guid Id)
+        {
+            return await _departmentService.GetById(Id);
+        }
+        [HttpGet]
+        public async Task<ServiceResponse> All()
+        {
+            return await _departmentService.All();
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<ServiceResponse> Delete(Guid Id)
+        {
+            return await _departmentService.Delete(Id);
+        }
     }
 }
