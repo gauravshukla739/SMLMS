@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy{
       this.showPupup = true;
       setTimeout(() => {
         this.showPupup = false;
-      }, 2500);
+      }, 3500);
     });
 
     this.loaderSubscription = this.service.loadingStatus.subscribe((value: any) => {

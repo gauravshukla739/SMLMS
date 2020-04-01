@@ -1,0 +1,71 @@
+<form action="/action_page.php">
+  <div class="form-group">
+    <label for="email">Email address:</label>
+    <input type="email" class="form-control" placeholder="Enter email" id="email">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" placeholder="Enter password" id="pwd">
+  </div>
+  <div class="form-group form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox"> Remember me
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 page-title">
+        <h3 class="title-top">Employee</h3>
+        <button class="btn sm-primary">Add New</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 sm-table employee">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="select">
+                  <input id="selectAll" type="checkbox">
+                  <label for="selectAll">Select</label>
+                </th>
+                <th class="img">Img</th>
+                <th class="name">Name</th>
+                <th class="department">Department</th>
+                <th class="mobile">Contact</th>
+                <th class="id">Emp ID</th>
+                <th class="join">Joining</th>
+                <th class="more">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="select">
+                  <input id="checkbox1" type="checkbox">
+                  <label for="checkbox1">Select</label>
+                </td>
+                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
+                <td class="name">Satinder Pal Singh</td>
+                <td class="department">Design</td>
+                <td class="mobile">9876 543 210</td>
+                <td class="id">SM00022</td>
+                <td class="join">Mar/05/2018</td>
+                <td class="more">
+                  <a class="action-btn fa fa-eye view" href="">View</a>
+                  <a class="action-btn fa fa-trash delete" href="">Remove</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
