@@ -20,12 +20,14 @@ namespace SMLMS.REST.Controllers
             _authenticationService = authenticationService;
         }
         [HttpPost]
+        [Route("Login")]
         public async Task<ServiceResponse> Login(UserDto user)
         {
             return await _authenticationService.SignIn(user);
         }
 
         [HttpPost]
+        [Route("Register")]
         public async Task<ServiceResponse> Register(UserDto user)
         {
             return await  _authenticationService.CreateUser(user);

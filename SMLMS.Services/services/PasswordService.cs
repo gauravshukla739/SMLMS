@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SMLMS.Helper.ServiceResponse;
+using SMLMS.Model.Core;
 using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
@@ -11,11 +12,11 @@ namespace SMLMS.Services.services
 {
     public class PasswordService : IPasswordService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailService _emailService;
 
         public PasswordService(
-            UserManager<IdentityUser> userManager,IEmailService emailService)
+            UserManager<ApplicationUser> userManager,IEmailService emailService)
         {        
             _userManager = userManager;
             _emailService = emailService;

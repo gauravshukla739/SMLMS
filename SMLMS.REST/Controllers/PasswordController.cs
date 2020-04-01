@@ -21,18 +21,21 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
+        [Route("Forgot")]
         public async Task<ServiceResponse> Forgot([FromBody] string EmailId)
         {
             return await  _passwordService.Forgot(EmailId);
         }
 
         [HttpPost]
+        [Route("Reset")]
         public async Task<ServiceResponse> Reset(ResetPasswordDto model)
         {
             return await _passwordService.Reset(model);
         }
 
         [HttpPost]
+        [Route("Change")]
         public async Task<ServiceResponse> Change(ChangePasswordDto model)
         {
             return await _passwordService.Change(model); 
