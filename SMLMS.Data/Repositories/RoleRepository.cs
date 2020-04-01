@@ -1,4 +1,5 @@
-﻿using SMLMS.Data.Interfaces;
+﻿using Dapper;
+using SMLMS.Data.Interfaces;
 using SMLMS.Model.Core;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,15 @@ namespace SMLMS.Data.Repositories
 
         public void Add(Role entity)
         {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", entity.Id);
+            parameters.Add("@Name", entity.Name);
+            parameters.Add("@NormalizedName", entity.NormalizedName);
+            parameters.Add("@ConcurrencyStamp",entity.ConcurrencyStamp);
             Execute(
-                sql: @"
-                    INSERT INTO AspNetRoles(Id, ConcurrencyStamp, [Name], NormalizedName)
+                sql: @"INSERT INTO AspNetRoles(Id, ConcurrencyStamp, [Name], NormalizedName)
                     VALUES(@Id, @ConcurrencyStamp, @Name, @NormalizedName)",
-                param: entity
+               param: parameters
             );
         }
 
