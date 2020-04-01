@@ -81,7 +81,14 @@ namespace SMLMS.REST
                 });
 
 
-
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            //});
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:4200"));
+            });
             services.AddScoped<IUnitOfWork, DapperUnitOfWork>(provider => new DapperUnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -89,6 +96,7 @@ namespace SMLMS.REST
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<ILeave, Leave>();
 
 
 
@@ -97,6 +105,10 @@ namespace SMLMS.REST
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                                opt.TokenLifespan = TimeSpan.FromHours(2));
 
+            //services.Configure<MvcOptions>(options =>
+            //{
+            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowMyOrigin"));
+            //});
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -119,9 +131,10 @@ namespace SMLMS.REST
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowOrigin");
             app.UseRouting();
-
+            
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
