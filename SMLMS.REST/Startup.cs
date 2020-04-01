@@ -18,6 +18,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SMLMS.Data.Entity;
 using SMLMS.Data.Interfaces;
+using SMLMS.Helper.AppSetting;
+using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using SMLMS.Services.services;
 
@@ -35,15 +37,17 @@ namespace SMLMS.REST
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
+            services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
 
-            services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
+            services.AddDefaultIdentity<ApplicationUser>().AddRoles<Role>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //options.UseSqlServer(
@@ -82,10 +86,16 @@ namespace SMLMS.REST
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
 
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                               opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.AddSwaggerGen(c =>
             {
