@@ -36,5 +36,10 @@ namespace SMLMS.Data.Repositories
         {
             Connection.Execute(sql, param, _transaction);
         }
+
+        public IEnumerable<T> ExecuteProcedureGetList<T>(string sql, object param)
+        {
+            return Connection.Query<T>(sql, param, _transaction, commandType: CommandType.StoredProcedure).ToList();
+        }
     }
 }
