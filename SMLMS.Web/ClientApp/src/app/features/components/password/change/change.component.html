@@ -1,0 +1,80 @@
+<form (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+  <div class="form-group">
+    <label for="text">Old Password:</label>
+    <input type="text" class="form-control requried" placeholder="Enter Old Password" name="oldpwd" [(ngModel)]="pwd.OldPassword" required #oldpwd="ngModel">
+    <div *ngIf="f.submitted && oldpwd.invalid" class="alert-danger">
+      <div *ngIf="oldpwd.errors.required">Old Password is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pwd">New Password:</label>
+    <input type="password" class="form-control requried" placeholder="Enter New Password" name="newpwd" [(ngModel)]="pwd.NewPassword" required #newpwd="ngModel">
+    <div *ngIf="f.submitted && newpwd.invalid" class="alert-danger">
+      <div *ngIf="newpwd.errors.required">New Password is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="pwd">Confirm Password:</label>
+    <input type="password" class="form-control requried" placeholder="Enter Confirm Password"  name="confirmpwd" [(ngModel)]="pwd.ConfirmPassword" required #confirmpwd="ngModel">
+    <div *ngIf="f.submitted && confirmpwd.invalid" class="alert-danger">
+      <div *ngIf="confirmpwd.errors.required">Confirm Password is required</div>
+    </div>
+  </div> 
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+
+
+<!--<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 page-title">
+        <h3 class="title-top">Employee</h3>
+        <button class="btn sm-primary">Add New</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 sm-table employee">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="select">
+                  <input id="selectAll" type="checkbox">
+                  <label for="selectAll">Select</label>
+                </th>
+                <th class="img">Img</th>
+                <th class="name">Name</th>
+                <th class="department">Department</th>
+                <th class="mobile">Contact</th>
+                <th class="id">Emp ID</th>
+                <th class="join">Joining</th>
+                <th class="more">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="select">
+                  <input id="checkbox1" type="checkbox">
+                  <label for="checkbox1">Select</label>
+                </td>
+                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
+                <td class="name">Satinder Pal Singh</td>
+                <td class="department">Design</td>
+                <td class="mobile">9876 543 210</td>
+                <td class="id">SM00022</td>
+                <td class="join">Mar/05/2018</td>
+                <td class="more">
+                  <a class="action-btn fa fa-eye view" href="">View</a>
+                  <a class="action-btn fa fa-trash delete" href="">Remove</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>-->

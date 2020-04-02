@@ -10,8 +10,7 @@ using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+   
     public class PasswordController : ControllerBase
     {
         private readonly IPasswordService _passwordService;

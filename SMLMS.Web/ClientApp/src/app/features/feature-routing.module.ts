@@ -6,11 +6,12 @@ import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ForgotComponent } from './components/password/forgot/forgot.component';
 
 
 const routes: Routes = [
   { path: '', component: MainLayoutComponent , 
-  canActivate:[AuthGuard],
+  //canActivate:[AuthGuard],
   children:[
     { path: '', component: DashboardComponent },
     { path: 'setting', component: SettingComponent }
@@ -20,6 +21,7 @@ const routes: Routes = [
   children :[
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'forgot', component: ForgotComponent },
   ]
  }
   

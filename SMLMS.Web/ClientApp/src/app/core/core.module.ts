@@ -4,6 +4,7 @@ import { RequestInterceptor } from './intercepter/http-interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
+import { PasswordService } from './services/password.service';
 
 
 
@@ -17,7 +18,7 @@ import { UserService } from './services/user.service';
     HttpClientModule 
   ],
   providers: [
-    AuthenticationService,UserService,
+    AuthenticationService, UserService, PasswordService,
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
     
     ],

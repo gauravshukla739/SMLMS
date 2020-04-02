@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
-  ApiBaseUrl: string ="http://localhost:52710/api/";
+  ApiBaseUrl: string ="http://localhost:52710/api";
 
   constructor(protected http: HttpClient) {
     this.accessToken = localStorage.getItem("user-token");
