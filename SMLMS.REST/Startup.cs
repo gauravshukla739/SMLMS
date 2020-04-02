@@ -32,12 +32,13 @@ namespace SMLMS.REST
             Configuration = configuration;
         }
 
-        public readonly string AllowAllOriginsPolicy= "test123";
+      //  public readonly string AllowAllOriginsPolicy= "test123";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -92,22 +93,23 @@ namespace SMLMS.REST
             //});
 
             // Add CORS policy
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowAllOriginsPolicy, // I introduced a string constant just as a label "AllowAllOriginsPolicy"
-                builder =>
-                {
-                    builder.AllowAnyOrigin();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(AllowAllOriginsPolicy, // I introduced a string constant just as a label "AllowAllOriginsPolicy"
+            //    builder =>
+            //    {
+            //        builder.AllowAnyOrigin();
+            //    });
+            //});
 
-            services.AddControllers();
+          //  services.AddControllers();
 
             //services.AddCors(c =>
             //{
             //    c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44360/"));
             //});
-
+            
+           
 
             services.AddScoped<IUnitOfWork, DapperUnitOfWork>(provider => new DapperUnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -148,12 +150,19 @@ namespace SMLMS.REST
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }    
+            }
+            app.UseCors(builder =>
+               builder
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowAnyOrigin()
+           );
             app.UseHttpsRedirection();
      
-            app.UseRouting();
-            app.UseCors("AllowOrigin");
-
+             app.UseRouting();
+            //app.UseCors();
+           
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,0 +1,44 @@
+<style>
+
+
+  .entery-main {
+    background-image: url('assets/images/log-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  
+
+</style>
+  <section class="d-flex align-items-center entery-main">
+    <div class="login-outer d-flex">
+      <div class="img-only">
+        <img src="assets/images/login-left.png" alt="">
+      </div>
+      <div class="entery login d-flex justify-content-center flex-column">
+        <img src="assets/images/brand.png" alt="">
+
+        <h2 class="login-header">Forgot Password</h2>
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+          <div class="form-group">
+            <label for="" class="form-label">EmailID<sup>*</sup></label>
+            <input type="text" class="form-control requried" name="emailId"  [(ngModel)]="email" required #emailId="ngModel" />
+
+            <div *ngIf="f.submitted && userName.invalid" class="alert-danger">
+              <div *ngIf="emailId.errors.required">EmailID is required</div>
+            </div>
+          </div>
+          <input type="submit" class="button" value="Submit">
+        </form>
+      </div>
+    </div>
+  </section>
+
+  
+  <!--<img src="C:\Users\Gaurav\source\repos\SMLMS\SMLMS.Web\ClientApp\src\assets\image\brand.png" />-->
+

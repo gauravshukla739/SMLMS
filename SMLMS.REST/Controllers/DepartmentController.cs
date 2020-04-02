@@ -10,8 +10,7 @@ using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+  
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentService _departmentService;
