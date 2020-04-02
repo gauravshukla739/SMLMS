@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+
+
+
+<section class="main d-flex">
+  <app-left-menu></app-left-menu>
+
+  <div id="content" class="d-flex flex-column">
+    <app-header-nav></app-header-nav>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="footer mt-auto">
+      Footer content goes here
+    </div>
+  </div>
+</section>
+
+
+<!--function openNav() {
+    document.getElementById("sidebar").style.width = "300px";
+  }
+  function closeNav() {
+    document.getElementById("sidebar").style.width = "50px";
+  }-->

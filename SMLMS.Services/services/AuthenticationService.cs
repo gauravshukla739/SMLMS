@@ -46,8 +46,8 @@ namespace SMLMS.Services.services
                 if (result.Succeeded)
                 {
                     response.IsSuccess = true;
-                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.Email);
-                    response.Data= new {  token = await GenerateJwtToken(user.Email, appUser) };
+                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.UserName);
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser) };
                 }
                 else
                 {

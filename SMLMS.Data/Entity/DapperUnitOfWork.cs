@@ -18,6 +18,7 @@ namespace SMLMS.Data.Entity
         public IRoleRepository _roleRepository;
         public IModuleRepository _moduleRepository;
         public IRoleModulePermissionRepository _roleModulePermissionRepository;
+        public ILeaveRepositry _ILeaveRepositry;
         public IDepartmentRepository _departmentRepository;
         public IAttendanceRepository _attendanceRepository;
 
@@ -32,6 +33,15 @@ namespace SMLMS.Data.Entity
         }
 
         #region IUnitOfWork Members
+
+        public ILeaveRepositry LeaveRepositry
+        {
+            get
+            {
+                return _ILeaveRepositry
+                    ?? (_ILeaveRepositry = new LeaveRepositry(_transaction));
+            }
+        }
 
 
         public IUserRepository UserRepository
