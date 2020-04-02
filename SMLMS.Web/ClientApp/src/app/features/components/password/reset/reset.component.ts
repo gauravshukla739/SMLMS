@@ -1,43 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 import { Router } from '@angular/router';
+import { PasswordService } from 'src/app/core/services/password.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-reset',
+  templateUrl: './reset.component.html',
+  styleUrls: ['./reset.component.css']
 })
-export class LoginComponent implements OnInit {
+export class ResetComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private sharedService: SharedService, private router: Router) { }
+  constructor(private passwordService: PasswordService, private sharedService: SharedService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  user: any = {};
+  pwd: any = {};
 
   onSubmit(formValid: any) {
     this.sharedService.startLoading();
-    var response = this.authService.login(this.user).subscribe((data: any) => {
+    var response = this.passwordService.reset(this.pwd).subscribe((data: any) => {
       console.log(data);
       if (data.IsSuccess) {
-        this.sharedService.showPopup("Successfully login");
-        localStorage.setItem("user-token" ,  data.Data.Token);
-        this.sharedService.accessToken = data.Data.Token;
-        this.sharedService.setUser(data.Data.User);
-        this.router.navigate(['/permissions']);
+        this.sharedService.showPopup("");
+
+        // this.router.navigate(['/permissions']);
       } else {
         this.sharedService.showPopup(data.Message);
-        //this.sharedService.showPopup("Login failed , Invalid user");
+
       }
     });
     response.add(() => {
-       this.sharedService.stopLoading(); 
-      })
+      this.sharedService.stopLoading();
+    })
   }
-
-
 
 
 }

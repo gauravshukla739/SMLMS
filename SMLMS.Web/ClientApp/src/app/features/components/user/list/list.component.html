@@ -1,33 +1,24 @@
-<form (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+<form action="/action_page.php">
   <div class="form-group">
-    <label for="text">Old Password:</label>
-    <input type="text" class="form-control requried" placeholder="Enter Old Password" name="oldpwd" [(ngModel)]="pwd.OldPassword" required #oldpwd="ngModel">
-    <div *ngIf="f.submitted && oldpwd.invalid" class="alert-danger">
-      <div *ngIf="oldpwd.errors.required">Old Password is required</div>
-    </div>
+    <label for="email">Email address:</label>
+    <input type="email" class="form-control" placeholder="Enter email" id="email">
   </div>
   <div class="form-group">
-    <label for="pwd">New Password:</label>
-    <input type="password" class="form-control requried" placeholder="Enter New Password" name="newpwd" [(ngModel)]="pwd.NewPassword" required #newpwd="ngModel">
-    <div *ngIf="f.submitted && newpwd.invalid" class="alert-danger">
-      <div *ngIf="newpwd.errors.required">New Password is required</div>
-    </div>
+    <label for="pwd">Password:</label>
+    <input type="password" class="form-control" placeholder="Enter password" id="pwd">
   </div>
-  <div class="form-group">
-    <label for="pwd">Confirm Password:</label>
-    <input type="password" class="form-control requried" placeholder="Enter Confirm Password"  name="confirmpwd" [(ngModel)]="pwd.ConfirmPassword" required #confirmpwd="ngModel">
-    <div *ngIf="f.submitted && confirmpwd.invalid" class="alert-danger">
-      <div *ngIf="confirmpwd.errors.required">Confirm Password is required</div>
-    </div>
-  </div> 
+  <div class="form-group form-check">
+    <label class="form-check-label">
+      <input class="form-check-input" type="checkbox"> Remember me
+    </label>
+  </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 
 
 
-
-<!--<section>
+<section>
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 page-title">
@@ -77,4 +68,4 @@
       </div>
     </div>
   </div>
-</section>-->
+</section>

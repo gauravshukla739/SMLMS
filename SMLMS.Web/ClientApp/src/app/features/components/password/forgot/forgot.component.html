@@ -29,7 +29,7 @@
             <label for="" class="form-label">EmailID<sup>*</sup></label>
             <input type="text" class="form-control requried" name="emailId"  [(ngModel)]="email" required #emailId="ngModel" />
 
-            <div *ngIf="f.submitted && userName.invalid" class="alert-danger">
+            <div *ngIf="f.submitted && emailId.invalid" class="alert-danger">
               <div *ngIf="emailId.errors.required">EmailID is required</div>
             </div>
           </div>

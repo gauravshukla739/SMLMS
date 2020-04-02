@@ -14,5 +14,13 @@ export class PasswordService {
   forgot(emailId: string) {
     return this.http.post(this.apiBaseUrl + "/Password/Forgot", emailId);
   }
+  
+  reset(pwd: any) {
+    return this.http.post(this.apiBaseUrl + "/Password/Reset", pwd);
+  }
+
+  change(pwd: any) {
+    return this.http.post(this.apiBaseUrl + "/Password/Change", pwd);
+  }
 
 }
