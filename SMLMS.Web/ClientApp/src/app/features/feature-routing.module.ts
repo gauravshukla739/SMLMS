@@ -7,6 +7,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ForgotComponent } from './components/password/forgot/forgot.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   children :[
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'forgot', component: ForgotComponent },
   ]
  }
   

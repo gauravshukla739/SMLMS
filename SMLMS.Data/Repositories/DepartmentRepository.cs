@@ -18,9 +18,9 @@ namespace SMLMS.Data.Repositories
         {
             Execute(
                 sql: @"
-                   INSERT INTO [dbo].[Department] ([Name],[RoleName])
-                    VALUES(@Name, @RoleName)",
-                param: new { entity.Name,entity.RoleName}
+                   INSERT INTO [dbo].[Department] ([Name],[RoleId],[CreatedBy])
+                    VALUES(@Name, @RoleId,@CreatedBy)",
+                param: entity
             );
             
         }
@@ -28,42 +28,51 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<DepartmentDto> All()
         {
             return Query<DepartmentDto>(
-                sql: "SELECT Name,RoleName FROM [dbo].[Department]"
+                sql: "SELECT Name,Id FROM [dbo].[Department]"
             );
         }
 
-        //public RoleModulePermission Find(string key)
-        //{
-        //    return QuerySingleOrDefault<RoleModulePermission>(
-        //        sql: "SELECT * FROM [dbo].[RoleModulePermission] WHERE Id = @key",
-        //        param: new { key }
-        //    );
-        //}
+        public DepartmentDto Find(string key)
+        {
+            throw new NotImplementedException();
+        }
 
+        public DepartmentDto FindById(Guid key)
+        {
+            return QuerySingleOrDefault<DepartmentDto>(
+                sql: "SELECT Name FROM [dbo].[Department]  WHERE Id = @key",
+                param: new { key }
+            );
+        }
 
-        //public void Remove(string key,string userName)
-        //{
-        //    Execute(
-        //        sql: @"UPDATE [dbo].[Department]
-        //                 SET IsDeleted = 1 and IsDeletedBy=@IsDeletedBy
-        //            WHERE [Name] = @Name",
-        //        param: new { key }
-        //    );
-        //}
+        public void Remove(string key)
+        {
+            throw new NotImplementedException();
+        }
 
-        //public void Update(RoleModulePermission entity)
-        //{
-        //    Execute(
-        //        sql: @"
-        //            UPDATE [dbo].[Department]
-        //               SET 
-        //                [Name]=@Name
-        //              ,[updatedate] = @UpdateDate
-        //              ,[updatedby] = @UpdatedBy
-        //            WHERE Id = @Id",
-        //        param: entity
-        //    );
-        //}
+        public void Remove(Guid key, string userName)
+        {
+            Execute(
+                sql: @"UPDATE [dbo].[Department]
+                         SET IsDeleted = 1,IsDeletedBy=@userName
+                    WHERE [Id] = @key",
+                param: new { key,userName }
+            );
+        }
+
+        public void Update(DepartmentDto entity)
+        {
+            Execute(
+                sql: @"
+                    UPDATE [dbo].[Department]
+                       SET 
+                        [Name]=@Name
+                      ,[updatedate] = @UpdateDate
+                      ,[updatedby] = @UpdatedBy
+                    WHERE Id = @Id",
+                param: entity
+            );
+        }
 
     }
 }

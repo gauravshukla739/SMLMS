@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SMLMS.REST.Controllers
 {
 
+    [Route("api/[controller]")]
     [ApiController]
     public class BaseController : ControllerBase
     {

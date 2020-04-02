@@ -5,9 +5,9 @@ using System.Text;
 
 namespace SMLMS.Data.Interfaces
 {
-    public interface IDepartmentRepository 
+    public interface IDepartmentRepository : IRepository<DepartmentDto, string>
     {
-        void Add(DepartmentDto entity);
-        IEnumerable<DepartmentDto> All();
+        DepartmentDto FindById(Guid key);
+        void  Remove(Guid key, string userName);
     }
 }

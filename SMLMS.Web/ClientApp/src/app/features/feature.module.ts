@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TaskComponent } from './components/task/tasksubmit/task.component';
+import { ForgotComponent } from './components/password/forgot/forgot.component';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { TaskComponent } from './components/task/tasksubmit/task.component';
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent,
+    DashboardComponent, ForgotComponent,
     TaskComponent],
   
   imports: [

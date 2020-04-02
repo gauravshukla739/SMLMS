@@ -15,5 +15,7 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> CreateUser(UserDto _user);
 
         Task<ServiceResponse> CreateRole(string roleName);
+        object GetClaimsValue(string type);
+        Task<ServiceResponse> Logout();
     }
 }

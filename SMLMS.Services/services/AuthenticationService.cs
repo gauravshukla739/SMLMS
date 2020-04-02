@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SMLMS.Services.services
@@ -47,7 +48,10 @@ namespace SMLMS.Services.services
                 {
                     response.IsSuccess = true;
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.UserName);
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser) };
+                    var userDetail = await _userManager.FindByEmailAsync(user.Email);
+                    var role = await _userManager.GetRolesAsync(userDetail);
+                    var getRole =await _roleManager.FindByNameAsync(role[0]);                   
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()) };
                 }
                 else
                 {
@@ -72,19 +76,17 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> CreateUser(UserDto _user)
+        public async Task<ServiceResponse> CreateUser(UserDto user)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var user = new ApplicationUser { UserName = _user.Email, Email = _user.Email};
-                var result = await _userManager.CreateAsync(user, _user.Password);
-                   
-                //Role user1 = new Role() {Id=Guid.NewGuid(), Name="Abc" ,ConcurrencyStamp="234",NormalizedName="Abc"};
-                //_unitOfWork.RoleRepository.Add(user1);
-                //var data= _unitOfWork.RoleRepository.All();
+                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=user.Email,DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
+                var result = await _userManager.CreateAsync(appUser, user.Password);
+                
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(appUser, user.RoleName);
                     response.IsSuccess = true;
                 }
                 else
@@ -101,14 +103,54 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        private async Task<object> GenerateJwtToken(string email, ApplicationUser user)
+
+        public async Task<ServiceResponse> Update(UserDto user)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                var email = (string)GetClaimsValue("Email");
+
+                var userDetail = await _userManager.FindByNameAsync(email);
+                userDetail.FirstName= user.FirstName;
+                userDetail.LastName = user.LastName;
+                userDetail.Address = user.Address;
+                userDetail.DateOfAppointment = user.DateOfAppointment;
+                userDetail.DateOfBirth = user.DateOfBirth;
+                userDetail.DateOfJoin = user.DateOfJoin;
+                userDetail.DateOfLeave = user.DateOfLeave;
+                userDetail.PhoneNumber = user.PhoneNumber;
+                userDetail.UpdateDate = DateTime.Now;
+                userDetail.UpdatedBy = email;
+                await _userManager.UpdateAsync(userDetail);
+                response.IsSuccess = true;
+                response.Message = "Data Updated Successfully";
+               
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, user.FirstName+" "+user.LastName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role,role),
+                new Claim("RoleId",roleId),
+                new Claim("DepartmentId",user.DepartmentId ),
+                 new Claim("UserId",user.Id.ToString() )
             };
+            var identity = new ClaimsIdentity(claims);
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+            // Set current principal
+            Thread.CurrentPrincipal = claimsPrincipal;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
@@ -124,6 +166,33 @@ namespace SMLMS.Services.services
             return  new  JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public object GetClaimsValue(string type)
+        {
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var obj= new object();
+            switch (type)
+            {
+                case "RoleId":
+                    obj = identity.Claims.Where(c => c.Type == "RoleId").Select(c => c.Value).SingleOrDefault();
+                    break;
+                case "Role":
+                    obj = identity.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value).SingleOrDefault();
+                    break;
+                case "Email":
+                    obj = identity.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault();
+                    break;
+                case "Name":
+                    obj = identity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault();
+                    break;
+                case "DepartmentId":
+                    obj = identity.Claims.Where(c => c.Type == "DepartmentId").Select(c => c.Value).SingleOrDefault();
+                    break;
+                case "UserId":
+                    obj = identity.Claims.Where(c => c.Type == "UserId").Select(c => c.Value).SingleOrDefault();
+                    break;
+            }
+            return obj;
+        }
 
         public async Task<ServiceResponse> CreateRole(string roleName)
         {
@@ -148,5 +217,23 @@ namespace SMLMS.Services.services
             }
             return response;
         }
+
+        public async Task<ServiceResponse> Logout()
+        {
+            var response = new ServiceResponse();
+            try
+            {
+                await _signInManager.SignOutAsync();
+                response.IsSuccess = true;
+                response.Message = "Logout Successfully!";
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
     }
 }

@@ -10,9 +10,8 @@ using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AccountController : ControllerBase
+   
+    public class AccountController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
         public AccountController(IAuthenticationService authenticationService)
@@ -31,6 +30,13 @@ namespace SMLMS.REST.Controllers
         public async Task<ServiceResponse> Register(UserDto user)
         {
             return await  _authenticationService.CreateUser(user);
+        }
+
+        [HttpGet]
+        [Route("Logout")]
+        public  Task<ServiceResponse> Logout()
+        {
+            return  _authenticationService.Logout();
         }
     }
 }
