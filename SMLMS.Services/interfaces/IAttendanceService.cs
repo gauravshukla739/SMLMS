@@ -1,5 +1,6 @@
 ﻿using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,9 @@ namespace SMLMS.Services.interfaces
 {
     public interface IAttendanceService
     {
-        Task<ServiceResponse> GetAll();
-        Task<ServiceResponse> Add(Attendence attendence);
+        Task<ServiceResponse> CreateOrUpdate(Attendance attendance);
+        Task<ServiceResponse> Delete(string Name);
+        Task<ServiceResponse> Get();
+
     }
 }

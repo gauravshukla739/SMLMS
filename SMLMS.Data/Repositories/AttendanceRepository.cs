@@ -1,5 +1,6 @@
 ﻿using SMLMS.Data.Interfaces;
 using SMLMS.Model.Core;
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,37 +14,63 @@ namespace SMLMS.Data.Repositories
            : base(transaction)
         { }
 
-        public void Add(Attendence  attendence )
+        public void Add(Attendance entity)
         {
-            Execute(
-                sql: @"
-                    INSERT INTO Attendance(Id, EmployeeId, SignIn, SignOut,
-	                    CreatedOn, UpdatedOn, CreatedBy, UpdatedBy,
-	                    IsDeleted)
-                    VALUES(@Id, @EmployeeId, @SignIn, @SignOut, @CreatedOn,
-	                    @UpdatedOn, @CreatedBy, @UpdatedBy, @IsDeleted)",
-                param: attendence
+            var Exist = FindUserById(entity.EmployeeId);
+            if (Exist.Id == null &&Exist != null)
+            {
+                Execute(
+            sql: @"
+                    INSERT INTO [dbo].[Attendance]([Id], [EmployeeId], [SignIn],
+	                    [CreatedOn],  [CreatedBy],
+	                   [IsDeleted])
+                    VALUES(@Id, @EmployeeId, @SignIn, @CreatedOn,
+	                    @CreatedBy, @IsDeleted)",
+            param: entity);
+            }
+            else
+            {
+                var query = "UPDATE Attendance SET SignOut = @SignOut, UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy WHERE Id = @Id";
+                Execute(
+                sql: query,
+                param: entity);
+            }
+        }
+
+
+
+        public IEnumerable<Attendance> All()
+        {
+            return Query<Attendance>(
+                sql: "SELECT * FROM [dbo].[Attendance]"
             );
         }
 
-        public IEnumerable<Attendence> All()
+        public Attendance FindUserById(int key)
         {
-            throw new NotImplementedException();
+            var query = "SELECT * FROM Attendance WHERE EmployeeId = @key and cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
+            var data = QuerySingleOrDefault<Attendance>(sql: query, param: new { key });
+            return data;
         }
 
-        public Attendence Find(string key)
+        public User Find(string key)
         {
-            throw new NotImplementedException();
+            return QuerySingleOrDefault<User>(
+                sql: "SELECT * FROM Attendance WHERE Id = @key",
+                param: new { key }
+            );
         }
 
-        public void Remove(string key)
+        public void Update(Attendance entity)
         {
-            throw new NotImplementedException();
+            Execute(
+                sql: @"
+                    UPDATE Attendance SET SignOut = @SignOut,
+	                    UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy
+                    WHERE Id = @Id",
+                param: entity);
         }
 
-        public void Update(Attendence entity)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

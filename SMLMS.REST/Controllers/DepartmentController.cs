@@ -21,6 +21,7 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
+        [Route("CreateOrUpdate")]
         public async Task<ServiceResponse> CreateOrUpdate(DepartmentDto model)
         {
             return await _departmentService.CreateOrUpdate(model);

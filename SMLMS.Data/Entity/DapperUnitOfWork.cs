@@ -19,6 +19,7 @@ namespace SMLMS.Data.Entity
         public IModuleRepository _moduleRepository;
         public IRoleModulePermissionRepository _roleModulePermissionRepository;
         public IDepartmentRepository _departmentRepository;
+        public IAttendanceRepository _attendanceRepository;
 
         private bool _disposed;
         #endregion
@@ -83,6 +84,15 @@ namespace SMLMS.Data.Entity
             {
                 return _departmentRepository
                     ?? (_departmentRepository = new DepartmentRepository(_transaction));
+            }
+        }
+
+        public IAttendanceRepository AttendanceRepository 
+        {
+            get
+            {
+                return _attendanceRepository
+                    ?? (_attendanceRepository = new AttendanceRepository(_transaction));
             }
         }
 

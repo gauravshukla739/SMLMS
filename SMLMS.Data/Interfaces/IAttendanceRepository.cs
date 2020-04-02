@@ -1,12 +1,17 @@
 ﻿using SMLMS.Model.Core;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SMLMS.Data.Interfaces
 {
-    public interface IAttendanceRepository : IRepository<Attendence, string>
+    public interface IAttendanceRepository
     {
-        Attendence AddUserAttendance(Attendence attendence);
+        void Add(Attendance attendence);
+        IEnumerable<Attendance> All();
+
+        
+        Attendance FindUserById(int EmployeeId);
     }
 }
