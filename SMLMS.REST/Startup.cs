@@ -32,6 +32,7 @@ namespace SMLMS.REST
             Configuration = configuration;
         }
 
+        public readonly string AllowAllOriginsPolicy= "test123";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -85,10 +86,29 @@ namespace SMLMS.REST
             //{
             //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             //});
-            services.AddCors(c =>
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            //});
+
+            // Add CORS policy
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:4200"));
+                options.AddPolicy(AllowAllOriginsPolicy, // I introduced a string constant just as a label "AllowAllOriginsPolicy"
+                builder =>
+                {
+                    builder.AllowAnyOrigin();
+                });
             });
+
+            services.AddControllers();
+
+            //services.AddCors(c =>
+            //{
+            //    c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44360/"));
+            //});
+
+
             services.AddScoped<IUnitOfWork, DapperUnitOfWork>(provider => new DapperUnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -100,7 +120,7 @@ namespace SMLMS.REST
 
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+           // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                                opt.TokenLifespan = TimeSpan.FromHours(2));
@@ -128,18 +148,22 @@ namespace SMLMS.REST
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
+            }    
             app.UseHttpsRedirection();
-            app.UseCors("AllowOrigin");
+     
             app.UseRouting();
-            
-            
+            app.UseCors("AllowOrigin");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
         }
     }
