@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using SMLMS.Model.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SMLMS.Model.Core
+namespace SMLMS.Model.DTO
 {
-    public class Role: IdentityRole<Guid>
+   public class LeaveDto 
     {
-        public bool? IsDeleted { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public int Count { get; set; }
+
+        public bool IsDeleted { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
-        public string IsDeletedBy { get; set; }
     }
 }

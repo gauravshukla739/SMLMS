@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 
@@ -9,13 +9,26 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 })
 export class HeaderNavComponent implements OnInit {
 
-  constructor(private router: Router,private sharedService: SharedService) { }
-
+  constructor(private router: Router, private sharedService: SharedService, private renderer: Renderer) { }
+  isOpne = true;
   ngOnInit() {
   }
 
   logOut(){
     this.sharedService.accessToken="";
     this.router.navigate(['/secure']);
+  }
+
+  showHideLeftNav() {
+    const el = this.renderer.selectRootElement('.sidebar');
+    debugger;
+    if (this.isOpne) {
+      this.renderer.setElementStyle(el, 'width', '50px');
+    }
+    else {
+      this.renderer.setElementStyle(el, 'width', '300px');
+    }
+    this.isOpne = !this.isOpne;
+ 
   }
 }

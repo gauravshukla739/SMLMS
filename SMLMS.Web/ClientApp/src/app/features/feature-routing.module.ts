@@ -5,13 +5,14 @@ import { AccountLayoutComponent } from './layout/account-layout/account-layout.c
 import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 const routes: Routes = [
   { path: '', component: MainLayoutComponent , 
-  //canActivate:[AuthGuard],
+  canActivate:[AuthGuard],
   children:[
-    { path: '', component: SettingComponent },
+    { path: '', component: DashboardComponent },
     { path: 'setting', component: SettingComponent }
   ]
 },

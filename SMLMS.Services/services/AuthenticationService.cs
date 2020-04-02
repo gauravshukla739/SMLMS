@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
@@ -16,21 +17,23 @@ namespace SMLMS.Services.services
 {
      public class AuthenticationService : IAuthenticationService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
-
+        private IUnitOfWork _unitOfWork;
+  
         public AuthenticationService(
-            UserManager<IdentityUser> userManager,
-           SignInManager<IdentityUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            UserManager<ApplicationUser> userManager,
+           SignInManager<ApplicationUser> signInManager,
+            RoleManager<Role> roleManager,
+            IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _unitOfWork = unitOfWork;
         }
 
       
@@ -43,8 +46,8 @@ namespace SMLMS.Services.services
                 if (result.Succeeded)
                 {
                     response.IsSuccess = true;
-                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.Email);
-                    response.Data= new {  token = await GenerateJwtToken(user.Email, appUser) };
+                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.UserName);
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser) };
                 }
                 else
                 {
@@ -74,8 +77,12 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var user = new ApplicationUser { UserName = _user.Email, Email = _user.Email };
+                var user = new ApplicationUser { UserName = _user.Email, Email = _user.Email};
                 var result = await _userManager.CreateAsync(user, _user.Password);
+                   
+                //Role user1 = new Role() {Id=Guid.NewGuid(), Name="Abc" ,ConcurrencyStamp="234",NormalizedName="Abc"};
+                //_unitOfWork.RoleRepository.Add(user1);
+                //var data= _unitOfWork.RoleRepository.All();
                 if (result.Succeeded)
                 {
                     response.IsSuccess = true;
@@ -94,13 +101,13 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        private async Task<object> GenerateJwtToken(string email, IdentityUser user)
+        private async Task<object> GenerateJwtToken(string email, ApplicationUser user)
         {
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.NameIdentifier, user.UserName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -125,7 +132,7 @@ namespace SMLMS.Services.services
             {
                 if (!await _roleManager.RoleExistsAsync(roleName))
                 {
-                    await _roleManager.CreateAsync(new IdentityRole(roleName));
+                    await _roleManager.CreateAsync(new Role { Name=roleName });
                     response.IsSuccess = true;
                 }
                 else

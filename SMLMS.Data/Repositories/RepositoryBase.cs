@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 
 namespace SMLMS.Data.Repositories
@@ -31,9 +32,14 @@ namespace SMLMS.Data.Repositories
             return Connection.Query<T>(sql, param, _transaction);
         }
 
-        protected void Execute(string sql, object param)
+        protected  void Execute(string sql, object param)
         {
             Connection.Execute(sql, param, _transaction);
+        }
+
+        public IEnumerable<T> ExecuteProcedureGetList<T>(string sql, object param)
+        {
+            return Connection.Query<T>(sql, param, _transaction, commandType: CommandType.StoredProcedure).ToList();
         }
     }
 }

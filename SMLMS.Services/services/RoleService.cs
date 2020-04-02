@@ -41,12 +41,12 @@ namespace SMLMS.Services.services
             {
                 Role role = new Role
                 {
-                    Id = string.IsNullOrEmpty(_role.Id) ? Guid.NewGuid().ToString() : _role.Id,
+                    Id = _role.Id==null ? Guid.NewGuid() : _role.Id,
                     ConcurrencyStamp = _role.ConcurrencyStamp,
                     Name = _role.Name,
                     NormalizedName = _role.NormalizedName
                 };
-                if (string.IsNullOrEmpty(_role.Id))
+                if (_role.Id==null)
                 {
                     unitOfWork.RoleRepository.Add(role);
                 }
