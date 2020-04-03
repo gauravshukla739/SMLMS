@@ -11,7 +11,7 @@ using SMLMS.Services.interfaces;
 namespace SMLMS.REST.Controllers
 {
    
-    public class PasswordController : ControllerBase
+    public class PasswordController : BaseController
     {
         private readonly IPasswordService _passwordService;
         public PasswordController(IPasswordService passwordService)
@@ -19,11 +19,11 @@ namespace SMLMS.REST.Controllers
             _passwordService = passwordService;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Forgot")]
-        public async Task<ServiceResponse> Forgot([FromBody] string EmailId)
+        public async Task<ServiceResponse> Forgot(string emailId)
         {
-            return await  _passwordService.Forgot(EmailId);
+            return await  _passwordService.Forgot(emailId);
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace SMLMS.REST.Controllers
         [Route("Change")]
         public async Task<ServiceResponse> Change(ChangePasswordDto model)
         {
-            return await _passwordService.Change(model); 
+            return await _passwordService.Change(model,User); 
         }
     }
 }

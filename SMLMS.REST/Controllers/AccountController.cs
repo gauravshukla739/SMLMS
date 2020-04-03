@@ -32,6 +32,20 @@ namespace SMLMS.REST.Controllers
             return await  _authenticationService.CreateUser(user);
         }
 
+        [HttpPost]
+        [Route("Update")]
+        public async Task<ServiceResponse> Update(UserDto user)
+        {
+            return await _authenticationService.Update(user,User);
+        }
+
+        [HttpGet]
+        [Route("Detail")]
+        public async Task<ServiceResponse> Detail(string id)
+        {
+            return await _authenticationService.Detail(id);
+        }
+
         [HttpGet]
         [Route("Logout")]
         public  Task<ServiceResponse> Logout()

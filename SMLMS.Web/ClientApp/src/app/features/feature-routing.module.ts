@@ -6,7 +6,10 @@ import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
+import { ResetPasswordComponent } from './components/password/reset/reset.component';
+import { ChangePasswordComponent } from './components/password/change/change.component';
+import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 
 
 const routes: Routes = [
@@ -14,14 +17,18 @@ const routes: Routes = [
   //canActivate:[AuthGuard],
   children:[
     { path: '', component: DashboardComponent },
-    { path: 'setting', component: SettingComponent }
+    { path: 'setting', component: SettingComponent },
+    { path: 'password/change', component: ChangePasswordComponent },
+    { path: 'user/add', component: UserCreateUpdateComponent },
+    { path: 'user/update', component: UserCreateUpdateComponent }
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,
   children :[
     { path: '', component: LoginComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'forgot', component: ForgotComponent },
+    { path: 'password/forgot', component: ForgotPasswordComponent },
+    { path: 'password/reset', component: ResetPasswordComponent },
   ]
  }
   

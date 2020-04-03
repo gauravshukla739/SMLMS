@@ -1,71 +1,97 @@
-<form action="/action_page.php">
+<form (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
   <div class="form-group">
-    <label for="email">Email address:</label>
-    <input type="email" class="form-control" placeholder="Enter email" id="email">
+    <label for="text">First Name:</label>
+    <input type="text" class="form-control requried" placeholder="Enter First Name" name="fname" [(ngModel)]="user.firstName" required #fname="ngModel">
+    <div *ngIf="f.submitted && fname.invalid" class="alert-danger">
+      <div *ngIf="fname.errors.required">FirstName is required</div>
+    </div>
   </div>
   <div class="form-group">
+    <label for="text">Last Name:</label>
+    <input type="text" class="form-control requried" placeholder="Enter LastName" name="lname" [(ngModel)]="user.lastName" required #lname="ngModel">
+    <div *ngIf="f.submitted && lname.invalid" class="alert-danger">
+      <div *ngIf="lname.errors.required">Last Name is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Email:</label>
+    <input type="text" class="form-control requried" placeholder="Enter EmailId" name="email" [(ngModel)]="user.email" required #email="ngModel">
+    <div *ngIf="f.submitted && email.invalid" class="alert-danger">
+      <div *ngIf="email.errors.required">Email is required</div>
+    </div>
+  </div>
+  <div class="form-group" *ngIf="isAdd">
     <label for="pwd">Password:</label>
-    <input type="password" class="form-control" placeholder="Enter password" id="pwd">
+    <input type="password" class="form-control requried" placeholder="Enter Password" name="newpwd" [(ngModel)]="user.password" required #newpwd="ngModel">
+    <div *ngIf="f.submitted && newpwd.invalid" class="alert-danger">
+      <div *ngIf="newpwd.errors.required">Password is required</div>
+    </div>
   </div>
-  <div class="form-group form-check">
-    <label class="form-check-label">
-      <input class="form-check-input" type="checkbox"> Remember me
-    </label>
+
+  <div class="form-group" *ngIf="isAdd">
+    <label for="select">Role:</label>
+    <select class="form-control" placeholder="Select Role" name="rolename" required [(ngModel)]="user.roleName" #rolename="ngModel">
+      <option selected="" value="">Select Role</option>
+      <option [value]="role.name" *ngFor="let role of roles">{{role.name}}</option>
+    </select>
+    <div *ngIf="f.submitted && rolename.invalid" class="alert-danger">
+      <div *ngIf="rolename.errors.required">Role is required</div>
+    </div>
   </div>
+
+  <div class="form-group" *ngIf="isAdd">
+    <label for="select">Department:</label>
+    <select class="form-control" placeholder="Select Role" name="dept" required [(ngModel)]="user.departmentId" #dept="ngModel">
+      <option selected="" value="">Select Role</option>
+      <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+    </select>
+    <div *ngIf="f.submitted && dept.invalid" class="alert-danger">
+      <div *ngIf="dept.errors.required">Department is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Date Of Birth:</label>
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="dob" [(ngModel)]="user.dateOfBirth" required #dob="ngModel">
+    <div *ngIf="f.submitted && dob.invalid" class="alert-danger">
+      <div *ngIf="dob.errors.required">Date Of Birth is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Date Of Joining:</label>
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="doj" [(ngModel)]="user.dateOfJoin" required #doj="ngModel">
+    <div *ngIf="f.submitted && doj.invalid" class="alert-danger">
+      <div *ngIf="doj.errors.required">Date Of Joining is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Date Of Appointment:</label>
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="doa" [(ngModel)]="user.dateOfAppointment" required #doa="ngModel">
+    <div *ngIf="f.submitted && doa.invalid" class="alert-danger">
+      <div *ngIf="doa.errors.required">Date Of Appointment is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Date Of Leaving:</label>
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="dol" [(ngModel)]="user.dateOfLeave" required #dol="ngModel">
+    <div *ngIf="f.submitted && dol.invalid" class="alert-danger">
+      <div *ngIf="dol.errors.required">Date Of Leaving is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Phone Number:</label>
+    <input type="text" class="form-control requried" placeholder="Enter Phone Number" name="phone" [(ngModel)]="user.phoneNumber" required #phone="ngModel">
+    <div *ngIf="f.submitted && phone.invalid" class="alert-danger">
+      <div *ngIf="phone.errors.required">Phone Number is required</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="text">Address:</label>
+    <input type="text" class="form-control requried" placeholder="Enter Address" name="address" [(ngModel)]="user.address" required #address="ngModel">
+    <div *ngIf="f.submitted && address.invalid" class="alert-danger">
+      <div *ngIf="address.errors.required">Address is required</div>
+    </div>
+  </div>
+
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-
-
-
-<section>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 page-title">
-        <h3 class="title-top">Employee</h3>
-        <button class="btn sm-primary">Add New</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 sm-table employee">
-        <div class="table-responsive">
-          <table class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th class="select">
-                  <input id="selectAll" type="checkbox">
-                  <label for="selectAll">Select</label>
-                </th>
-                <th class="img">Img</th>
-                <th class="name">Name</th>
-                <th class="department">Department</th>
-                <th class="mobile">Contact</th>
-                <th class="id">Emp ID</th>
-                <th class="join">Joining</th>
-                <th class="more">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="select">
-                  <input id="checkbox1" type="checkbox">
-                  <label for="checkbox1">Select</label>
-                </td>
-                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
-                <td class="name">Satinder Pal Singh</td>
-                <td class="department">Design</td>
-                <td class="mobile">9876 543 210</td>
-                <td class="id">SM00022</td>
-                <td class="join">Mar/05/2018</td>
-                <td class="more">
-                  <a class="action-btn fa fa-eye view" href="">View</a>
-                  <a class="action-btn fa fa-trash delete" href="">Remove</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>

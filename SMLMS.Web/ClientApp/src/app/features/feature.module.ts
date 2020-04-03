@@ -10,7 +10,11 @@ import { SettingComponent } from './components/setting/setting.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
+import { ResetPasswordComponent } from './components/password/reset/reset.component';
+import { ChangePasswordComponent } from './components/password/change/change.component';
+import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
+
 
 
 @NgModule({
@@ -21,7 +25,11 @@ import { ForgotComponent } from './components/password/forgot/forgot.component';
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent, ForgotComponent],
+    DashboardComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+    UserCreateUpdateComponent],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,

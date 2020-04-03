@@ -4,6 +4,8 @@ using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,15 +20,16 @@ namespace SMLMS.Services.services
             _unitOfWork = unitOfWork;
             _authenticationService = authenticationService;
         }
-        public async Task<ServiceResponse> CreateOrUpdate(DepartmentDto model)
+        public async Task<ServiceResponse> CreateOrUpdate(DepartmentDto model, ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
                 response.IsSuccess = true;
+                var emailId = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
                 if (model.Id != null)
                 {
-                    model.CreatedBy =(string) _authenticationService.GetClaimsValue("Email");
+                    model.CreatedBy = emailId;
                     _unitOfWork.DepartmentRepository.Add(model);
                     _unitOfWork.Commit();
                     response.Message = "Data Saved Successfully!";
@@ -35,7 +38,7 @@ namespace SMLMS.Services.services
                 else
                 {
                     model.UpdateDate = DateTime.Now;
-                    model.UpdatedBy= (string)_authenticationService.GetClaimsValue("Email");
+                    model.UpdatedBy= emailId;
                     _unitOfWork.DepartmentRepository.Update(model);
                     _unitOfWork.Commit();
                     response.Message = "Data Updated Successfully!";
@@ -49,14 +52,17 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> Delete(Guid Id)
+        public async Task<ServiceResponse> Delete(Guid Id, ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                string deletedBy= (string)_authenticationService.GetClaimsValue("Email");
+                string deletedBy= claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
                 _unitOfWork.DepartmentRepository.Remove(Id,deletedBy);
                 _unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Data Deleted ";
+
             }
             catch(Exception ex)
             {

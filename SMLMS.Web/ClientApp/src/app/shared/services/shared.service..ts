@@ -9,7 +9,7 @@ export class SharedService {
 
   constructor(protected http: HttpClient) {
     this.accessToken = localStorage.getItem("user-token");
-    this.user = localStorage.getItem("user") != null ? JSON.parse(localStorage.getItem("user")): {};
+    this.user = localStorage.getItem("user") as any != null ? JSON.parse(localStorage.getItem("user") as any) : {};
   }
  
   user ={Name:"" ,Photo_URL:"",Email:"",Id: ""}

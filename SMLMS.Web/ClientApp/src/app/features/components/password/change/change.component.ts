@@ -7,7 +7,7 @@ import { PasswordService } from 'src/app/core/services/password.service';
   templateUrl: './change.component.html',
 })
 
-export class ChangeComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit {
 
   constructor(private passwordService: PasswordService, private sharedService: SharedService, private router: Router) { }
 
@@ -18,20 +18,22 @@ export class ChangeComponent implements OnInit {
 
   onSubmit(formValid: any) {
     this.sharedService.startLoading();
-    var response = this.passwordService.change(this.pwd).subscribe((data: any) => {
-      console.log(data);
-      if (data.IsSuccess) {
-        this.sharedService.showPopup("");
+    if (this.pwd.NewPassword == this.pwd.ConfirmPassword) {
+      var response = this.passwordService.change(this.pwd).subscribe((data: any) => {
+        console.log(data);
+        if (data.isSuccess) {
+          this.sharedService.showPopup(data.message);
+        } else {
+          this.sharedService.showPopup(data.message);
 
-        // this.router.navigate(['/permissions']);
-      } else {
-        this.sharedService.showPopup(data.Message);
-
-      }
-    });
-    response.add(() => {
-      this.sharedService.stopLoading();
-    })
+        }
+      });
+      response.add(() => {
+        this.sharedService.stopLoading();
+      })
+    } else {
+      this.sharedService.showPopup("Password & Confirm Password should be same");
+    }
   }
 
 
