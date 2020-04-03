@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { ForgotComponent } from './components/password/forgot/forgot.component';
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent, ForgotComponent],
+    DashboardComponent, ForgotComponent, AttendanceComponent],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,

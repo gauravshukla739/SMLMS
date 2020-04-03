@@ -16,25 +16,14 @@ namespace SMLMS.Data.Repositories
 
         public void Add(Attendance entity)
         {
-            var Exist = FindUserById(entity.EmployeeId);
-            if (Exist.Id == null &&Exist != null)
-            {
-                Execute(
-            sql: @"
-                    INSERT INTO [dbo].[Attendance]([Id], [EmployeeId], [SignIn],
+            Execute(
+        sql: @"
+                    INSERT INTO [dbo].[Attendance]([Id],  [SignIn],
 	                    [CreatedOn],  [CreatedBy],
 	                   [IsDeleted])
-                    VALUES(@Id, @EmployeeId, @SignIn, @CreatedOn,
+                    VALUES(@Id,  @SignIn, @CreatedOn,
 	                    @CreatedBy, @IsDeleted)",
-            param: entity);
-            }
-            else
-            {
-                var query = "UPDATE Attendance SET SignOut = @SignOut, UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy WHERE Id = @Id";
-                Execute(
-                sql: query,
-                param: entity);
-            }
+        param: entity);
         }
 
 
@@ -48,7 +37,7 @@ namespace SMLMS.Data.Repositories
 
         public Attendance FindUserById(int key)
         {
-            var query = "SELECT * FROM Attendance WHERE EmployeeId = @key and cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
+            var query = "SELECT * FROM Attendance WHERE  cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
             var data = QuerySingleOrDefault<Attendance>(sql: query, param: new { key });
             return data;
         }
@@ -61,16 +50,22 @@ namespace SMLMS.Data.Repositories
             );
         }
 
+        public IEnumerable<Attendance> EmployeeAttendance_DateFilter(DateTime? startDate, DateTime? endDate)
+        {
+            return Query<Attendance>(
+                sql: "SELECT * from [dbo].[Attendance] WHERE CreatedOn BETWEEN @startDate AND @endDate"
+            );
+        }
+
         public void Update(Attendance entity)
         {
             Execute(
                 sql: @"
-                    UPDATE Attendance SET SignOut = @SignOut,
-	                    UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy
-                    WHERE Id = @Id",
-                param: entity);
+                    UPDATE Attendance SET SignOut = @SignOut, 
+                            UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy 
+                            WHERE Id = @Id",
+                param: entity
+            );
         }
-
-
     }
 }

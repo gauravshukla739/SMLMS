@@ -118,6 +118,7 @@ namespace SMLMS.REST
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<ILeave, Leave>();
 
 

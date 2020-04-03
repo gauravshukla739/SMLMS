@@ -36,8 +36,8 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
-        public async Task<ServiceResponse> Create(Attendance model)
+        [Route("EmployeeAttendance")]
+        public async Task<ServiceResponse> EmployeeAttendance(Attendance model)
         {
             return await _attendanceService.CreateOrUpdate(model);
         }

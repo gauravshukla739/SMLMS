@@ -7,6 +7,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
   //canActivate:[AuthGuard],
   children:[
     { path: '', component: DashboardComponent },
-    { path: 'setting', component: SettingComponent }
+    { path: 'setting', component: SettingComponent },
+    { path: 'attendance', component: AttendanceComponent }
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,
