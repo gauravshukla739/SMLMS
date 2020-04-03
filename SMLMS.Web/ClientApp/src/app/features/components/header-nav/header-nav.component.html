@@ -1,12 +1,13 @@
 <div class="content-header">
   <a href="dashboard.html" class="brand"><img src="assets/images/brand.png" alt=""></a>
   <div class="user-info">
-    <h4 class="userName">Welcome! <strong>Gaurav</strong></h4>
+    <h4 class="userName">Welcome! <strong>{{username}}</strong></h4>
     <a class="nav-link dropdown-toggle" href="#" id="myAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <img class="user" src="assets/images/user.png" alt="">
     </a>
     <div class="dropdown-menu" aria-labelledby="myAccount">
       <a class="dropdown-item" href="javascript:void(0)">My Account</a>
+      <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/password/change']">Change Password</a>
       <a class="dropdown-item" href="javascript:void(0)" (click)="logOut()">LogOut</a>
     </div>
   </div>

@@ -8,11 +8,12 @@ export class SharedService {
   ApiBaseUrl: string ="http://localhost:52710/api";
 
   constructor(protected http: HttpClient) {
+    debugger;
     this.accessToken = localStorage.getItem("user-token");
     this.user = localStorage.getItem("user") as any != null ? JSON.parse(localStorage.getItem("user") as any) : {};
   }
  
-  user ={Name:"" ,Photo_URL:"",Email:"",Id: ""}
+  user :any;
   currentUserId: any;
   currentMember: any;
   currentProjectId: any;
