@@ -21,15 +21,13 @@ const routes: Routes = [
   children:[
     { path: '', component: DashboardComponent },
     { path: 'setting', component: SettingComponent },
-      { path: 'password/change', component: ChangePasswordComponent },
+    { path: 'password/change', component: ChangePasswordComponent },
     {
       path: 'users', component: UserComponent,
       children: [
         { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
           { path: 'update', component: UserCreateUpdateComponent }
-
-
       ]
       },
       { path: 'setting', component: SettingComponent },

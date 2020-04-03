@@ -15,7 +15,7 @@ import { ResetPasswordComponent } from './components/password/reset/reset.compon
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { TaskComponent } from './components/task/tasksubmit/task.component';
-import { ForgotComponent } from './components/password/forgot/forgot.component';
+
 
 import { UserComponent } from './components/user/list/list.component';
 import { LeaveComponent } from './components/leave-management/leave/leave.component';
@@ -33,8 +33,8 @@ import { LeaveComponent } from './components/leave-management/leave/leave.compon
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-        UserCreateUpdateComponent, UserComponent],
-        DashboardComponent, ForgotComponent, UserComponent, UserFormComponent, TaskComponent
+        UserCreateUpdateComponent, UserComponent,
+        DashboardComponent, TaskComponent
   ],
   imports: [
     FeatureRoutingModule,
