@@ -1,0 +1,70 @@
+
+<section>
+  <div class="container-fluid">
+
+    <div class="row" *ngIf="isAddEdit">
+
+      <div class="col-3"></div>
+      <div class="col-6">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+          <div class="form-group">
+            <label for="title">Name<sup>*</sup>:</label>
+            <input type="text" class="form-control requried" name="title" [(ngModel)]="dep.name" required #title="ngModel" placeholder="Enter Name" id="title">
+
+            <div *ngIf="f.submitted && title.invalid" class="alert-danger">
+              <div *ngIf="title.errors.required">name is required</div>
+            </div>
+          </div>
+          <button type="submit" class="btn-sm btn-primary">Submit</button>
+          <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="!isAddEdit">
+      <div class="row">
+        <div class="col-12 page-title">
+          <h3 class="title-top">Department</h3>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 sm-table employee">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="select">
+                    <input id="selectAll" type="checkbox">
+                    <label for="selectAll">Select</label>
+                  </th>
+                  <th class="img">Name</th>
+                  <th class="more">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rec of departments">
+                  <td class="select">
+                    <input id="checkbox1" type="checkbox">
+                    <label for="checkbox1">Select</label>
+                  </td>
+                  <td>{{rec.name}}</td>
+
+                  <td class="more">
+                    <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(rec)">Edit</a>
+                    <a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

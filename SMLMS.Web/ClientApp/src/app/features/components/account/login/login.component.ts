@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("user-token" , data.data.token);
         this.sharedService.accessToken = data.data.token;
         this.sharedService.setUser(data.data.user);
-        this.router.navigate(['/password/change']);
+        this.router.navigate(['/dashboard']);
       } else {
         this.sharedService.showPopup(data.message);
         //this.sharedService.showPopup("Login failed , Invalid user");

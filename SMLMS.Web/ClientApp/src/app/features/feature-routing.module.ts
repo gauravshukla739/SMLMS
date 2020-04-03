@@ -12,15 +12,17 @@ import { ResetPasswordComponent } from './components/password/reset/reset.compon
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
+import { DepartmentComponent } from './components/department/department.component';
 
 const routes: Routes = [
 
  
   { path: '', component: MainLayoutComponent , 
-  //canActivate:[AuthGuard],
+  canActivate:[AuthGuard],
   children:[
     { path: '', component: DashboardComponent },
     { path: 'setting', component: SettingComponent },
+    { path: 'dashboard', component: SettingComponent },
     { path: 'password/change', component: ChangePasswordComponent },
     {
       path: 'users', component: UserComponent,
@@ -30,8 +32,15 @@ const routes: Routes = [
           { path: 'update', component: UserCreateUpdateComponent }
       ]
       },
-      { path: 'setting', component: SettingComponent },
-      { path: 'task', component: TaskComponent },
+    { path: 'department', component: DepartmentComponent },
+    {
+      path: 'task', component: TaskComponent,
+      children: [
+        { path: '', component: TaskComponent },
+        { path: 'create', component: TaskComponent },
+        { path: 'edit/:id', component: TaskComponent },
+      ]
+    },
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,
