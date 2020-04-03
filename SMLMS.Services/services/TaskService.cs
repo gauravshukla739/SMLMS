@@ -5,6 +5,8 @@ using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,16 +42,31 @@ namespace SMLMS.Services.services
             return _response;
         }
 
-        public async Task<ServiceResponse> SaveUpdateTask(Model.Core.Task _task)
+        public async Task<ServiceResponse> SaveUpdateTask(Model.Core.Task _task, ClaimsPrincipal claims)
         {
             ServiceResponse _response = new ServiceResponse();
             try
             {
-                unitOfWork.TaskRepository.Add(_task);
-                unitOfWork.Commit();
                 _response.IsSuccess = true;
-                _response.Message = "Task added successfully";
+                var emailId = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                if (_task.Id == Guid.Empty)
+                {
+                    _task.Id = Guid.NewGuid();
+                    _task.CreateDate = DateTime.Now;
+                    _task.CreatedBy = emailId;
+                    unitOfWork.TaskRepository.Add(_task);
+                    unitOfWork.Commit();                   
+                    _response.Message = "Task added successfully";
+                }
+                else
+                {
+                    _task.UpdateDate = DateTime.Now;
+                    _task.UpdatedBy = emailId;
+                    unitOfWork.TaskRepository.Update(_task);
+                    unitOfWork.Commit();
+                    _response.Message = "Data Updated Successfully!";
 
+                }
             }
             catch (Exception ex)
             {
@@ -60,16 +77,16 @@ namespace SMLMS.Services.services
             return _response; 
         }
 
-        public async Task<ServiceResponse> DeleteTask(string taskId)
+        public async Task<ServiceResponse> DeleteTask(Guid taskId, ClaimsPrincipal claims)
         {
             ServiceResponse _response = new ServiceResponse();
             try
             {
-                unitOfWork.TaskRepository.Remove(taskId);
+                string deletedBy = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                unitOfWork.TaskRepository.Remove(taskId, deletedBy);
                 unitOfWork.Commit();
                 _response.IsSuccess = true;
                 _response.Message = "Task deleted successfully";
-
             }
             catch (Exception ex)
             {
