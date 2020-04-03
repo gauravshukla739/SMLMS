@@ -11,15 +11,24 @@ export class UserService {
   constructor(protected http: HttpClient ,private sharedService: SharedService) {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
   }
+
+  getAll() {
+    return this.http.get(this.apiBaseUrl + `/User/getAll`);
+  }
+
+  delete(id) {
+    return this.http.post(this.apiBaseUrl + `/User/delete?userId=${id}`, null);
+  }
+
   getRoles(){
-    return this.http.get(this.apiBaseUrl+`/api/Role/getAllRoles`);
+    return this.http.get(this.apiBaseUrl+`/Role/getAllRoles`);
   }
 
   getModules(){
-    return this.http.get(this.apiBaseUrl+"/api/Role/getAllModule");
+    return this.http.get(this.apiBaseUrl+"/Role/getAllModule");
   }
   getPermissions(){
-    return this.http.get(this.apiBaseUrl+"/api/Role/getAllRolePermissions");
+    return this.http.get(this.apiBaseUrl+"/Role/getAllRolePermissions");
   }
 
 

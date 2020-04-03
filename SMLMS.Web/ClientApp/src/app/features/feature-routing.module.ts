@@ -10,7 +10,7 @@ import { ForgotPasswordComponent } from './components/password/forgot/forgot.com
 import { ResetPasswordComponent } from './components/password/reset/reset.component';
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
-
+import { UserComponent } from './components/user/list/list.component';
 
 const routes: Routes = [
   { path: '', component: MainLayoutComponent , 
@@ -18,9 +18,17 @@ const routes: Routes = [
   children:[
     { path: '', component: DashboardComponent },
     { path: 'setting', component: SettingComponent },
-    { path: 'password/change', component: ChangePasswordComponent },
-    { path: 'user/add', component: UserCreateUpdateComponent },
-    { path: 'user/update', component: UserCreateUpdateComponent }
+      { path: 'password/change', component: ChangePasswordComponent },
+    {
+      path: 'users', component: UserComponent,
+      children: [
+        { path: '', component: UserComponent },
+          { path: 'add', component: UserCreateUpdateComponent },
+          { path: 'update', component: UserCreateUpdateComponent }
+
+
+      ]
+    }
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,
