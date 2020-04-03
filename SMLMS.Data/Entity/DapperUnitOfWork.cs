@@ -20,6 +20,7 @@ namespace SMLMS.Data.Entity
         public IRoleModulePermissionRepository _roleModulePermissionRepository;
         public ILeaveRepositry _ILeaveRepositry;
         public IDepartmentRepository _departmentRepository;
+        public ITaskRepository _ITaskRepository;
 
         private bool _disposed;
         #endregion
@@ -95,7 +96,14 @@ namespace SMLMS.Data.Entity
                     ?? (_departmentRepository = new DepartmentRepository(_transaction));
             }
         }
-
+        public ITaskRepository TaskRepository
+        {
+            get
+            {
+                return _ITaskRepository
+                    ?? (_ITaskRepository = new TaskRepository(_transaction));
+            }
+        }
         public void Commit()
         {
             try

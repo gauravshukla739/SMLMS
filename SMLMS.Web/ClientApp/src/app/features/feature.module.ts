@@ -10,6 +10,7 @@ import { SettingComponent } from './components/setting/setting.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
 import { UserComponent } from './components/user/list/list.component';
 import { UserFormComponent } from './components/user/create-update/create-update.component';
@@ -22,7 +23,7 @@ import { UserFormComponent } from './components/user/create-update/create-update
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent, ForgotComponent, UserComponent, UserFormComponent
+        DashboardComponent, ForgotComponent, UserComponent, UserFormComponent, TaskComponent
   ],
   imports: [
     FeatureRoutingModule,

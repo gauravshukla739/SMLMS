@@ -14,6 +14,8 @@ namespace SMLMS.Data.Interfaces
         IModuleRepository ModuleRepository { get; }
         IRoleModulePermissionRepository RoleModulePermissionRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
+        ITaskRepository TaskRepository { get; }
+
         void Commit();
     }
 }
