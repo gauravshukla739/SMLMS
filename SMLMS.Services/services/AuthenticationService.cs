@@ -78,14 +78,13 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> CreateUser(UserDto user)
+        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                //   var email = (string)GetClaimsValue("Email");
-                await _roleManager.CreateAsync(new Role {Name= "Admin" });
-                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy= user.Email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
+                var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
@@ -166,7 +165,7 @@ namespace SMLMS.Services.services
                 new Claim(ClaimTypes.Email, user.UserName),
                 new Claim(ClaimTypes.Role,role),
                 new Claim("RoleId",roleId),
-                new Claim("DepartmentId",(user.DepartmentId ==null)?"No":user.DepartmentId),
+                new Claim("DepartmentId",(user.DepartmentId ==null)?"NA":user.DepartmentId),
                  new Claim("UserId",user.Id.ToString() )
             };
             claims.AddRange(claimsnew);
