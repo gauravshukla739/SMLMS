@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
+import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
@@ -13,6 +14,8 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { UserComponent } from './components/user/list/list.component';
 
 const routes: Routes = [
+
+ 
   { path: '', component: MainLayoutComponent , 
   //canActivate:[AuthGuard],
   children:[
@@ -26,7 +29,9 @@ const routes: Routes = [
           { path: 'add', component: UserCreateUpdateComponent },
           { path: 'update', component: UserCreateUpdateComponent }
       ]
-    }
+      },
+      { path: 'setting', component: SettingComponent },
+      { path: 'task', component: TaskComponent },
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,

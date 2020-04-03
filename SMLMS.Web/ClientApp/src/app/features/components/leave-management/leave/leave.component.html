@@ -1,0 +1,85 @@
+<div class="container">
+
+
+
+  <button type="button" class="btn btn-primary" (click)="openModalDialog()">
+    Create
+  </button>
+
+  <div class="alert alert-success" *ngIf="alertMsg" style="width:300px;">
+    <strong>Success!</strong> {{ alertMsg}}.
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">LeaveType</th>
+        <th scope="col">LeaveCount</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr scope="row" *ngFor="let item of leavetyps; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.count}}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="editLeaveType(item)">
+            Edit
+          </button>
+          <button type="button" class="btn btn-primary" (click)="deleteLeaveType(item.id)" style="margin-left:10px;">
+            Delete
+          </button>
+          <!--<a>Delete</a>-->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- The Modal -->
+  <div class="modal" [ngStyle]="{'display':display}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add/Update Leaves</h4>
+          <button type="button" class="close" (click)="closeModalDialog()">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group col-5">
+              <label>Leave Name</label>
+              <input type="text" formControlName="leavename" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.leavename.errors }" />
+              <div *ngIf="submitted && f.leavename.errors" class="invalid-feedback">
+                <div *ngIf="f.leavename.errors.required">Leave Name is required</div>
+              </div>
+            </div>
+            <div class="form-group col-5">
+              <label>Leave Count</label>
+              <input type="text" formControlName="leavecount" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.leavecount.errors }" />
+              <div *ngIf="submitted && f.leavecount.errors" class="invalid-feedback">
+                <div *ngIf="f.leavecount.errors.required">Leave Count is required</div>
+              </div>
+            </div>
+
+
+            <div class="text-center">
+              <button class="btn btn-primary mr-1">Add</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closeModalDialog()">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

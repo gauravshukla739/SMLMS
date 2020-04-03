@@ -8,10 +8,15 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 })
 export class LeftMenuComponent implements OnInit {
 
+  isOpne = true;
   constructor(private sharedService :SharedService) { 
   }
 
   ngOnInit() {
+  }
+
+  showHideLeftNav() {
+    this.isOpne = !this.isOpne;
   }
 
 }

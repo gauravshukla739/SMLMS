@@ -23,6 +23,7 @@ using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using SMLMS.Services.services;
 
+
 namespace SMLMS.REST
 {
     public class Startup
@@ -46,6 +47,8 @@ namespace SMLMS.REST
                 Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
             services.Configure<AppConfig>(Configuration.GetSection("AppConfig"));
+
+            
 
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<Role>()
                 .AddDefaultUI()
@@ -120,7 +123,7 @@ namespace SMLMS.REST
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<ILeave, Leave>();
-
+            services.AddScoped<ITaskService, TaskService>();
 
 
            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -128,24 +131,10 @@ namespace SMLMS.REST
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                                opt.TokenLifespan = TimeSpan.FromHours(2));
 
-            //services.Configure<MvcOptions>(options =>
-            //{
-            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowMyOrigin"));
-            //});
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "SB Admin Rest API",
-                    Description = "My First ASP.NET Core 2.0 Web API",
-
-                });
-            });
         }
     
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
