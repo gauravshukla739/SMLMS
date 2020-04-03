@@ -1,5 +1,6 @@
 ﻿using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.DTO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SMLMS.Services.interfaces
@@ -10,6 +11,6 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> Reset(ResetPasswordDto model);
 
-        Task<ServiceResponse> Change(ChangePasswordDto model);
+        Task<ServiceResponse> Change(ChangePasswordDto model,ClaimsPrincipal claims);
     }
 }

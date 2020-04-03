@@ -17,8 +17,8 @@ export class RequestInterceptor implements HttpInterceptor {
         // let currentUser :any={};
         if (this.activeRequests === 0) {
             this.sharedService.startLoading();
-          }
-
+      }
+     
         if (true) {
             request = request.clone({
                 setHeaders: {

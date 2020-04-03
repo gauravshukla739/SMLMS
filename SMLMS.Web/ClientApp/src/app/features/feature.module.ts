@@ -10,10 +10,15 @@ import { SettingComponent } from './components/setting/setting.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
+import { ResetPasswordComponent } from './components/password/reset/reset.component';
+import { ChangePasswordComponent } from './components/password/change/change.component';
+import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
+
 import { UserComponent } from './components/user/list/list.component';
-import { UserFormComponent } from './components/user/create-update/create-update.component';
+
 
 @NgModule({
   declarations: [ 
@@ -23,6 +28,11 @@ import { UserFormComponent } from './components/user/create-update/create-update
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
+    DashboardComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+        UserCreateUpdateComponent, UserComponent],
         DashboardComponent, ForgotComponent, UserComponent, UserFormComponent, TaskComponent
   ],
   imports: [

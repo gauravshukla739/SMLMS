@@ -13,7 +13,7 @@ namespace SMLMS.Services.services
 {
     public class EmailService : IEmailService
     {
-        private static SmtpDetails _smtpDetails;
+        private readonly SmtpDetails _smtpDetails;
 
         public EmailService(IOptions<SmtpDetails> smtpDetails)
         {

@@ -15,9 +15,12 @@
   </div>
   <div class="form-group">
     <label for="pwd">Confirm Password:</label>
-    <input type="password" class="form-control requried" placeholder="Enter Confirm Password"  name="confirmpwd" [(ngModel)]="pwd.ConfirmPassword" required #confirmpwd="ngModel">
+    <input type="password" class="form-control requried" placeholder="Enter Confirm Password"  name="confirmpwd" passwordvalidate password="pwd.NewPassword"  [(ngModel)]="pwd.ConfirmPassword" required #confirmpwd="ngModel">
     <div *ngIf="f.submitted && confirmpwd.invalid" class="alert-danger">
       <div *ngIf="confirmpwd.errors.required">Confirm Password is required</div>
+      <div *ngIf="confirmpwd.errors.passwordvalidate">
+        {{confirmpwd.errors.passwordvalidate.value}}
+      </div>
     </div>
   </div> 
   <button type="submit" class="btn btn-primary">Submit</button>

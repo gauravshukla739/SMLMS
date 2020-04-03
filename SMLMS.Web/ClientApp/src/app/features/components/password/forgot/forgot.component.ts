@@ -8,7 +8,7 @@ import { PasswordService } from 'src/app/core/services/password.service';
   templateUrl: './forgot.component.html',
   styleUrls: ['./forgot.component.css']
 })
-export class ForgotComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
 
   constructor(private passwordService: PasswordService, private sharedService: SharedService, private router: Router) { }
 
@@ -21,12 +21,10 @@ export class ForgotComponent implements OnInit {
     this.sharedService.startLoading();
     var response = this.passwordService.forgot(this.email).subscribe((data: any) => {
       console.log(data);
-      if (data.IsSuccess) {
-        this.sharedService.showPopup("");
-       
-       // this.router.navigate(['/permissions']);
+      if (data.isSuccess) {
+        this.sharedService.showPopup(data.message);
       } else {
-        this.sharedService.showPopup(data.Message);
+        this.sharedService.showPopup(data.message);
         
       }
     });
