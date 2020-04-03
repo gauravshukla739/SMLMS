@@ -15,6 +15,7 @@ import { ResetPasswordComponent } from './components/password/reset/reset.compon
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { UserComponent } from './components/user/list/list.component';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-        UserCreateUpdateComponent, UserComponent],
+    UserCreateUpdateComponent, UserComponent, AttendanceComponent],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,

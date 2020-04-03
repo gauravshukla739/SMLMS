@@ -1,10 +1,11 @@
 ﻿using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
-using SMLMS.Model.Core;
 using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,26 +21,27 @@ namespace SMLMS.Services.services
             authenticationService = _authenticationService;
         }
 
-        public async Task<ServiceResponse> CreateOrUpdate(AttendanceDto model)
+        public async Task<ServiceResponse> CreateOrUpdate(ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var Exist = unitOfWork.AttendanceRepository.FindUserById("7D4E4733-5E63-427D-3AF2-08D7D736AD59");
+                var userId= claims.Claims.First(x => x.Type == "UserId").Value;
+                var Exist = unitOfWork.AttendanceRepository.FindUserById(userId);
 
                 AttendanceDto data = new AttendanceDto
                 {
-                    Id = string.IsNullOrEmpty(model.Id) ? Guid.NewGuid().ToString() : model.Id,
+                    Id = Guid.NewGuid().ToString(),
                     SignIn = DateTime.Now,
                     SignOut = DateTime.Now,
                     CreatedOn = DateTime.Now,
                     UpdatedOn = DateTime.Now,
-                    UserId = "7D4E4733-5E63-427D-3AF2-08D7D736AD59",
+                    UserId = userId,
                     IsDeleted = false,
                 };
 
 
-                if (string.IsNullOrEmpty(model.Id) && Exist == null)
+                if (Exist == null)
                 {
                     unitOfWork.AttendanceRepository.Add(data);
                 }
@@ -61,14 +63,29 @@ namespace SMLMS.Services.services
             return response;
         }
 
+       
+
         public Task<ServiceResponse> Delete(string Name)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResponse> Get()
+
+        public async Task<ServiceResponse> GetAll()
         {
-            throw new NotImplementedException();
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.All();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
         }
 
         public async Task<ServiceResponse> GetEmployess(AttendanceDto model)

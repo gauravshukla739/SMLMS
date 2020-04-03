@@ -11,6 +11,7 @@ import { ResetPasswordComponent } from './components/password/reset/reset.compon
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 const routes: Routes = [
   { path: '', component: MainLayoutComponent , 
@@ -25,6 +26,16 @@ const routes: Routes = [
         { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
           { path: 'update', component: UserCreateUpdateComponent }
+
+
+      ]
+    },
+    {
+      path: 'attendance', component: AttendanceComponent,
+      children: [
+        { path: '', component: AttendanceComponent },
+        { path: 'add', component: AttendanceComponent },
+        { path: 'update', component: AttendanceComponent }
 
 
       ]

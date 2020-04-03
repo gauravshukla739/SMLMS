@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,9 @@ namespace SMLMS.REST.Controllers
 
         [HttpPost]
         [Route("CreateOrUpdate")]
-        public async Task<ServiceResponse> CreateOrUpdate(AttendanceDto model)
+        public async Task<ServiceResponse> CreateOrUpdate()
         {
-            return await _attendanceService.CreateOrUpdate(model);
+            return await _attendanceService.CreateOrUpdate(User);
         }
 
         [HttpPost]
@@ -41,6 +42,13 @@ namespace SMLMS.REST.Controllers
         public async Task<ServiceResponse> EmployeeAttendance(AttendanceDto model)
         {
             return await _attendanceService.GetEmployess(model);
+        }
+
+        [HttpGet]
+        [Route("getAll")]
+        public async Task<ServiceResponse> GetAll()
+        {
+            return await _attendanceService.GetAll();
         }
 
     }
