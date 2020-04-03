@@ -1,6 +1,6 @@
 ﻿using SMLMS.Data.Interfaces;
 using SMLMS.Model.Core;
-
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,14 +14,14 @@ namespace SMLMS.Data.Repositories
            : base(transaction)
         { }
 
-        public void Add(Attendance entity)
+        public void Add(AttendanceDto entity)
         {
             Execute(
         sql: @"
-                    INSERT INTO [dbo].[Attendance]([Id],  [SignIn],
+                    INSERT INTO [dbo].[Attendance]([Id],[UserId],[SignIn],
 	                    [CreatedOn],  [CreatedBy],
 	                   [IsDeleted])
-                    VALUES(@Id,  @SignIn, @CreatedOn,
+                    VALUES(@Id,@UserId, @SignIn, @CreatedOn,
 	                    @CreatedBy, @IsDeleted)",
         param: entity);
         }
@@ -35,10 +35,10 @@ namespace SMLMS.Data.Repositories
             );
         }
 
-        public Attendance FindUserById(int key)
+        public Attendance FindUserById(string UserId)
         {
-            var query = "SELECT * FROM Attendance WHERE  cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
-            var data = QuerySingleOrDefault<Attendance>(sql: query, param: new { key });
+            var query = "SELECT TOP (1) [UserId], [SignIn],[SignOut],[CreatedOn],[UpdatedOn],[CreatedBy] ,[UpdatedBy],[IsDeletedBy],[IsDeleted] FROM Attendance WHERE UserId=@UserId and cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
+            var data = QuerySingleOrDefault<Attendance>(sql: query, param: new { UserId });
             return data;
         }
 
@@ -57,7 +57,7 @@ namespace SMLMS.Data.Repositories
             );
         }
 
-        public void Update(Attendance entity)
+        public void Update(AttendanceDto entity)
         {
             Execute(
                 sql: @"
@@ -67,5 +67,7 @@ namespace SMLMS.Data.Repositories
                 param: entity
             );
         }
+
+        
     }
 }

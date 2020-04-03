@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
@@ -30,14 +31,14 @@ namespace SMLMS.REST.Controllers
 
         [HttpPost]
         [Route("CreateOrUpdate")]
-        public async Task<ServiceResponse> CreateOrUpdate(Attendance model)
+        public async Task<ServiceResponse> CreateOrUpdate(AttendanceDto model)
         {
             return await _attendanceService.CreateOrUpdate(model);
         }
 
         [HttpPost]
         [Route("EmployeeAttendance")]
-        public async Task<ServiceResponse> EmployeeAttendance(Attendance model)
+        public async Task<ServiceResponse> EmployeeAttendance(AttendanceDto model)
         {
             return await _attendanceService.CreateOrUpdate(model);
         }

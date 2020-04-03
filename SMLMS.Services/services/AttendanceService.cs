@@ -1,7 +1,7 @@
 ﻿using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
-
+using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,32 +20,34 @@ namespace SMLMS.Services.services
             authenticationService = _authenticationService;
         }
 
-        public async Task<ServiceResponse> CreateOrUpdate(Attendance model)
+        public async Task<ServiceResponse> CreateOrUpdate(AttendanceDto model)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                response.IsSuccess = true;
-                if (model.Id != null)
-                {
-                    model.SignIn = DateTime.Now;
-                    model.CreatedOn = DateTime.Now;
-                    model.CreatedBy = "1";  //(string)_authenticationService.GetClaimsValue("Email");
-                    //model.EmployeeId = "1";
-                    unitOfWork.AttendanceRepository.Add(model);
-                    unitOfWork.Commit();
-                    response.Message = "Data Saved Successfully!";
+                var Exist = unitOfWork.AttendanceRepository.FindUserById("7D4E4733-5E63-427D-3AF2-08D7D736AD59");
 
-                }
-                else
+                AttendanceDto data = new AttendanceDto
                 {
-                    model.SignOut = DateTime.Now;
-                    model.UpdatedOn = DateTime.Now;
-                    model.UpdatedBy = "1";//(string)_authenticationService.GetClaimsValue("Email");
-                    unitOfWork.AttendanceRepository.Update(model);
-                    unitOfWork.Commit();
-                    response.Message = "Data Updated Successfully!";
-                }
+                    Id = string.IsNullOrEmpty(model.Id) ? Guid.NewGuid().ToString() : model.Id,
+                    SignIn = DateTime.Now,
+                    SignOut = DateTime.Now,
+                    CreatedOn = DateTime.Now,
+                    UpdateOn = DateTime.Now,
+                    UserId = "7D4E4733-5E63-427D-3AF2-08D7D736AD59",
+                    IsDeleted = false,
+                };
+
+
+                if (string.IsNullOrEmpty(model.Id) && Exist.SignIn == null)
+                    unitOfWork.AttendanceRepository.Add(data);
+                else
+                    data.Id = Exist.Id.ToString();
+                    unitOfWork.AttendanceRepository.Update(data);
+                unitOfWork.Commit();
+                response.Data = data;
+                response.IsSuccess = true;
+                response.Message = "Data Saved Successfully!";
             }
             catch (Exception ex)
             {
@@ -55,18 +57,14 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> Delete(string Name)
+        public Task<ServiceResponse> Delete(string Name)
         {
-            ServiceResponse response = new ServiceResponse();
-
-            return response;
+            throw new NotImplementedException();
         }
 
-        public async Task<ServiceResponse> Get()
+        public Task<ServiceResponse> Get()
         {
-            ServiceResponse response = new ServiceResponse();
-
-            return response;
+            throw new NotImplementedException();
         }
     }
 }

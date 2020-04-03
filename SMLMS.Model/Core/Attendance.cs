@@ -4,10 +4,10 @@ using System.Text;
 
 namespace SMLMS.Model.Core
 {
-   public class Attendance
+    public class Attendance
     {
         public Guid Id { get; set; }
-        
+        public Guid UserId {get;set;}
         public DateTime? SignIn { get; set; }
         public DateTime? SignOut { get; set; }
         public DateTime? CreatedOn { get; set; }

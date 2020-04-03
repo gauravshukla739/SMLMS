@@ -6,11 +6,12 @@ namespace SMLMS.Model.DTO
 {
    public class AttendanceDto
     {
-        public string EmployeeId { get; set; }
-        public string SignIn { get; set; }
-        public string SignOut { get; set; }
-        public string CreatedOn { get; set; }
-        public string UpdateOn { get; set; }
+        public string Id { get; set; }
+        public string UserId { get; set; }
+        public DateTime? SignIn { get; set; }
+        public DateTime? SignOut { get; set; }
+        public DateTime? CreatedOn { get; set; }
+        public DateTime? UpdateOn { get; set; }
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
