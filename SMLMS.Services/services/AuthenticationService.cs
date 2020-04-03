@@ -52,8 +52,8 @@ namespace SMLMS.Services.services
                     var role = await _userManager.GetRolesAsync(userDetail);
                     var getRole =await _roleManager.FindByNameAsync(role[0]);
                     response.IsSuccess = true;
-                    response.Message = "Login Successful!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id} };
+                    response.Message = "Login Succsessfull!";
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id,appUser.DepartmentId,RoleId=getRole.Id} };
                 }
                 else
                 {
