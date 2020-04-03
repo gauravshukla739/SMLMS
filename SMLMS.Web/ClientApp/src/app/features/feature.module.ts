@@ -9,6 +9,7 @@ import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
+import { LeaveComponent } from './components/leave-management/leave/leave.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { AccountLayoutComponent } from './layout/account-layout/account-layout.c
   HeaderNavComponent,  
   LoginComponent,   
   SettingComponent,
-  AccountLayoutComponent],
+    AccountLayoutComponent
+  ],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,

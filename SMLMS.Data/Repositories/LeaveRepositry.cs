@@ -15,11 +15,12 @@ namespace SMLMS.Data.Repositories
         { }
         public void Add(LeaveDto entity)
         {
-
-
+            int flag = 0;
+            if (entity.ID != null)
+                flag = 1;
             DynamicParameters param = new DynamicParameters();
-            param.Add("@flag", 0, DbType.Int32, ParameterDirection.Input);
-            param.Add("@id", null, DbType.String, ParameterDirection.Input);
+            param.Add("@flag", flag, DbType.Int32, ParameterDirection.Input);
+            param.Add("@id", entity.ID, DbType.Guid, ParameterDirection.Input);
             param.Add("@name", entity.Name, DbType.String, ParameterDirection.Input);
             param.Add("@count", entity.Count, DbType.Int32, ParameterDirection.Input);
             param.Add("@UpdatedBy", 1, DbType.Byte, ParameterDirection.Input);
@@ -52,12 +53,6 @@ namespace SMLMS.Data.Repositories
             param.Add("@CreatedBy", 1, DbType.Byte, ParameterDirection.Input);
             Execute("sp_insert_update", param);
         }
-        //public IEnumerable<LeaveDto> All()
-        //{
-        //    return Query<LeaveDto>(
-        //        sql: "select * from LeaveType"
-        //    );
-        //}
         public IEnumerable<LeaveDto> All()
         {
             DynamicParameters param = new DynamicParameters();
@@ -128,7 +123,7 @@ namespace SMLMS.Data.Repositories
         {
             DynamicParameters param = new DynamicParameters();
             param.Add("@flag", 1, DbType.Int32);
-            IEnumerable<RequestLeave> result =  ExecuteProcedureGetList<RequestLeave>("sp_getleave", param);
+            IEnumerable<RequestLeave> result = ExecuteProcedureGetList<RequestLeave>("sp_getleave", param);
             return result;
         }
     }

@@ -23,6 +23,7 @@ using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using SMLMS.Services.services;
 
+
 namespace SMLMS.REST
 {
     public class Startup
@@ -37,12 +38,25 @@ namespace SMLMS.REST
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(o =>
+            {
+                o.AddPolicy("test", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+
+                });
+            });
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
+
+            
 
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<Role>()
                 .AddDefaultUI()
@@ -80,15 +94,6 @@ namespace SMLMS.REST
                     };
                 });
 
-
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            //});
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:4200"));
-            });
             services.AddScoped<IUnitOfWork, DapperUnitOfWork>(provider => new DapperUnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -105,24 +110,10 @@ namespace SMLMS.REST
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                                opt.TokenLifespan = TimeSpan.FromHours(2));
 
-            //services.Configure<MvcOptions>(options =>
-            //{
-            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowMyOrigin"));
-            //});
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "SB Admin Rest API",
-                    Description = "My First ASP.NET Core 2.0 Web API",
-
-                });
-            });
         }
     
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -130,11 +121,13 @@ namespace SMLMS.REST
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            app.UseCors("test");
             app.UseHttpsRedirection();
-            app.UseCors("AllowOrigin");
             app.UseRouting();
             
-            
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
