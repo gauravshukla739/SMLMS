@@ -9,6 +9,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
 import { UserComponent } from './components/user/list/list.component';
 import { UserFormComponent } from './components/user/create-update/create-update.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,14 @@ const routes: Routes = [
       children: [
         { path: '', component: UserComponent },
         { path: 'add-edit', component: UserFormComponent },
+
+      ]
+    },
+    {
+      path: 'attendance', component: AttendanceComponent,
+      children: [
+        { path: '', component: AttendanceComponent },
+        { path: 'user-list', component: AttendanceComponent },
 
       ]
     }

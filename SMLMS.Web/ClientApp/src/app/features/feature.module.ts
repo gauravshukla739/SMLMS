@@ -13,6 +13,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
 import { UserComponent } from './components/user/list/list.component';
 import { UserFormComponent } from './components/user/create-update/create-update.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 @NgModule({
   declarations: [ 
@@ -22,7 +23,7 @@ import { UserFormComponent } from './components/user/create-update/create-update
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent, ForgotComponent, UserComponent, UserFormComponent
+    DashboardComponent, ForgotComponent, UserComponent, UserFormComponent, AttendanceComponent,
   ],
   imports: [
     FeatureRoutingModule,
