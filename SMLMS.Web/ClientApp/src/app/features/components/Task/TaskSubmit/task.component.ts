@@ -41,6 +41,7 @@ export class TaskComponent implements OnInit {
   onSubmit(formValid: any) {
     this.task.departmentId = "7D4E4733-5E63-427D-3AF2-08D7D736AD45";
     //this.task.employeeId = "7D4E4733-5E63-427D-3AF2-08D7D736AD59";
+    this.task.employeeId = this.sharedService.user.id;
     this.taskService.addTask(this.task).subscribe((res: any) => {
       if (res.isSuccess) {
         this.getTask();
