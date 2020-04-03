@@ -15,6 +15,7 @@ import { ResetPasswordComponent } from './components/password/reset/reset.compon
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
+import { LeaveComponent } from './components/leave-management/leave/leave.component';
 
 
 @NgModule({

@@ -39,7 +39,7 @@ namespace SMLMS.REST.Controllers
         {
             return await _leave.UpdateLeave(model,id);
         }
-        [HttpDelete]
+        [HttpPost]
         [Route("Delete")]
         public async Task<ServiceResponse> Delete(string id)
         {

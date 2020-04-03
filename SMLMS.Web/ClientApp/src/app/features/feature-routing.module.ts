@@ -13,6 +13,8 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { UserComponent } from './components/user/list/list.component';
 
 const routes: Routes = [
+
+ 
   { path: '', component: MainLayoutComponent , 
   //canActivate:[AuthGuard],
   children:[
