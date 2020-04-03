@@ -23,7 +23,7 @@ const routes: Routes = [
     { path: 'setting', component: SettingComponent },
     { path: 'password/change', component: ChangePasswordComponent },
     {
-      path: 'users',
+      path: 'user',
       children: [
           { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },

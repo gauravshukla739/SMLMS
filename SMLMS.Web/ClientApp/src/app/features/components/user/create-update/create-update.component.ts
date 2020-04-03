@@ -11,7 +11,7 @@ import { DepartmentService } from '../../../../core/services/department.service'
 
 export class UserCreateUpdateComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private sharedService: SharedService, private route: ActivatedRoute, private roleService: RoleService, private deptService: DepartmentService) { }
+  constructor(private authService: AuthenticationService, private sharedService: SharedService, private route: ActivatedRoute, private roleService: RoleService, private deptService: DepartmentService, private router: Router) { }
 
   queryFields: any;
   isAdd: boolean = true;
@@ -108,6 +108,7 @@ export class UserCreateUpdateComponent implements OnInit {
         console.log(data);
         if (data.isSuccess) {
           this.sharedService.showPopup(data.message);
+          this.router.navigate(['/user']);
         } else {
           this.sharedService.showPopup(data.message);
 
@@ -121,6 +122,7 @@ export class UserCreateUpdateComponent implements OnInit {
         console.log(data);
         if (data.isSuccess) {
           this.sharedService.showPopup(data.message);
+          this.router.navigate(['/user']);
         } else {
           this.sharedService.showPopup(data.message);
 

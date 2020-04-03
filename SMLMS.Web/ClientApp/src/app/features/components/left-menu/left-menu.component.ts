@@ -12,7 +12,9 @@ export class LeftMenuComponent implements OnInit {
   constructor(private sharedService :SharedService) { 
   }
 
+  userRole: string;
   ngOnInit() {
+    this.userRole = this.sharedService.user.roleName || "";
   }
 
   showHideLeftNav() {
