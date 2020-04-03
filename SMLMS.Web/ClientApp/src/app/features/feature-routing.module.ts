@@ -7,6 +7,8 @@ import { SettingComponent } from './components/setting/setting.component';
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { UserComponent } from './components/user/list/list.component';
+import { UserFormComponent } from './components/user/create-update/create-update.component';
 
 
 const routes: Routes = [
@@ -14,7 +16,16 @@ const routes: Routes = [
   //canActivate:[AuthGuard],
   children:[
     { path: '', component: DashboardComponent },
-    { path: 'setting', component: SettingComponent }
+    { path: 'setting', component: SettingComponent },
+
+    {
+      path: 'users', component: UserComponent,
+      children: [
+        { path: '', component: UserComponent },
+        { path: 'add-edit', component: UserFormComponent },
+
+      ]
+    }
   ]
 },
   { path: 'secure', component: AccountLayoutComponent,

@@ -14,7 +14,7 @@ namespace SMLMS.Data.Repositories
             : base(transaction)
         { }
 
-        public void Add(User entity)
+        public void Add(ApplicationUser entity)
         {
             Execute(
                 sql: @"
@@ -51,33 +51,40 @@ namespace SMLMS.Data.Repositories
                 param: new { key }
             );
         }
-
-        public IEnumerable<User> All()
+        public int Delete(string key)
         {
-            return Query<User>(
-                sql: "SELECT * FROM AspNetUsers"
+            return ExecuteScalar<int>(
+                sql: "update [AspNetUsers] set [IsDeleted] = 1 where Id = @key",
+                param: new { key }
             );
         }
 
-        public User Find(string key)
+        public IEnumerable<ApplicationUser> All()
         {
-            return QuerySingleOrDefault<User>(
+            return Query<ApplicationUser>(
+                sql: "SELECT * FROM AspNetUsers where [IsDeleted] is null or [IsDeleted] = 0"
+            );
+        }
+
+        public ApplicationUser Find(string key)
+        {
+            return QuerySingleOrDefault<ApplicationUser>(
                 sql: "SELECT * FROM AspNetUsers WHERE Id = @key",
                 param: new { key }
             );
         }
 
-        public User FindByNormalizedEmail(string normalizedEmail)
+        public ApplicationUser FindByNormalizedEmail(string normalizedEmail)
         {
-            return QuerySingleOrDefault<User>(
+            return QuerySingleOrDefault<ApplicationUser>(
                 sql: "SELECT * FROM AspNetUsers WHERE NormalizedEmail = @normalizedEmail",
                 param: new { normalizedEmail }
             );
         }
 
-        public User FindByNormalizedUserName(string normalizedUserName)
+        public ApplicationUser FindByNormalizedUserName(string normalizedUserName)
         {
-            return QuerySingleOrDefault<User>(
+            return QuerySingleOrDefault<ApplicationUser>(
                 sql: "SELECT * FROM AspNetUsers WHERE NormalizedUserName = @normalizedUserName",
                 param: new { normalizedUserName }
             );
@@ -91,7 +98,7 @@ namespace SMLMS.Data.Repositories
             );
         }
 
-        public void Update(User entity)
+        public void Update(ApplicationUser entity)
         {
             Execute(
                 sql: @"

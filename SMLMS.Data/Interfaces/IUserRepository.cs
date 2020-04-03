@@ -5,14 +5,16 @@ using System.Text;
 
 namespace SMLMS.Data.Interfaces
 {
-    public interface IUserRepository : IRepository<User, string>
+    public interface IUserRepository : IRepository<ApplicationUser, string>
     {
-        User FindByNormalizedUserName(string normalizedUserName);
+        ApplicationUser FindByNormalizedUserName(string normalizedUserName);
 
-        User FindByNormalizedEmail(string normalizedEmail);
+        ApplicationUser FindByNormalizedEmail(string normalizedEmail);
 
         void AddRole(UserRole entity);
 
         UserRole GetRole(string key);
+
+        int Delete(string key);
     }
 }

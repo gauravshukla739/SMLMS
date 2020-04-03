@@ -15,5 +15,7 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> GetRole(string userId);
 
+        Task<ServiceResponse> Delete(string userId);
+
     }
 }
