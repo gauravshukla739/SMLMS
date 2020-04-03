@@ -12,7 +12,7 @@ export class SharedService {
     this.user = localStorage.getItem("user") as any != null ? JSON.parse(localStorage.getItem("user") as any) : {};
   }
  
-  user : any ={name:"" ,Photo_URL:"",email:"",id: ""}
+  user :any;
   currentUserId: any;
   currentMember: any;
   currentProjectId: any;

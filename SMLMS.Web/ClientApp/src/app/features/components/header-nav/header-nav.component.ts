@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/services/shared.service.';
+import { AuthenticationService } from '../../../core/services/authentication.service';
 
 @Component({
   selector: 'app-header-nav',
@@ -9,14 +10,37 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 })
 export class HeaderNavComponent implements OnInit {
 
-  constructor(private router: Router, private sharedService: SharedService, private renderer: Renderer) { }
+  constructor(private authService: AuthenticationService, private router: Router, private sharedService: SharedService, private renderer: Renderer) { }
   isOpne = true;
+  username: string;
   ngOnInit() {
+    if (this.sharedService.user.firstName == undefined || this.sharedService.user.firstName == null) {
+      this.username = this.sharedService.user.email;
+    } else {
+      this.username = this.sharedService.user.firstName + " " + this.sharedService.user.lastName||""
+    }
+    
   }
 
   logOut(){
-    this.sharedService.accessToken="";
-    this.router.navigate(['/secure']);
+
+    var response = this.authService.logout().subscribe((data: any) => {
+      console.log(data);
+      debugger;
+      if (data.isSuccess) {
+        localStorage.removeItem("user-token");
+        localStorage.removeItem("user");
+        this.sharedService.accessToken = "";
+        this.router.navigate(['/secure']);
+      } else {
+        this.sharedService.showPopup(data.message);
+        //this.sharedService.showPopup("Login failed , Invalid user");
+      }
+    });
+    response.add(() => {
+      this.sharedService.stopLoading();
+    })
+  
   }
 
   showHideLeftNav() {
