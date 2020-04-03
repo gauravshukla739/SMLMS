@@ -26,7 +26,7 @@ const routes: Routes = [
     { path: 'dashboard', component: SettingComponent },
     { path: 'password/change', component: ChangePasswordComponent },
     {
-      path: 'users',
+      path: 'user',
       children: [
           { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
