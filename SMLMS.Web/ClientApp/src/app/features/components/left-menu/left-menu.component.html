@@ -28,7 +28,7 @@
           <a class="nav-link" href="javascript:void(0)" routerLink="/dashboard"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dashboard <span class="sr-only">(current)</span></a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="userRole==='Admin' || userRole==='Developer'">
           <a class="nav-link" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Task</a>
         </li>
 
@@ -62,20 +62,20 @@
   </li>-->
 
 
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="userRole==='Admin' || userRole==='Developer'">
           <a class="nav-link" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Task</a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="userRole==='Admin'">
           <a class="nav-link" href="javascript:void(0)" routerLink="/department"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dept.</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="userRole==='Admin'">
           <a class="nav-link" href="javascript:void(0)" routerLink="/role"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Roles</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Sallery</a>
+        <li class="nav-item" *ngIf="userRole==='Admin'">
+          <a class="nav-link" href="javascript:void(0)" routerLink="/user"><i class="fa fa-tachometer icon" aria-hidden="true"></i>User</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="userRole==='Admin' || userRole==='Developer'">
           <a class="nav-link" href="javascript:void(0)"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Attendence</a>
         </li>
         <li class="nav-item">
