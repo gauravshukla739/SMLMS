@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 export class ConfirmDialogService {
   private subject = new Subject<any>();  
     constructor() { }  
-    confirmThis(message: string, siFn: () => void, noFn: () => void) {  
+  confirmThis(message: string, siFn: () => void, noFn: () => void) {
         this.setConfirmation(message, siFn, noFn);  
     }  
     setConfirmation(message: string, siFn: () => void, noFn: () => void) {  
