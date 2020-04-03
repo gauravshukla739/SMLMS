@@ -14,7 +14,7 @@ namespace SMLMS.Services.services
     {
         private IUnitOfWork unitOfWork;
         private IAuthenticationService _authenticationService;
-        public AttendanceService(IUnitOfWork _unitOfWork,IAuthenticationService authenticationService)
+        public AttendanceService(IUnitOfWork _unitOfWork, IAuthenticationService authenticationService)
         {
             unitOfWork = _unitOfWork;
             authenticationService = _authenticationService;
@@ -33,17 +33,21 @@ namespace SMLMS.Services.services
                     SignIn = DateTime.Now,
                     SignOut = DateTime.Now,
                     CreatedOn = DateTime.Now,
-                    UpdateOn = DateTime.Now,
+                    UpdatedOn = DateTime.Now,
                     UserId = "7D4E4733-5E63-427D-3AF2-08D7D736AD59",
                     IsDeleted = false,
                 };
 
 
-                if (string.IsNullOrEmpty(model.Id) && Exist.SignIn == null)
+                if (string.IsNullOrEmpty(model.Id) && Exist == null)
+                {
                     unitOfWork.AttendanceRepository.Add(data);
+                }
                 else
+                {
                     data.Id = Exist.Id.ToString();
                     unitOfWork.AttendanceRepository.Update(data);
+                }
                 unitOfWork.Commit();
                 response.Data = data;
                 response.IsSuccess = true;
@@ -65,6 +69,23 @@ namespace SMLMS.Services.services
         public Task<ServiceResponse> Get()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ServiceResponse> GetEmployess(AttendanceDto model)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance_DateFilter(model.startDate, model.endDate);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
         }
     }
 }

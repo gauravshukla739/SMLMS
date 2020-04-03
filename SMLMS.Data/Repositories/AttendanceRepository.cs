@@ -37,7 +37,7 @@ namespace SMLMS.Data.Repositories
 
         public Attendance FindUserById(string UserId)
         {
-            var query = "SELECT TOP (1) [UserId], [SignIn],[SignOut],[CreatedOn],[UpdatedOn],[CreatedBy] ,[UpdatedBy],[IsDeletedBy],[IsDeleted] FROM Attendance WHERE UserId=@UserId and cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
+            var query = "SELECT TOP (1) [Id], [UserId], [SignIn],[SignOut],[CreatedOn],[UpdatedOn],[CreatedBy] ,[UpdatedBy],[IsDeletedBy],[IsDeleted] FROM Attendance WHERE UserId=@UserId and cast(CreatedOn as Date) = cast(getdate() as Date) order by CreatedOn desc";
             var data = QuerySingleOrDefault<Attendance>(sql: query, param: new { UserId });
             return data;
         }
@@ -50,10 +50,10 @@ namespace SMLMS.Data.Repositories
             );
         }
 
-        public IEnumerable<Attendance> EmployeeAttendance_DateFilter(DateTime? startDate, DateTime? endDate)
+        public IEnumerable<Attendance> EmployeeAttendance_DateFilter(string sDate, string eDate)
         {
             return Query<Attendance>(
-                sql: "SELECT * from [dbo].[Attendance] WHERE CreatedOn BETWEEN @startDate AND @endDate"
+                sql: "SELECT * from [dbo].[Attendance] WHERE CreatedOn BETWEEN '2020-04-02' AND '2020-04-02 23:59:59.997'"
             );
         }
 
@@ -61,8 +61,8 @@ namespace SMLMS.Data.Repositories
         {
             Execute(
                 sql: @"
-                    UPDATE Attendance SET SignOut = @SignOut, 
-                            UpdatedOn = @UpdatedOn, UpdatedBy = @UpdatedBy 
+                    UPDATE Attendance SET [SignOut] = @SignOut, 
+                           [UpdatedBy] = @UpdatedBy ,[UpdatedOn]=@UpdatedOn
                             WHERE Id = @Id",
                 param: entity
             );

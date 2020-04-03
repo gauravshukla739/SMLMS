@@ -40,7 +40,7 @@ namespace SMLMS.REST.Controllers
         [Route("EmployeeAttendance")]
         public async Task<ServiceResponse> EmployeeAttendance(AttendanceDto model)
         {
-            return await _attendanceService.CreateOrUpdate(model);
+            return await _attendanceService.GetEmployess(model);
         }
 
     }

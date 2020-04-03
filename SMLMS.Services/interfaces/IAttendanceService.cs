@@ -14,6 +14,8 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> Delete(string Name);
         Task<ServiceResponse> Get();
 
+        Task<ServiceResponse> GetEmployess(AttendanceDto model);
+
 
     }
 }
