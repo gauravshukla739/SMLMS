@@ -18,6 +18,7 @@ import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { ForgotComponent } from './components/password/forgot/forgot.component';
 
 import { UserComponent } from './components/user/list/list.component';
+import { LeaveComponent } from './components/leave-management/leave/leave.component';
 
 
 @NgModule({
