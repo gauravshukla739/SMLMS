@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 import { Router } from '@angular/router';
-import { ConfirmDialogService } from '../../../shared/services/confirm-dialog-service.service';
-import { DepartmentService } from '../../../core/services/department.service';
+import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog-service.service';
+import { LeaveService } from '../../../../core/services/leave.service';
 
 @Component({
-  selector: 'app-department',
-  templateUrl: './department.component.html',
+  selector: 'app-role',
+  templateUrl: './role.component.html',
 })
-export class DepartmentComponent implements OnInit {
-  dep = {};
-  departments = [];
+export class LeaveTypeComponent implements OnInit {
+  leavetype = {};
+  leaveTypes = [];
   isAddEdit = false;
   constructor(private userService: UserService,
     private sharedService: SharedService,
     private confirmDialogService: ConfirmDialogService,
-    private deptService: DepartmentService,
+    private leaveService: LeaveService,
     private router: Router) {
 
   }
@@ -25,9 +25,9 @@ export class DepartmentComponent implements OnInit {
   }
 
   getAll() {
-    this.deptService.all().subscribe((data: any) => {
+    this.leaveService.all().subscribe((data: any) => {
       if (data.isSuccess) {
-        this.departments = data.data;
+        this.leaveTypes = data.data;
       } else {
         this.sharedService.showPopup(data.Message);
       }
@@ -35,18 +35,18 @@ export class DepartmentComponent implements OnInit {
   }
   addNew() {
     this.isAddEdit = true;
-    this.dep = {};
+    this.leavetype = {};
   }
   edit(rec) {
     this.isAddEdit = true;
-    this.dep = rec;
+    this.leavetype = rec;
   }
   cancel() {
-    this.dep = false;
+    this.leavetype = {};
     this.isAddEdit = false;
   }
   onSubmit(formValid: any) {
-    this.deptService.post(this.dep).subscribe((res: any) => {
+    this.leaveService.post(this.leavetype).subscribe((res: any) => {
       if (res.isSuccess) {
         this.isAddEdit = false;
         this.getAll();
@@ -59,10 +59,10 @@ export class DepartmentComponent implements OnInit {
 
   delete(id: any, rec: any) {
     if (confirm("are you sure wan to delete?")) {
-      this.deptService.delete(id).subscribe((data: any) => {
+      this.leaveService.delete(id).subscribe((data: any) => {
         if (data.isSuccess) {
-          let index = this.departments.indexOf(rec);
-          this.departments.splice(index, 1);
+          let index = this.leaveTypes.indexOf(rec);
+          this.leaveTypes.splice(index, 1);
           this.sharedService.showPopup("successfully deleted");
         } else {
           this.sharedService.showPopup(data.Message);

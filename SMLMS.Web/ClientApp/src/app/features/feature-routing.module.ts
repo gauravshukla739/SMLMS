@@ -14,6 +14,7 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
+import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 
 const routes: Routes = [
 
@@ -41,6 +42,13 @@ const routes: Routes = [
         { path: '', component: TaskComponent },
         { path: 'create', component: TaskComponent },
         { path: 'edit/:id', component: TaskComponent },
+      ]
+    },
+    {
+      path: 'leave', component: LeaveTypeComponent,
+      children: [
+        { path: '', component: LeaveTypeComponent },
+        { path: 'type', component: LeaveTypeComponent }
       ]
     },
   ]

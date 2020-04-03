@@ -20,30 +20,34 @@ import { TaskComponent } from './components/task/tasksubmit/task.component';
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
+import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 
 
 @NgModule({
-  declarations: [ 
-  MainLayoutComponent,
-  LeftMenuComponent,    
-  HeaderNavComponent,  
-  LoginComponent,   
-  SettingComponent,
+  declarations: [
+    MainLayoutComponent,
+    LeftMenuComponent,
+    HeaderNavComponent,
+    LoginComponent,
+    SettingComponent,
     AccountLayoutComponent,
     DashboardComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-        UserCreateUpdateComponent, UserComponent,
-    DashboardComponent, TaskComponent,
+    UserCreateUpdateComponent,
+    UserComponent,
+    DashboardComponent,
+    TaskComponent,
     DepartmentComponent,
-    RoleComponent
+    RoleComponent,
+    LeaveTypeComponent
   ],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,
-    FormsModule  ,
-    SharedModule 
+    FormsModule,
+    SharedModule
   ],
   providers: [],
   //bootstrap: []

@@ -4,7 +4,6 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 @Component({
   selector: 'app-left-menu',
   templateUrl: './left-menu.component.html',
-  styleUrls: ['./left-menu.component.css']
 })
 export class LeftMenuComponent implements OnInit {
 
