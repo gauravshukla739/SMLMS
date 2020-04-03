@@ -119,7 +119,7 @@ namespace SMLMS.REST
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<ILeave, Leave>();
-
+            services.AddScoped<ITaskService, TaskService>();
 
 
            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -28,8 +28,10 @@ namespace SMLMS.REST.Controllers
 
         [HttpPost]
         [Route("Post")]
-        public async Task<ServiceResponse> Save(SMLMS.Model.Core.Task model)
+        public async Task<ServiceResponse> Post(SMLMS.Model.Core.Task model)
         {
+            model.Id =  Guid.NewGuid();
+            model.CreateDate = DateTime.Now;
             return await _taskService.SaveUpdateTask(model);
         }
 
