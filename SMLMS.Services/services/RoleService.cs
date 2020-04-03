@@ -5,6 +5,8 @@ using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,11 +36,12 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> SaveUpdateRole(RoleDto _role)
+        public async Task<ServiceResponse> SaveUpdateRole(RoleDto _role, ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
+                var emailId = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
                 Role role = new Role
                 {
                     Id = _role.Id==null ? Guid.NewGuid() : _role.Id,
@@ -46,12 +49,16 @@ namespace SMLMS.Services.services
                     Name = _role.Name,
                     NormalizedName = _role.NormalizedName
                 };
-                if (_role.Id==null)
+                if (_role.Id == Guid.Empty)
                 {
+                    role.CreatedBy = emailId;
+                    role.CreateDate = DateTime.Now;
                     unitOfWork.RoleRepository.Add(role);
                 }
                 else
                 {
+                    role.UpdatedBy = emailId;
+                    role.UpdateDate = DateTime.Now;
                     unitOfWork.RoleRepository.Update(role);
                 }
                 unitOfWork.Commit();

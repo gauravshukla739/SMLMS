@@ -19,6 +19,7 @@ import { TaskComponent } from './components/task/tasksubmit/task.component';
 
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
+import { RoleComponent } from './components/role/role.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { DepartmentComponent } from './components/department/department.componen
     ChangePasswordComponent,
         UserCreateUpdateComponent, UserComponent,
     DashboardComponent, TaskComponent,
-    DepartmentComponent
+    DepartmentComponent,
+    RoleComponent
   ],
   imports: [
     FeatureRoutingModule,

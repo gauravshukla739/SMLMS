@@ -14,5 +14,7 @@ export class RoleService {
   all() {
     return this.http.get(this.apiBaseUrl + "/Role");
   }
-
+  post(data: any) {
+    return this.http.post(this.apiBaseUrl + "/Role", data);
+  }
 }

@@ -13,6 +13,7 @@ import { ChangePasswordComponent } from './components/password/change/change.com
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
+import { RoleComponent } from './components/role/role.component';
 
 const routes: Routes = [
 
@@ -33,6 +34,7 @@ const routes: Routes = [
       ]
       },
     { path: 'department', component: DepartmentComponent },
+    { path: 'role', component: RoleComponent },
     {
       path: 'task', component: TaskComponent,
       children: [
