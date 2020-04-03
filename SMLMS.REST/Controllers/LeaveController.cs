@@ -10,12 +10,10 @@ using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class LeaveController : ControllerBase
+    public class LeaveController : BaseController
     {
-        private ILeave _leave;
-        public LeaveController(ILeave leave)
+        private ILeaveService _leave;
+        public LeaveController(ILeaveService leave)
         {
             _leave = leave;
         }

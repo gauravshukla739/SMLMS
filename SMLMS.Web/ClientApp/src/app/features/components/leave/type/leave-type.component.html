@@ -9,14 +9,14 @@
         <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
           <div class="form-group">
             <label for="title">Name<sup>*</sup>:</label>
-            <input type="text" class="form-control requried" name="name" [(ngModel)]="leavetype.leavename" required #name="ngModel" placeholder="Enter Name" id="name">
+            <input type="text" class="form-control requried" name="name" [(ngModel)]="leavetype.name" required #name="ngModel" placeholder="Enter Name" id="name">
             <div *ngIf="f.submitted && name.invalid" class="alert-danger">
               <div *ngIf="name.errors.required">name is required</div>
             </div>
           </div>
           <div class="form-group">
             <label for="title">Count<sup>*</sup>:</label>
-            <input type="text" class="form-control requried" name="leavecount" [(ngModel)]="leavetype.leavecount" required #leavecount="ngModel" placeholder="Enter count" id="leavecount">
+            <input type="text" class="form-control requried" name="leavecount" [(ngModel)]="leavetype.count" required #leavecount="ngModel" placeholder="Enter count" id="leavecount">
             <div *ngIf="f.submitted && leavecount.invalid" class="alert-danger">
               <div *ngIf="leavecount.errors.required">count is required</div>
             </div>
@@ -61,11 +61,11 @@
                     <input id="checkbox1" type="checkbox">
                     <label for="checkbox1">Select</label>
                   </td>
-                  <td>{{rec.leavename}}</td>
-                  <td>{{rec.leavecount}}</td>
+                  <td>{{rec.name}}</td>
+                  <td>{{rec.count}}</td>
                   <td class="more">
                     <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(rec)">Edit</a>
-                    <!--<a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>-->
+                    <a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>
                   </td>
                 </tr>
               </tbody>

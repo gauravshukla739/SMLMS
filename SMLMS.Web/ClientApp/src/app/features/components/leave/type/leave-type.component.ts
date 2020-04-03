@@ -6,8 +6,8 @@ import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog
 import { LeaveService } from '../../../../core/services/leave.service';
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
+  selector: 'app-leave-type',
+  templateUrl: './leave-type.component.html',
 })
 export class LeaveTypeComponent implements OnInit {
   leavetype = {};

@@ -29,7 +29,7 @@ export class LeaveService {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
   }
   all() {
-    return this.http.get(this.apiBaseUrl + "//Leave/Get");
+    return this.http.get(this.apiBaseUrl + "/Leave/Get");
   }
   post(data: any) {
     return this.http.post(this.apiBaseUrl + "/Leave/Post", data);

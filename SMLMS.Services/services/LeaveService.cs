@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace SMLMS.Services.services
 {
-    public class Leave : ILeave
+    public class LeaveService : ILeaveService
     {
         private IUnitOfWork unitOfWork;
-        public Leave(IUnitOfWork _unitOfWork)
+        public LeaveService(IUnitOfWork _unitOfWork)
         {
             unitOfWork = _unitOfWork;
         }
