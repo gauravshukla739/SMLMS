@@ -24,9 +24,11 @@ export class TaskService {
     return this.http.get(this.apiBaseUrl + "/Task/getTaskByDepartmentId/" + departmentId);
   }
   addTask(task: any) {
-    debugger;
     return this.http.post(this.apiBaseUrl + "/Task/Post",task);
   }
 
+  delete(taskId: any) {
+    return this.http.post(this.apiBaseUrl + "/Task/Delete?id="+ taskId, null);
+  }
 
 }

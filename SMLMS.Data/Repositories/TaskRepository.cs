@@ -55,7 +55,7 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<Task> FindByEmployeeId(Guid employeeId)
         { 
           return Query<Task>(
-               sql: @"SELECT * FROM Task WHERE EmployeeId = @employeeId",
+               sql: @"SELECT * FROM Task WHERE EmployeeId = @employeeId and ( [IsDeleted] is null or [IsDeleted] = 0 )",
                param: new { employeeId }
            );
           

@@ -42,7 +42,7 @@ namespace SMLMS.REST.Controllers
         //    return await _taskService.SaveUpdateTask(model);
         //}
 
-        [HttpDelete]
+        [HttpPost]
         [Route("Delete")]
         public async Task<ServiceResponse> Delete(string id)
         {

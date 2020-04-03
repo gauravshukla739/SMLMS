@@ -31,15 +31,21 @@ export class TaskComponent implements OnInit {
       if (res.isSuccess) {
         this.getTask();
       }
+      else {
+        alert(res.message);
+      }
     });
   }
 
 
   delete(taskId: any) {
     if (confirm("are you sure want to delete?")) {
-      this.taskService.addTask(this.task).subscribe((res: any) => {
+      this.taskService.delete(taskId).subscribe((res: any) => {
         if (res.isSuccess) {
           this.getTask();
+        }
+        else {
+          alert(res.message);
         }
       });
     }

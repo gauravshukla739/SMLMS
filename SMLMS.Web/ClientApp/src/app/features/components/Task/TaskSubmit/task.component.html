@@ -64,7 +64,7 @@
                 <td class="mobile" >{{task.adminComment}}</td>               
                 <td class="more">
                   <a class="action-btn fa fa-eye view" href="">View</a>
-                  <a class="action-btn fa fa-trash delete" href="">Remove</a>
+                  <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
                 </td>
               </tr>
             </tbody>
