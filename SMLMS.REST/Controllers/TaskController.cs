@@ -30,23 +30,16 @@ namespace SMLMS.REST.Controllers
         [Route("Post")]
         public async Task<ServiceResponse> Post(SMLMS.Model.Core.Task model)
         {
-            model.Id =  Guid.NewGuid();
-            model.CreateDate = DateTime.Now;
-            return await _taskService.SaveUpdateTask(model);
-        }
-
-        //[HttpPost]
-        //[Route("Put")]
-        //public async Task<ServiceResponse> Put(SMLMS.Model.Core.Task model)
-        //{
-        //    return await _taskService.SaveUpdateTask(model);
-        //}
+            //model.Id =  Guid.NewGuid();
+            //model.CreateDate = DateTime.Now;
+            return await _taskService.SaveUpdateTask(model, User);
+        }        
 
         [HttpPost]
         [Route("Delete")]
-        public async Task<ServiceResponse> Delete(string id)
+        public async Task<ServiceResponse> Delete(Guid id)
         {
-            return await _taskService.DeleteTask(id);
+            return await _taskService.DeleteTask(id, User);
         }
 
         [HttpGet]

@@ -69,6 +69,15 @@ namespace SMLMS.Data.Repositories
             );
         }
 
+        public void Remove(Guid key, string userName)
+        {
+            Execute(
+                 sql: "Update Task set IsDeleted=1,DeletedBy=@userName WHERE Id = @key",
+                 param: new { key, userName }
+             );
+
+        }
+
         public void Update(Task entity)
         {
             

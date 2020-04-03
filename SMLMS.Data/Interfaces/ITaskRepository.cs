@@ -9,5 +9,6 @@ namespace SMLMS.Data.Interfaces
     {
         IEnumerable<Task> FindByEmployeeId(Guid employeeId);
         IEnumerable<Task> FindByDepartmentId(Guid departmentId);
+        void Remove(Guid key, string userName);
     }
 }

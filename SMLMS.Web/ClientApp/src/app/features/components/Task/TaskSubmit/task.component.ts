@@ -30,20 +30,21 @@ export class TaskComponent implements OnInit {
   cancel() {
     this.task = false;
     this.isAddEdit = false;
-  }
-
+  } 
   getTask() {
+    this.task.employeeId = this.sharedService.user.id;
     this.taskService.getTaskByUser(this.task.employeeId).subscribe((data: any) => {
       this.taskList = data.data;
     });
   }
   
   onSubmit(formValid: any) {
-    this.task.departmentId = "7D4E4733-5E63-427D-3AF2-08D7D736AD45";
-    //this.task.employeeId = "7D4E4733-5E63-427D-3AF2-08D7D736AD59";
+    this.task.departmentId = "A5DEECC0-88A6-4F89-9A7F-E554D3FA886A";
     this.task.employeeId = this.sharedService.user.id;
     this.taskService.addTask(this.task).subscribe((res: any) => {
+      debugger;
       if (res.isSuccess) {
+        this.isAddEdit = false;
         this.getTask();
       }
       else {

@@ -84,12 +84,12 @@ namespace SMLMS.Services.services
             try
             {
                 var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
-                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
+                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber,DepartmentId=user.DepartmentId};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(appUser, "Admin");
+                    await _userManager.AddToRoleAsync(appUser, user.RoleName);
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
                 }
