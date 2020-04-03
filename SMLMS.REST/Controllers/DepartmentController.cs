@@ -11,7 +11,7 @@ using SMLMS.Services.interfaces;
 namespace SMLMS.REST.Controllers
 {
   
-    public class DepartmentController : ControllerBase
+    public class DepartmentController : BaseController
     {
         private readonly IDepartmentService _departmentService;
         public DepartmentController(IDepartmentService departmentService)
@@ -23,7 +23,7 @@ namespace SMLMS.REST.Controllers
         [Route("CreateOrUpdate")]
         public async Task<ServiceResponse> CreateOrUpdate(DepartmentDto model)
         {
-            return await _departmentService.CreateOrUpdate(model);
+            return await _departmentService.CreateOrUpdate(model,User);
         }
 
         [HttpGet("{Id}")]
@@ -40,7 +40,7 @@ namespace SMLMS.REST.Controllers
         [HttpDelete("{Id}")]
         public async Task<ServiceResponse> Delete(Guid Id)
         {
-            return await _departmentService.Delete(Id);
+            return await _departmentService.Delete(Id,User);
         }
     }
 }

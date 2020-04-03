@@ -45,6 +45,7 @@ namespace SMLMS.REST
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
+            services.Configure<AppConfig>(Configuration.GetSection("AppConfig"));
 
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<Role>()
                 .AddDefaultUI()
@@ -60,7 +61,7 @@ namespace SMLMS.REST
 
 
             // ===== Add Jwt Authentication ========
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+           // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
             services
                 .AddAuthentication(options =>
                 {
@@ -78,7 +79,7 @@ namespace SMLMS.REST
                         ValidIssuer = Configuration["JwtIssuer"],
                         ValidAudience = Configuration["JwtIssuer"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-                        ClockSkew = TimeSpan.Zero // remove delay of token when expire
+                       // ClockSkew = TimeSpan.Zero // remove delay of token when expire
                     };
                 });
 
@@ -162,7 +163,7 @@ namespace SMLMS.REST
      
              app.UseRouting();
             //app.UseCors();
-           
+            app.UseAuthentication();
             
             app.UseAuthorization();
 

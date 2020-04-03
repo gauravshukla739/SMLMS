@@ -21,14 +21,15 @@ export class LoginComponent implements OnInit {
     this.sharedService.startLoading();
     var response = this.authService.login(this.user).subscribe((data: any) => {
       console.log(data);
-      if (data.IsSuccess) {
+      debugger;
+      if (data.isSuccess) {
         this.sharedService.showPopup("Successfully login");
-        localStorage.setItem("user-token" ,  data.Data.Token);
-        this.sharedService.accessToken = data.Data.Token;
-        this.sharedService.setUser(data.Data.User);
-        this.router.navigate(['/permissions']);
+        localStorage.setItem("user-token" , data.data.token);
+        this.sharedService.accessToken = data.data.token;
+        this.sharedService.setUser(data.data.user);
+        this.router.navigate(['/password/change']);
       } else {
-        this.sharedService.showPopup(data.Message);
+        this.sharedService.showPopup(data.message);
         //this.sharedService.showPopup("Login failed , Invalid user");
       }
     });

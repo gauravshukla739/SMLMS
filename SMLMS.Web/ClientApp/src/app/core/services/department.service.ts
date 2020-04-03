@@ -5,22 +5,16 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 
 @Injectable({ providedIn: 'root' })
 
-export class PasswordService {
+export class DepartmentService {
 
   apiBaseUrl:string;
   constructor(protected http: HttpClient ,private sharedService: SharedService) {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
   }
-  forgot(emailId: string) {
-    return this.http.get(this.apiBaseUrl + "/Password/Forgot?emailId="+emailId);
+  all() {
+    return this.http.get(this.apiBaseUrl + "/Department");
   }
   
-  reset(pwd: any) {
-    return this.http.post(this.apiBaseUrl + "/Password/Reset", pwd);
-  }
-
-  change(pwd: any) {
-    return this.http.post(this.apiBaseUrl + "/Password/Change", pwd);
-  }
+  
 
 }

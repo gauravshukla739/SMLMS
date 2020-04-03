@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared/services/shared.service.';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PasswordService } from 'src/app/core/services/password.service';
 
 @Component({
@@ -8,31 +8,42 @@ import { PasswordService } from 'src/app/core/services/password.service';
   templateUrl: './reset.component.html',
   styleUrls: ['./reset.component.css']
 })
-export class ResetComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
 
-  constructor(private passwordService: PasswordService, private sharedService: SharedService, private router: Router) { }
-
+  constructor(private passwordService: PasswordService, private sharedService: SharedService, private route: ActivatedRoute) { }
+  queryFields: any;
   ngOnInit() {
+    debugger;
+    this.route.queryParamMap
+      .subscribe(params => {
+        this.queryFields = { ...params } ;
+        this.pwd.emailId = this.queryFields.params.email;
+        this.pwd.token = this.queryFields.params.token;
+      });
   }
 
   pwd: any = {};
 
   onSubmit(formValid: any) {
+    debugger;
     this.sharedService.startLoading();
-    var response = this.passwordService.reset(this.pwd).subscribe((data: any) => {
-      console.log(data);
-      if (data.IsSuccess) {
-        this.sharedService.showPopup("");
+    if (this.pwd.Password == this.pwd.ConfirmPassword) {
+      var response = this.passwordService.reset(this.pwd).subscribe((data: any) => {
+        console.log(data);
+        if (data.isSuccess) {
+          this.sharedService.showPopup(data.message);
 
-        // this.router.navigate(['/permissions']);
-      } else {
-        this.sharedService.showPopup(data.Message);
+        } else {
+          this.sharedService.showPopup(data.message);
 
-      }
-    });
-    response.add(() => {
-      this.sharedService.stopLoading();
-    })
+        }
+      });
+      response.add(() => {
+        this.sharedService.stopLoading();
+      })
+    } else {
+      this.sharedService.showPopup("Password & Confirm Password should be same");
+    }
   }
 
 

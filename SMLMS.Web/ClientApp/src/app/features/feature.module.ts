@@ -10,10 +10,12 @@ import { SettingComponent } from './components/setting/setting.component';
 import { SharedModule } from '../shared/shared.module';
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { ForgotComponent } from './components/password/forgot/forgot.component';
+import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
+import { ResetPasswordComponent } from './components/password/reset/reset.component';
+import { ChangePasswordComponent } from './components/password/change/change.component';
+import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
 import { UserComponent } from './components/user/list/list.component';
-import { UserFormComponent } from './components/user/create-update/create-update.component';
-import { AttendanceComponent } from './components/attendance/attendance.component';
+
 
 @NgModule({
   declarations: [ 
@@ -23,8 +25,11 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
   LoginComponent,   
   SettingComponent,
     AccountLayoutComponent,
-    DashboardComponent, ForgotComponent, UserComponent, UserFormComponent, AttendanceComponent,
-  ],
+    DashboardComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+        UserCreateUpdateComponent, UserComponent],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,
