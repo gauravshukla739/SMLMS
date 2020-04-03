@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Linq;
 
 namespace SMLMS.Data.Repositories
 {
@@ -42,21 +43,22 @@ namespace SMLMS.Data.Repositories
            );
         }
 
-        public IList<Task> FindByDepartmentId(Guid departmentId)
+        public IEnumerable<Task> FindByDepartmentId(Guid departmentId)
         {
-            return QuerySingleOrDefault<List<Task>>(
+            return Query<Task>(
               sql: @"SELECT * FROM Task WHERE departmentId = @departmentId",
               param: new { departmentId }
           );
         }
 
         
-        public IList<Task> FindByEmployeeId(Guid employeeId)
-        {
-            return QuerySingleOrDefault<List<Task>>(
+        public IEnumerable<Task> FindByEmployeeId(Guid employeeId)
+        { 
+          return Query<Task>(
                sql: @"SELECT * FROM Task WHERE EmployeeId = @employeeId",
                param: new { employeeId }
            );
+          
         }
 
         public void Remove(string key)

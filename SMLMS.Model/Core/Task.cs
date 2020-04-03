@@ -8,12 +8,11 @@ namespace SMLMS.Model.Core
     {
         public Guid Id { get; set; }
         public Guid DepartmentId { get; set; }
-        public string EmployeeId { get; set; }
+        public Guid EmployeeId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Comment { get; set; }
         public string AdminComment { get; set; }
-        public string EmployeeName { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime? CreateDate { get; set; }
         public DateTime? UpdateDate { get; set; }

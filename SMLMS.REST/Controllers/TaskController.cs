@@ -59,7 +59,7 @@ namespace SMLMS.REST.Controllers
         [HttpGet]
         [Route("GetTaskByEmployeeId/{EmployeeId}")]
         public async Task<ServiceResponse> GetTaskByEmployeeId(Guid EmployeeId)
-          {
+        {
             return await _taskService.GetTaskByEmployeeId(EmployeeId);
         }
 

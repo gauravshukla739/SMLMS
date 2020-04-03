@@ -41,31 +41,27 @@
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th class="select">
+                <!--<th class="select">
                   <input id="selectAll" type="checkbox">
                   <label for="selectAll">Select</label>
-                </th>
-                <th class="img">Img</th>
-                <th class="name">Name</th>
-                <th class="department">Department</th>
-                <th class="mobile">Contact</th>
-                <th class="id">Emp ID</th>
-                <th class="join">Joining</th>
-                <th class="more">Actions</th>
+                </th>-->
+                <th class="img">Task Title</th>
+                <th class="name">Task Description</th>
+                <th class="department">Comment</th>
+                <th class="mobile">Admin Comment</th>
+                <th class="more">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="select">
+              <tr *ngFor="let task of taskList;">
+                <!--<td class="select">
                   <input id="checkbox1" type="checkbox">
                   <label for="checkbox1">Select</label>
-                </td>
-                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
-                <td class="name">Satinder Pal Singh</td>
-                <td class="department">Design</td>
-                <td class="mobile">9876 543 210</td>
-                <td class="id">SM00022</td>
-                <td class="join">Mar/05/2018</td>
+                </td>-->
+                <td class="img" >{{task.title}}</td>
+                <td class="name" >{{task.description}}</td>
+                <td class="department" >{{task.comment}}</td>
+                <td class="mobile" >{{task.adminComment}}</td>               
                 <td class="more">
                   <a class="action-btn fa fa-eye view" href="">View</a>
                   <a class="action-btn fa fa-trash delete" href="">Remove</a>
