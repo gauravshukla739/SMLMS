@@ -28,10 +28,10 @@ namespace SMLMS.Data.Repositories
 
 
 
-        public IEnumerable<Attendance> All()
+        public IEnumerable<EmployeeAttendanceModel> All()
         {
-            return Query<Attendance>(
-                sql: "SELECT * FROM [dbo].[Attendance]"
+            return Query<EmployeeAttendanceModel>(
+                sql: "select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ,(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id"
             );
         }
 

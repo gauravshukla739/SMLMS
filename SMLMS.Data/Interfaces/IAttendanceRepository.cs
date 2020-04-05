@@ -10,7 +10,7 @@ namespace SMLMS.Data.Interfaces
     {
         void Add(AttendanceDto attendence);
         void Update(AttendanceDto attendence);
-        IEnumerable<Attendance> All();
+        IEnumerable<EmployeeAttendanceModel> All();
         IEnumerable<Attendance> EmployeeAttendance_DateFilter(string startDate, string endDate);
         Attendance FindUserById(string UserId);
     }

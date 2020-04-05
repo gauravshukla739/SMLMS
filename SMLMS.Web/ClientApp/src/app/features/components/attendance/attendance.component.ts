@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { NgForm } from '@angular/forms';
 
+ 
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -12,13 +13,9 @@ import { NgForm } from '@angular/forms';
 })
 export class AttendanceComponent implements OnInit {
 
-  displayColumn = [
-    "userId"
-    , "signIn"
-    , "signOut"
-    , "createdOn"];
+  displayColumn = ["firstName", "lastName", "signIn", , "signOut", "createdOn", "totalTime"];
   userAttendance = [];
-
+  disableBtn: boolean = false;
   constructor(private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, ) {
 
   }
@@ -30,8 +27,19 @@ export class AttendanceComponent implements OnInit {
   }
 
 
-  SignIn() {
-
+  PunchIn_Out() {
+    this.sharedService.startLoading();
+    
+    this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
+      if (data.isSuccess) {
+        this.getAllUsers();
+        this.disableBtn = true;
+        this.sharedService.showPopup("Successfully punchin");
+      }
+      else {
+        this.sharedService.showPopup("Failed punchin");
+      }
+    })
   }
 
   onSubmit(form: NgForm) {

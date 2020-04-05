@@ -1,19 +1,19 @@
-<!--<section>
+<section>
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 page-title">
-        <button class="btn sm-primary" (click)="SignIn()">Punch In</button>
+        <button class="btn btn-primary" (click)="PunchIn_Out()" [disabled]="disableBtn">Punch In</button>
       </div>
     </div>
     <div class="row">
       <div class="col-12 page-title">
         
-        <button class="btn sm-primary">Punch Out</button>
+        <button class="btn btn-primary" (click)="PunchIn_Out()">Punch Out</button>
       </div>
     </div>
   </div>
-</section>-->
-<section><div class="form-group">
+</section>
+<!--<section><div class="form-group">
            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
              <label for="hireDate">Start Date:</label>
              <div class="form-group form-inline">
@@ -32,15 +32,10 @@
              <button type="submit" class="btn btn-primary">Find</button>
            </form>
   
-</div></section>
+</div></section>-->
 <section>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 page-title">
-        <h3 class="title-top">Employee</h3>
-        <button class="btn sm-primary">Add New</button>
-      </div>
-    </div>
+    
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">
