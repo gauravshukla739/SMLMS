@@ -9,8 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FeatureModule } from './features/feature.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
-import { LeaveManagementModule } from './features/components/leave-management/leave-management.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { LeaveManagementModule } from './features/components/leave-management/leave-management.module';
+//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
