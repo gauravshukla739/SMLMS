@@ -54,6 +54,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'attendance', component: AttendanceComponent,
+    children: [
+      { path: '', component: AttendanceComponent },
+      { path: 'add', component: AttendanceComponent },
+      { path: 'update', component: AttendanceComponent }
+
+
+    ]
+  },
+  {
     path: 'secure', component: AccountLayoutComponent,
     children: [
       { path: '', component: LoginComponent },
@@ -62,33 +72,8 @@ const routes: Routes = [
       { path: 'password/reset', component: ResetPasswordComponent },
     ]
   }
-
-
-
-      ]
-    },
-    {
-      path: 'attendance', component: AttendanceComponent,
-      children: [
-        { path: '', component: AttendanceComponent },
-        { path: 'add', component: AttendanceComponent },
-        { path: 'update', component: AttendanceComponent }
-
-
-      ]
-    }
-  ]
-},
-  { path: 'secure', component: AccountLayoutComponent,
-  children :[
-    { path: '', component: LoginComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'password/forgot', component: ForgotPasswordComponent },
-    { path: 'password/reset', component: ResetPasswordComponent },
-  ]
- }
-  
-];
+ ]
+   
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

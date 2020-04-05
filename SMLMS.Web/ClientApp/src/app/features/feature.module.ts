@@ -42,7 +42,8 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     TaskComponent,
     DepartmentComponent,
     RoleComponent,
-    LeaveTypeComponent
+    LeaveTypeComponent,
+    AttendanceComponent
   ],
   imports: [
     FeatureRoutingModule,
