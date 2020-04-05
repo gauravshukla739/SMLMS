@@ -37,7 +37,7 @@ namespace SMLMS.REST.Controllers
             return await _departmentService.All();
         }
 
-        [HttpDelete("{Id}")]
+        [HttpPost("delete/{Id}")]
         public async Task<ServiceResponse> Delete(Guid Id)
         {
             return await _departmentService.Delete(Id,User);

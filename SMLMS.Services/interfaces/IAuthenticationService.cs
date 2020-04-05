@@ -13,7 +13,7 @@ namespace SMLMS.Services.interfaces
     {
          Task<ServiceResponse> SignIn(UserDto user);
 
-        Task<ServiceResponse> CreateUser(UserDto _user);
+        Task<ServiceResponse> CreateUser(UserDto _user,ClaimsPrincipal claims);
 
         Task<ServiceResponse> CreateRole(string roleName);
        // object GetClaimsValue(string type);

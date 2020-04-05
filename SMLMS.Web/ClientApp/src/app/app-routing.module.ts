@@ -5,7 +5,10 @@ import { AttendanceComponent } from './features/components/attendance/attendance
 
 const routes: Routes = [
   { path: '', loadChildren: './features/feature.module#FeatureModule' },
-  { path: 'attendance', loadChildren: () => import('./features/components/attendance/attendance.component').then(m => m.AttendanceComponent)}
+  //{
+  //  path: 'leaves',
+  //  loadChildren: () => import('./features/components/leave-management/leave-management.module').then(m => m.LeaveManagementModule)
+  //}
 ];
 
 

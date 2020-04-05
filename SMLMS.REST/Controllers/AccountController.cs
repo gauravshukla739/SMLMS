@@ -29,7 +29,7 @@ namespace SMLMS.REST.Controllers
         [Route("Register")]
         public async Task<ServiceResponse> Register(UserDto user)
         {
-            return await  _authenticationService.CreateUser(user);
+            return await  _authenticationService.CreateUser(user,User);
         }
 
         [HttpPost]

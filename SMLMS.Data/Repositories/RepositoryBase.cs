@@ -32,7 +32,17 @@ namespace SMLMS.Data.Repositories
             return Connection.Query<T>(sql, param, _transaction);
         }
 
-        protected  void Execute(string sql, object param)
+        //protected  void Execute(string sql, object param)
+        //{
+        //    Connection.Execute(sql, param, _transaction, commandType: CommandType.StoredProcedure);
+        //}
+
+        protected void ExecuteSP(string sql, object param)
+        {
+            Connection.Execute(sql, param, _transaction, commandType: CommandType.StoredProcedure);
+        }
+
+        protected void Execute(string sql, object param)
         {
             Connection.Execute(sql, param, _transaction);
         }

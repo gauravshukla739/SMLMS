@@ -3,6 +3,7 @@ using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace SMLMS.Services.interfaces
     public interface IRoleService
     {
         Task<ServiceResponse> GetAllRoles();
-        Task<ServiceResponse> SaveUpdateRole(RoleDto _role);
+        Task<ServiceResponse> SaveUpdateRole(RoleDto _role, ClaimsPrincipal claims);
         Task<ServiceResponse> DeleteRole(string roleId);
         Task<ServiceResponse> GetRoleById(string roleId);
         Task<ServiceResponse> GetAllModule();

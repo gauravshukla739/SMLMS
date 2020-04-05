@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SMLMS.Services.interfaces
 {
-    public interface ILeave
+    public interface ILeaveService
     {
         Task<ServiceResponse> GetLeaveType();
         Task<ServiceResponse> PostLeave(LeaveDto model);

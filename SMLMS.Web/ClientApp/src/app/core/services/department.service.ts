@@ -14,7 +14,14 @@ export class DepartmentService {
   all() {
     return this.http.get(this.apiBaseUrl + "/Department");
   }
-  
+
+  post(data) {
+    return this.http.post(this.apiBaseUrl + "/Department" ,data);
+  }
+
+  delete(id) {
+    return this.http.post(this.apiBaseUrl + "/Department/delete/" + id, null);
+  }
   
 
 }

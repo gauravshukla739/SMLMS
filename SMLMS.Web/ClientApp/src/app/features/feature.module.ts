@@ -14,28 +14,41 @@ import { ForgotPasswordComponent } from './components/password/forgot/forgot.com
 import { ResetPasswordComponent } from './components/password/reset/reset.component';
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
+import { TaskComponent } from './components/task/tasksubmit/task.component';
+
+
 import { UserComponent } from './components/user/list/list.component';
+import { DepartmentComponent } from './components/department/department.component';
+import { RoleComponent } from './components/role/role.component';
+import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 @NgModule({
-  declarations: [ 
-  MainLayoutComponent,
-  LeftMenuComponent,    
-  HeaderNavComponent,  
-  LoginComponent,   
-  SettingComponent,
+  declarations: [
+    MainLayoutComponent,
+    LeftMenuComponent,
+    HeaderNavComponent,
+    LoginComponent,
+    SettingComponent,
     AccountLayoutComponent,
     DashboardComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-    UserCreateUpdateComponent, UserComponent, AttendanceComponent],
+    UserCreateUpdateComponent,
+    UserComponent,
+    DashboardComponent,
+    TaskComponent,
+    DepartmentComponent,
+    RoleComponent,
+    LeaveTypeComponent
+  ],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,
-    FormsModule  ,
-    SharedModule 
+    FormsModule,
+    SharedModule
   ],
   providers: [],
   //bootstrap: []

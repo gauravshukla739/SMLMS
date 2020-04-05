@@ -52,8 +52,8 @@ namespace SMLMS.Services.services
                     var role = await _userManager.GetRolesAsync(userDetail);
                     var getRole =await _roleManager.FindByNameAsync(role[0]);
                     response.IsSuccess = true;
-                    response.Message = "Login Successful!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id} };
+                    response.Message = "Login Succsessfull!";
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id,appUser.DepartmentId,RoleId=getRole.Id} };
                 }
                 else
                 {
@@ -78,19 +78,18 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> CreateUser(UserDto user)
+        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
-                //   var email = (string)GetClaimsValue("Email");
-                await _roleManager.CreateAsync(new Role {Name= "Admin" });
-                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy= user.Email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
+                var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber,DepartmentId=user.DepartmentId};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(appUser, "Admin");
+                    await _userManager.AddToRoleAsync(appUser, user.RoleName);
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
                 }
@@ -166,7 +165,7 @@ namespace SMLMS.Services.services
                 new Claim(ClaimTypes.Email, user.UserName),
                 new Claim(ClaimTypes.Role,role),
                 new Claim("RoleId",roleId),
-                new Claim("DepartmentId",(user.DepartmentId ==null)?"No":user.DepartmentId),
+                new Claim("DepartmentId",(user.DepartmentId ==null)?"NA":user.DepartmentId),
                  new Claim("UserId",user.Id.ToString() )
             };
             claims.AddRange(claimsnew);

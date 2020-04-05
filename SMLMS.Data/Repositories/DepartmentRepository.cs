@@ -28,7 +28,7 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<DepartmentDto> All()
         {
             return Query<DepartmentDto>(
-                sql: "SELECT Name,Id FROM [dbo].[Department]"
+                sql: "SELECT Name,Id FROM [dbo].[Department] where [IsDeleted] is null or [IsDeleted] = 0 "
             );
         }
 

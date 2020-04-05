@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FeatureModule } from './features/feature.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { LeaveManagementModule } from './features/components/leave-management/leave-management.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,10 +21,13 @@ import { CoreModule } from './core/core.module';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+   // ReactiveFormsModule,
     AppRoutingModule,
     FeatureModule,
+   // LeaveManagementModule,
     SharedModule,
     CoreModule,
+  //  BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

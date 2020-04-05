@@ -27,8 +27,10 @@ namespace SMLMS.Services.services
             {
                 response.IsSuccess = true;
                 var emailId = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
-                if (model.Id != null)
+                var roleId = claims.Claims.First(x => x.Type == "RoleId").Value;
+                if (model.Id == Guid.Empty)
                 {
+                    model.RoleId = roleId;
                     model.CreatedBy = emailId;
                     _unitOfWork.DepartmentRepository.Add(model);
                     _unitOfWork.Commit();

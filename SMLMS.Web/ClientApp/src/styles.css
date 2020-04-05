@@ -1,5 +1,10 @@
 
-
+.width-50{
+    width:50px;
+}
+.width-300{
+    width:300px;
+}
 #snackbar {
   visibility: hidden;
   min-width: 250px;
@@ -23,11 +28,356 @@
   }
 
 
+
+
+
+  /*//<!------------------------------------------------->*/
+
+
+*--------------colors-------------*/
+/*-------------<< Custom checkbox and Radio button >>-------------------*/
 img {
   max-width: 100%;
 }
 
+* {
+  transition: 0.5s;
+}
 
+/*-------------<< Custom checkbox and Radio button start >>-------------------*/
+input[type="checkbox"],
+input[type="radio"] {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+  input[type="checkbox"] + label,
+  input[type="radio"] + label {
+    position: relative;
+    padding: 0.5rem 0 0 2rem;
+    margin-bottom: 1rem;
+    user-select: none;
+    color: #ffffff;
+  }
+
+    input[type="checkbox"] + label:before,
+    input[type="radio"] + label:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      border: 2px solid #fe8812;
+      border-radius: 0.25rem;
+      background: #ffffff;
+      text-align: center;
+      transition: background 200ms ease-out;
+    }
+
+    input[type="checkbox"] + label:after,
+    input[type="radio"] + label:after {
+      content: "";
+      position: absolute;
+      transform: scale(0);
+      transition: transform 200ms ease-out;
+    }
+
+    input[type="checkbox"] + label:after {
+      background-color: transparent;
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0.65rem;
+      top: 0.25rem;
+      width: 0.5rem;
+      height: 1rem;
+      opacity: 0.2;
+      border-bottom: 3px solid #fe8812;
+      border-right: 3px solid #fe8812;
+      transform: rotate(45deg);
+      transition: border-color 0.3s ease;
+    }
+
+  input[type="checkbox"]:checked + label:before {
+    content: "";
+  }
+
+  input[type="checkbox"]:checked + label:after {
+    content: "";
+    opacity: 1;
+  }
+
+  input[type="radio"] + label:before, input[type="radio"] + label:after {
+    border-radius: 50%;
+  }
+
+  input[type="radio"] + label:after {
+    left: 0.35rem;
+    top: 0.35rem;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  input[type="radio"]:checked + label:before {
+    animation: borderscale 300ms ease-in;
+  }
+
+  input[type="radio"]:checked + label:after {
+    background: #ffffff;
+    transform: scale(1);
+  }
+
+/*-------------<< Custom checkbox and Radio button End >>-------------------*/
+.main {
+  min-height: 100vh;
+  padding: 70px 0 0;
+}
+
+/* Position and style the close button (top right corner) */
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+  .openbtn:hover {
+    background-color: #444;
+  }
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#content {
+  transition: margin-left .5s;
+  flex: 1;
+}
+
+  #content .content-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    background-color: #eeeeee;
+    padding: 0.5rem 1rem;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+    z-index: 9;
+  }
+
+    #content .content-header .brand img {
+      max-height: 54px;
+    }
+
+    #content .content-header .user-info {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-wrap: nowrap;
+      -moz-flex-wrap: nowrap;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      -webkit-flex-direction: row;
+      -moz-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-justify-content: flex-end;
+      -moz-justify-content: flex-end;
+      -ms-justify-content: flex-end;
+      justify-content: flex-end;
+      -ms-flex-pack: flex-end;
+    }
+
+      #content .content-header .user-info .userName {
+        margin: 0 0.625rem 0 0;
+        color: #0c46b7;
+      }
+
+      #content .content-header .user-info .nav-link {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        padding: 0;
+        border: 1px solid #0c46b7;
+      }
+
+.page-title .title-top {
+  background: #c0cce2;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  color: #0c46b7;
+}
+
+.sm-table thead {
+  background-color: #0c46b7;
+  color: #ffffff;
+}
+
+.sm-table tbody .img img {
+  max-width: 50px;
+}
+
+.sidebar {
+  overflow-x: hidden;
+  transition: 0.5s;
+  width: 300px;
+}
+
+  .sidebar .navbar {
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: flex-start;
+    -moz-align-items: flex-start;
+    -ms-align-items: flex-start;
+    -ms-flex-align: flex-start;
+    align-items: flex-start;
+    -webkit-justify-content: flex-start;
+    -moz-justify-content: flex-start;
+    -ms-justify-content: flex-start;
+    justify-content: flex-start;
+    -ms-flex-pack: flex-start;
+    -webkit-align-content: flex-start;
+    -moz-align-content: flex-start;
+    -ms-align-content: flex-start;
+    align-content: flex-start;
+    /*background-image: url("../images/sidebar-bg-1.jpg");*/
+    height: 100%;
+    background-size: cover;
+    padding: 0;
+  }
+.sidebar {
+  height: 100%
+}
+
+    .sidebar .navbar .navbar-collapse {
+      -webkit-align-items: flex-start;
+      -moz-align-items: flex-start;
+      -ms-align-items: flex-start;
+      -ms-flex-align: flex-start;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .sidebar .navbar .navbar-nav {
+      -webkit-flex-direction: column;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      width: 100%;
+    }
+
+      .sidebar .navbar .navbar-nav .nav-link {
+        color: #ffffff;
+        font-size: 1.2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 0.625rem 1rem;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-wrap: nowrap;
+        -moz-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-flex-direction: row;
+        -moz-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -moz-align-items: center;
+        -ms-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-justify-content: flex-start;
+        -moz-justify-content: flex-start;
+        -ms-justify-content: flex-start;
+        justify-content: flex-start;
+        -ms-flex-pack: flex-start;
+        white-space: nowrap;
+        position: relative;
+      }
+
+        .sidebar .navbar .navbar-nav .nav-link .icon {
+          margin-right: 1rem;
+        }
+
+        .sidebar .navbar .navbar-nav .nav-link:before {
+          content: '';
+          position: absolute;
+          background-color: #fe8812;
+          height: 1px;
+          width: 0;
+          bottom: -1px;
+          left: 0;
+        }
+
+        .sidebar .navbar .navbar-nav .nav-link:hover .icon {
+          color: #fe8812;
+        }
+
+        .sidebar .navbar .navbar-nav .nav-link:hover:before {
+          width: 100%;
+        }
+
+      .sidebar .navbar .navbar-nav .dropdown-menu {
+        position: inherit;
+      }
+
+
+      /*------------------------------Custom---------------------------------*/
 
 .login-outer {
   margin: 0 auto;
@@ -71,7 +421,7 @@ img {
     color: #ff9933;
   }
 
-.icon {
+.form-group .icon {
   position: absolute;
   top: 32px;
   color: #cccccc;
@@ -95,72 +445,4 @@ input.button {
   border: none;
   box-shadow: none;
   padding: 5px 20px;
-}
-
-/*-------------<< Sidebar css >>------------*/
-.main {
-  min-height: 100vh;
-}
-/* The sidebar menu */
-.sidebar {
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  width: 300px;
-  height: 100%;
-}
-
-  /* The sidebar links */
-  .sidebar a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-  }
-
-    /* When you mouse over the navigation links, change their color */
-    .sidebar a:hover {
-      color: #f1f1f1;
-    }
-
-  /* Position and style the close button (top right corner) */
-  .sidebar .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-  }
-
-/* The button used to open the sidebar */
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-  .openbtn:hover {
-    background-color: #444;
-  }
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#content {
-  transition: margin-left .5s; /* If you want a transition effect */
-  padding: 20px;
-  flex: 1;
-}
-
-
-.sm-table thead {
-  background-color: #1e406b;
-  color: #ffffff;
-}
-
-.sm-table tbody .img img {
-  max-width: 50px;
 }

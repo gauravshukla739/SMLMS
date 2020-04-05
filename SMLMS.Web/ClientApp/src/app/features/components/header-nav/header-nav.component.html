@@ -1,8 +1,14 @@
 <div class="content-header">
-  <button class="openbtn" (click)="showHideLeftNav()">&#9776;</button>
-  <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
-  <h3 class="user-name">Welcome! <strong>Satinder</strong></h3>
+  <a href="dashboard.html" class="brand"><img src="assets/images/brand.png" alt=""></a>
   <div class="user-info">
-    <img class="user" src="" alt="">
+    <h4 class="userName">Welcome! <strong>{{username}}</strong></h4>
+    <a class="nav-link dropdown-toggle" href="#" id="myAccount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <img class="user" src="assets/images/user.png" alt="">
+    </a>
+    <div class="dropdown-menu" aria-labelledby="myAccount">
+      <a class="dropdown-item" href="javascript:void(0)">My Account</a>
+      <a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/password/change']">Change Password</a>
+      <a class="dropdown-item" href="javascript:void(0)" (click)="logOut()">LogOut</a>
+    </div>
   </div>
 </div>

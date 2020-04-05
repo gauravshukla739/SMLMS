@@ -18,9 +18,27 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\features\components\leave-management\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\features\components\leave-management\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\features\components\leave-management\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\core\models\LeaveType.ts" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave-management-routing.module.ts" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave-management.module.ts" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.css" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.html" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.spec.ts" />
+    <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\core\models\LeaveType.ts" />
   </ItemGroup>
 
   <ItemGroup>

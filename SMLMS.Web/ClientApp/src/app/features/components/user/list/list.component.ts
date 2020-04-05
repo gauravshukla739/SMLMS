@@ -39,11 +39,8 @@ export class UserComponent implements OnInit {
       console.log(data);
       if (data.isSuccess) {
         this.users = data.data;
-        this.sharedService.showPopup("Successfully login");
-        //this.router.navigate(['/permissions']);
       } else {
-        this.sharedService.showPopup(data.Message);
-        //this.sharedService.showPopup("Login failed , Invalid user");
+        this.sharedService.showPopup(data.message);
       }
     })
   }

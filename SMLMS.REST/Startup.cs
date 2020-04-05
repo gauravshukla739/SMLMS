@@ -16,12 +16,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using SMLMS.Data.Entity;
 using SMLMS.Data.Interfaces;
 using SMLMS.Helper.AppSetting;
 using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using SMLMS.Services.services;
+
 
 namespace SMLMS.REST
 {
@@ -40,25 +42,14 @@ namespace SMLMS.REST
         {
             services.AddCors();
             services.AddControllers().AddNewtonsoftJson();
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer( Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<SmtpDetails>(Configuration.GetSection("SmtpDetails"));
             services.Configure<AppConfig>(Configuration.GetSection("AppConfig"));
-
+        
             services.AddDefaultIdentity<ApplicationUser>().AddRoles<Role>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //options.UseSqlServer(
-            //Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>().AddRoles<IdentityRole>()
-            //    .AddDefaultUI()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
 
             // ===== Add Jwt Authentication ========
            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
@@ -83,35 +74,6 @@ namespace SMLMS.REST
                     };
                 });
 
-
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            //});
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            //});
-
-            // Add CORS policy
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(AllowAllOriginsPolicy, // I introduced a string constant just as a label "AllowAllOriginsPolicy"
-            //    builder =>
-            //    {
-            //        builder.AllowAnyOrigin();
-            //    });
-            //});
-
-          //  services.AddControllers();
-
-            //services.AddCors(c =>
-            //{
-            //    c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44360/"));
-            //});
-            
-           
-
             services.AddScoped<IUnitOfWork, DapperUnitOfWork>(provider => new DapperUnitOfWork(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -119,34 +81,28 @@ namespace SMLMS.REST
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<ILeaveService, LeaveService>();
+            services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<ILeave, Leave>();
-
 
 
            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                                opt.TokenLifespan = TimeSpan.FromHours(2));
-
-            //services.Configure<MvcOptions>(options =>
-            //{
-            //    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowMyOrigin"));
-            //});
-            services.AddSwaggerGen(c =>
+            services.ConfigureSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                c.SwaggerDoc("v3", new OpenApiInfo
                 {
-                    Version = "v1",
-                    Title = "SB Admin Rest API",
-                    Description = "My First ASP.NET Core 2.0 Web API",
-
+                    Title = "API",
+                    Version = "v3"
                 });
             });
         }
     
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -171,7 +127,7 @@ namespace SMLMS.REST
             {
                 endpoints.MapControllers();
             });
-            app.UseSwagger();
+            //app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");

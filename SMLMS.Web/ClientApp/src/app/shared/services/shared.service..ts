@@ -12,7 +12,7 @@ export class SharedService {
     this.user = localStorage.getItem("user") as any != null ? JSON.parse(localStorage.getItem("user") as any) : {};
   }
  
-  user ={Name:"" ,Photo_URL:"",Email:"",Id: ""}
+  user :any;
   currentUserId: any;
   currentMember: any;
   currentProjectId: any;
@@ -47,10 +47,10 @@ export class SharedService {
   }
 
   private _showPopup: boolean = false;
-  popupMsg : any;
+  popupMsg: any;
   popupStatus: any = new Subject();
 
-  get showpopup():boolean {
+  get showpopup(): boolean {
     return this._showPopup;
   }
 
@@ -59,7 +59,7 @@ export class SharedService {
     this.popupStatus.next(this.popupMsg);
   }
 
-  showPopup( msg :any) {
+  showPopup(msg: any) {
     this.popupMsg = msg;
     this.showpopup = true;
   }

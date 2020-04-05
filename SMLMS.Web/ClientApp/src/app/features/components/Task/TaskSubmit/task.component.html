@@ -1,0 +1,103 @@
+
+
+<section>
+  <div class="container-fluid">
+
+    <div *ngIf="isAddEdit">
+      <div class="row">
+        <div class="col-12 page-title">
+          <h3 class="title-top">Task Form</h3>
+          <!--<button class="btn sm-primary">Add New</button>-->
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-3"></div>
+        <div class="col-6">
+
+          <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+            <div class="form-group">
+              <label for="title">Task Title<sup>*</sup>:</label>
+              <input type="text" class="form-control requried" name="title" [(ngModel)]="task.title" required #title="ngModel" placeholder="Enter Title" id="title">
+
+              <div *ngIf="f.submitted && title.invalid" class="alert-danger">
+                <div *ngIf="title.errors.required">Title is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="dsc">Task Description<sup>*</sup>:</label>
+              <input type="text" class="form-control requried" name="description" [(ngModel)]="task.description" required #description="ngModel" placeholder="Enter Description" id="description">
+
+              <div *ngIf="f.submitted && description.invalid" class="alert-danger">
+                <div *ngIf="description.errors.required">Description is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment (if any):</label>
+              <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
+            </div>
+            <div class="form-group">
+              <label for="admincomment">Admin Comment (if any):</label>
+              <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
+            </div>
+
+            <button type="submit" class="btn-sm btn-primary">Submit</button>
+            <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isAddEdit">
+      <div class="row">
+        <div class="col-12 page-title">
+          <h3 class="title-top">Task List</h3>
+          <!--<button class="btn sm-primary">Add New</button>-->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 sm-table employee">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="select">
+                    <input id="selectAll" type="checkbox">
+                    <label for="selectAll">Select</label>
+                  </th>
+                  <th class="img">Task Title</th>
+                  <th class="name">Task Description</th>
+                  <th class="department">Comment</th>
+                  <th class="mobile">Admin Comment</th>
+                  <th class="more">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let task of taskList;">
+                  <td class="select">
+                    <input id="checkbox1" type="checkbox">
+                    <label for="checkbox1">Select</label>
+                  </td>
+                  <td class="img">{{task.title}}</td>
+                  <td class="name">{{task.description}}</td>
+                  <td class="department">{{task.comment}}</td>
+                  <td class="mobile">{{task.adminComment}}</td>
+                  <td class="more">
+                    <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
+                    <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

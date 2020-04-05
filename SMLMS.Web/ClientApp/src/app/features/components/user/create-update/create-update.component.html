@@ -65,17 +65,17 @@
   </div>
   <div class="form-group">
     <label for="text">Date Of Appointment:</label>
-    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="doa" [(ngModel)]="user.dateOfAppointment" required #doa="ngModel">
-    <div *ngIf="f.submitted && doa.invalid" class="alert-danger">
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="doa" [(ngModel)]="user.dateOfAppointment"  #doa="ngModel">
+    <!--<div *ngIf="f.submitted && doa.invalid" class="alert-danger">
       <div *ngIf="doa.errors.required">Date Of Appointment is required</div>
-    </div>
+    </div>-->
   </div>
   <div class="form-group">
     <label for="text">Date Of Leaving:</label>
-    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="dol" [(ngModel)]="user.dateOfLeave" required #dol="ngModel">
-    <div *ngIf="f.submitted && dol.invalid" class="alert-danger">
+    <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="dol" [(ngModel)]="user.dateOfLeave"  #dol="ngModel">
+    <!--<div *ngIf="f.submitted && dol.invalid" class="alert-danger">
       <div *ngIf="dol.errors.required">Date Of Leaving is required</div>
-    </div>
+    </div>-->
   </div>
   <div class="form-group">
     <label for="text">Phone Number:</label>

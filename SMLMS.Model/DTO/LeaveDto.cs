@@ -7,7 +7,7 @@ namespace SMLMS.Model.DTO
 {
    public class LeaveDto 
     {
-        public string ID { get; set; }
+        public Guid? ID { get; set; }
         public string Name { get; set; }
         public int Count { get; set; }
 
