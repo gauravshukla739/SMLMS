@@ -15,7 +15,7 @@
 </style>
 
 
-<div id="sidebar" class="sidebar">  <!--[ngClass]="{'width-50': !isOpne}"-->
+<div id="sidebar" class="sidebar">
   <nav class="navbar navbar-expand-lg navbar-default">
     <button class="openbtn" (click)="openNav()">&#9776;</button>
     <!--<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
@@ -27,56 +27,26 @@
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" routerLink="/dashboard"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dashboard <span class="sr-only">(current)</span></a>
         </li>
-
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-tachometer icon" aria-hidden="true"></i>Department
+          </a>
+          <div class="dropdown-menu" aria-labelledby="department">
+            <a class="dropdown-item" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dotnet</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Magento</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Designing</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>QA</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>BA</a>
+          </div>
+        </li>
         <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/leave"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Leave</a>
+          <a class="nav-link" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Leaves</a>
         </li>
-
-        <!--<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fa fa-tachometer icon" aria-hidden="true"></i>Department
-    </a>
-    <div class="dropdown-menu" aria-labelledby="department">
-      <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dotnet</a>
-      <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Magento</a>
-    </div>
-  </li>
-
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fa fa-tachometer icon" aria-hidden="true"></i>Task
-    </a>
-    <div class="dropdown-menu" aria-labelledby="department">
-      <a class="dropdown-item" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>List</a>
-      <a class="dropdown-item" href="javascript:void(0)" routerLink="/task/form"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Form</a>
-    </div>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <i class="fa fa-tachometer icon" aria-hidden="true"></i>Leave
-    </a>
-    <div class="dropdown-menu" aria-labelledby="department">
-      <a class="dropdown-item" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>List</a>
-      <a class="dropdown-item" href="javascript:void(0)" routerLink="/task/form"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Form</a>
-    </div>
-  </li>-->
-
-
-        <li class="nav-item active" *ngIf="userRole==='Admin' || userRole==='Developer'">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Task</a>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Sallery</a>
         </li>
-
-        <li class="nav-item active" *ngIf="userRole==='Admin'">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/department"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dept.</a>
-        </li>
-        <li class="nav-item active" *ngIf="userRole==='Admin'">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/role"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Roles</a>
-        </li>
-        <li class="nav-item" *ngIf="userRole==='Admin'">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/user"><i class="fa fa-tachometer icon" aria-hidden="true"></i>User</a>
-        </li>
-        <li class="nav-item" *ngIf="userRole==='Admin' || userRole==='Developer'">
-          <a class="nav-link" href="javascript:void(0)" routerLink="/attendance"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Attendence</a>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Attendence</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Terms & Policy</a>

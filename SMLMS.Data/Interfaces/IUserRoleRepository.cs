@@ -11,5 +11,7 @@ namespace SMLMS.Data.Interfaces
         void Remove(string userId, string roleName);
         IEnumerable<string> GetRoleNamesByUserId(string userId);
         IEnumerable<User> GetUsersByRoleName(string roleName);
+        UserRole GetAllByUserId(Guid userId);
+        void UpdateDepartment(string userId, string departmentId);
     }
 }
