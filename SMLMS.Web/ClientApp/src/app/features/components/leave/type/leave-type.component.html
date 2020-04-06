@@ -8,17 +8,17 @@
       <div class="col-6">
         <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
           <div class="form-group">
-            <label for="title">Name<sup>*</sup>:</label>
+            <label for="title">Leave Name<sup>*</sup>:</label>
             <input type="text" class="form-control requried" name="name" [(ngModel)]="leavetype.name" required #name="ngModel" placeholder="Enter Name" id="name">
             <div *ngIf="f.submitted && name.invalid" class="alert-danger">
-              <div *ngIf="name.errors.required">name is required</div>
+              <div *ngIf="name.errors.required">Leave Name is required</div>
             </div>
           </div>
           <div class="form-group">
-            <label for="title">Count<sup>*</sup>:</label>
+            <label for="title">Leave Count<sup>*</sup>:</label>
             <input type="text" class="form-control requried" name="leavecount" [(ngModel)]="leavetype.count" required #leavecount="ngModel" placeholder="Enter count" id="leavecount">
             <div *ngIf="f.submitted && leavecount.invalid" class="alert-danger">
-              <div *ngIf="leavecount.errors.required">count is required</div>
+              <div *ngIf="leavecount.errors.required">Leave Count is required</div>
             </div>
           </div>
 
@@ -30,7 +30,7 @@
     <div *ngIf="!isAddEdit">
       <div class="row">
         <div class="col-12 page-title">
-          <h3 class="title-top">Roles</h3>
+          <h3 class="title-top">Create Type of Leaves</h3>
 
         </div>
       </div>
@@ -50,8 +50,8 @@
                     <input id="selectAll" type="checkbox">
                     <label for="selectAll">Select</label>
                   </th>
-                  <th class="img">Name</th>
-                  <th class="img">Count</th>
+                  <th class="img">Leave Name</th>
+                  <th class="img">Leave Count</th>
                   <th class="more">Actions</th>
                 </tr>
               </thead>

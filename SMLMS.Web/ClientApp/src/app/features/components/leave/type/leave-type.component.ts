@@ -20,6 +20,8 @@ export class LeaveTypeComponent implements OnInit {
     private router: Router) {
 
   }
+
+
   ngOnInit() {
     this.getAll();
   }
@@ -61,17 +63,12 @@ export class LeaveTypeComponent implements OnInit {
     if (confirm("are you sure wan to delete?")) {
       this.leaveService.delete(id).subscribe((data: any) => {
         if (data.isSuccess) {
-          let index = this.leaveTypes.indexOf(rec);
-          this.leaveTypes.splice(index, 1);
-          this.sharedService.showPopup("successfully deleted");
+          alert("successfully deleted");
+          this.getAll();
         } else {
           this.sharedService.showPopup(data.Message);
         }
       });
     }
-    else {
-      this.sharedService.showPopup("successfully deleted");
-    }
-
   }
 }

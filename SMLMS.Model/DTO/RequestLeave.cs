@@ -1,12 +1,13 @@
-﻿using System;
+﻿using SMLMS.Model.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SMLMS.Model.DTO
 {
-   public class RequestLeave
+   public class RequestLeave : BaseEntity
     {
-        public string Id { get; set; }
+        public Guid? Id { get; set; }
         public string Name { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -15,6 +16,9 @@ namespace SMLMS.Model.DTO
         public string ShortLeaveFrom { get; set; }
         public String ShortLeaveTo { get; set; }
         public String Reason { get; set; }
+        public Guid Userid { get; set; }
+        public dynamic  isApproved { get; set; }
+        
 
     }
 }

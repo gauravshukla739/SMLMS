@@ -3,6 +3,7 @@ using SMLMS.Model.Core;
 using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,14 @@ namespace SMLMS.Services.interfaces
     {
         Task<ServiceResponse> GetLeaveType();
         Task<ServiceResponse> PostLeave(LeaveDto model);
-        Task<ServiceResponse> UpdateLeave(LeaveDto model, string id);
         Task<ServiceResponse> DeleteLeave(string id);
+        Task<ServiceResponse> RequestLeave(RequestLeave model, ClaimsPrincipal claim);
+        Task<ServiceResponse> GetLeaveRequest(ClaimsPrincipal claim);
+        Task<ServiceResponse> DeleteLeaveRequest(string id);
 
-        Task<ServiceResponse> RequestLeave(RequestLeave model,string id);
-        Task<ServiceResponse> GetLeaveRequest();
-        
+        Task<ServiceResponse> GetDataBasedOnId(ClaimsPrincipal claim);
+
+        Task<ServiceResponse> ApproveLeaveRequest(Guid id, ClaimsPrincipal claim);
+
     }
 }
