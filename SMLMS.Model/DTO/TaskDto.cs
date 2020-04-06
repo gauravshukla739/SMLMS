@@ -6,8 +6,12 @@ namespace SMLMS.Model.Core
 {
     public class TaskDto
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string DepartmentName { get; set; }
+        public Guid AssignTo { get; set; }
+        public string AssignToName { get; set; }
+        public string Status { get; set; }
+        public DateTime? EstimatedDate { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Comment { get; set; }

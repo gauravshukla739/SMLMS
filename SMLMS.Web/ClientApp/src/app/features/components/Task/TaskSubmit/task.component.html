@@ -32,15 +32,31 @@
                 <div *ngIf="description.errors.required">Description is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="userRole!='Admin'">
               <label for="comment">Comment (if any):</label>
               <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="userRole==='Admin'">
               <label for="admincomment">Admin Comment (if any):</label>
               <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
             </div>
-
+            <div class="form-group">
+              <label for="select">Assign To:</label>
+              <select class="form-control" placeholder="Select Employee" name="assignTo" [(ngModel)]="task.assignTo" #assignTo="ngModel">
+                <option selected="" value="">Select Employee</option>
+                <option [value]="user.id" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="select">Status:</label>
+              <select class="form-control" placeholder="Select Status" name="status" [(ngModel)]="task.status" #status="ngModel">
+                <option selected="" value="">Select Status</option>
+                <option [value]="25">25 %</option>
+                <option [value]="50">50 %</option>
+                <option [value]="75">75 %</option>
+                <option [value]="100">100 %</option>
+              </select>
+            </div>
             <button type="submit" class="btn-sm btn-primary">Submit</button>
             <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
           </form>
@@ -75,6 +91,8 @@
                   <th class="name">Task Description</th>
                   <th class="department">Comment</th>
                   <th class="mobile">Admin Comment</th>
+                  <th class="mobile">Assigned To</th>
+                  <th class="mobile">Progress %</th>
                   <th class="more">Action</th>
                 </tr>
               </thead>
@@ -88,6 +106,8 @@
                   <td class="name">{{task.description}}</td>
                   <td class="department">{{task.comment}}</td>
                   <td class="mobile">{{task.adminComment}}</td>
+                  <td class="mobile">{{task.assignToName}}</td>
+                  <td class="mobile">{{task.status}} %</td>
                   <td class="more">
                     <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
                     <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
