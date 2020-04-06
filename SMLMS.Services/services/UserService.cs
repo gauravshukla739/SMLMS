@@ -43,7 +43,7 @@ namespace SMLMS.Services.services
                     UserId = _userRole.UserId,
                     RoleId = _userRole.RoleId
                 };
-                var _uRole = unitOfWork.UserRepository.GetRole(userRole.UserId);
+                var _uRole = unitOfWork.UserRepository.GetRole(userRole.UserId.ToString());
                 if (_uRole == null)
                 {
                     unitOfWork.UserRepository.AddRole(userRole);

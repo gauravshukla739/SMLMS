@@ -1,0 +1,132 @@
+
+<section>
+  <div class="container-fluid">
+    
+    <div class="row" *ngIf="isAddEdit">
+
+      <div class="col-3"></div>
+      <div class="col-6">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+          <div class="form-group">
+            <label for="title">From Date<sup>*</sup>:</label>
+            <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="name" [(ngModel)]="leaveRequest.fromDate" required #name="ngModel" id="name">
+
+            <div *ngIf="f.submitted && name.invalid" class="alert-danger">
+              <div *ngIf="name.errors.required">from date is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="title">To Date<sup>*</sup>:</label>
+            <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="todate" [(ngModel)]="leaveRequest.toDate" required #todate="ngModel" id="todate">
+            <div *ngIf="f.submitted && todate.invalid" class="alert-danger">
+              <div *ngIf="todate.errors.required">to date is required</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-group">
+              <label for="select">Leave Type</label>
+              <select class="form-control" placeholder="Select Leave Type" name="leavetype" required [(ngModel)]="leaveRequest.name" #leavetype="ngModel">
+                <option selected="" value="">Select Leave Type</option>
+                <option [value]="type.name" *ngFor="let type of typesofleave">{{type.name}}</option>
+              </select>
+              <div *ngIf="f.submitted && leavetype.invalid" class="alert-danger">
+                <div *ngIf="leavetype.errors.required">leave Type is required</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="title">Leave Reason<sup>*</sup>:</label>
+            <input type="text" class="form-control requried" name="reason" [(ngModel)]="leaveRequest.reason" required #reason="ngModel" placeholder="Enter leave reason" id="reason">
+            <div *ngIf="f.submitted && reason.invalid" class="alert-danger">
+              <div *ngIf="reason.errors.required">leave reason is required</div>
+            </div>
+          </div>
+
+
+
+
+          <!--<div class="form-group">
+            <label for="title">Short Leave<sup>*</sup>:</label>
+            <input type="time" class="form-control requried" name="shortleavefrom" [(ngModel)]="leaveRequest.reason" required #shortleavefrom="ngModel" placeholder="Enter leave reason" id="shortleavefrom" >
+            <input type="time" class="form-control requried" name="shortleaveto" [(ngModel)]="leaveRequest.reason" required #shortleaveto="ngModel" placeholder="Enter leave reason" id="shortleaveto" >
+            <div *ngIf="f.submitted && shortleave.invalid" class="alert-danger">
+              <div *ngIf="shortleave.errors.required">leave reason is required</div>
+            </div>
+          </div>-->
+
+
+
+          <button type="submit" class="btn-sm btn-primary">Submit</button>
+          <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <div *ngIf="!isAddEdit">
+      <div class="row">
+        <div class="col-12 page-title">
+          <h3 class="title-top">Request Leave</h3>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Request Leave</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 sm-table employee">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="select">
+                    <input id="selectAll" type="checkbox">
+                    <label for="selectAll">Select</label>
+                  </th>
+                  <th class="img">From Date</th>
+                  <th class="img">To Date</th>
+                  <th class="img">Leave Type</th>
+                  <th class="img">Reason</th>
+                  <th class="img">Approval Status</th>
+                  <th class="img">Approved By</th>
+                  <th class="more">Actions</th>
+                  <!--<th class="more">Leave Request</th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rec of leaveRequests">
+                  <td class="select">
+                    <input id="checkbox1" type="checkbox">
+                    <label for="checkbox1">Select</label>
+                  </td>
+                  <td>{{rec.fromDate }}</td>
+                  <td>{{rec.toDate}}</td>
+                  <td>{{rec.name}}</td>
+                  <td>{{rec.reason}}</td>
+                  <td>{{rec.isApproved}}</td>
+                  <td>{{rec.updatedBy}}</td>
+                  
+
+                  <td class="more">
+                    <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(rec)">Edit</a>
+                    <a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>
+                  </td>
+
+                  <!--<td class="more">
+    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Approve</a>
+    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Reject</a>
+  </td>-->
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

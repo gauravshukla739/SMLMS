@@ -39,7 +39,7 @@ namespace SMLMS.Data.Repositories
 
         protected void ExecuteSP(string sql, object param)
         {
-            Connection.Execute(sql, param, _transaction, commandType: CommandType.StoredProcedure);
+            Connection.Execute(sql, param, _transaction);
         }
 
         protected void Execute(string sql, object param)

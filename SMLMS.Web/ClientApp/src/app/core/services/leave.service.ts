@@ -8,40 +8,45 @@ import { SharedService } from '../../shared/services/shared.service.';
   providedIn: 'root'
 })
 export class LeaveService {
-  //apiBaseUrl = "http://localhost:52710";
-  //url = this.apiBaseUrl + `/api/Leave/Get`;
-  //constructor(private http: HttpClient) { } // inject kar liya htpclient se make function/method  to get data  of employee(this func will return data) to bind.
-
-  //GetAllLeaveTypes(): Observable<LeaveType[]> {
-  //  return this.http.get<LeaveType[]>(this.url)
-  //}
-  //addLeaveTypes(data: any): any {
-  //  var req = this.apiBaseUrl + `/api/Leave/Post`;
-  //  return this.http.post(req,data);
-  //}
-  //deleteLeaveTypes(id: string): any {
-  //  var req = this.apiBaseUrl + `/api/Leave/Delete?id=` + id;
-  //  return this.http.post(req, { body: null });
-  //}
-
+  
   apiBaseUrl: string;
+
   constructor(protected http: HttpClient, private sharedService: SharedService) {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
   }
+
   all() {
     return this.http.get(this.apiBaseUrl + "/Leave/Get");
   }
+
+
   post(data: any) {
     return this.http.post(this.apiBaseUrl + "/Leave/Post", data);
   }
-  delete(id: any) {
-    return this.http.post(this.apiBaseUrl + "Leave/Delete?id="+id, null);
+  delete(id) {
+    return this.http.post(this.apiBaseUrl + "/Leave/Delete?id=" + id, null);
   }
 
-
-
-  allEmpLeaves() {
-    return this.http.get(this.apiBaseUrl + "/EmployeeLeave");
+  allLeaveRequest() {
+    return this.http.get(this.apiBaseUrl + "/Leave/GetLeaveRequest");
+  }
+  postLeaveRequest(data: any) {
+    return this.http.post(this.apiBaseUrl + "/Leave/RequestLeave", data);
   }
 
+  deleteLeaveRequest(id: any) {
+    return this.http.post(this.apiBaseUrl + "/Leave/DeleteLeaveRequest?id=" + id, null);
+  }
+
+  getLeaveDataBasedOnId() {
+    return this.http.get(this.apiBaseUrl + "/Leave/GetDataBasedOnId");
+  }
+
+  approveLeave(id: any) {
+    return this.http.post(this.apiBaseUrl + "/Leave/ApproveLeaveRequest?id=" + id,null);
+    }
+
+    allEmpLeaves() {
+        return this.http.get(this.apiBaseUrl + "/EmployeeLeave");
+    }
 }

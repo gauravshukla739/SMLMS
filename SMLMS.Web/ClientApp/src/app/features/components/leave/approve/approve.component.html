@@ -1,0 +1,61 @@
+
+<section>
+  <div class="container-fluid">
+
+  
+    <div *ngIf="!isAddEdit">
+      <div class="row">
+        <div class="col-12 page-title">
+          <h3 class="title-top">Leave Requests For Approval</h3>
+
+        </div>
+      </div>
+      <!--<div class="row">
+        <div class="col-12">
+          <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Request Leave</button>
+        </div>
+      </div>-->
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 sm-table employee">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="select">
+                    <input id="selectAll" type="checkbox">
+                    <label for="selectAll">Select</label>
+                  </th>
+                  <th class="img">From Date</th>
+                  <th class="img">To Date</th>
+                  <th class="img">Leave Type</th>
+                  <th class="img">Reason</th>
+                  <th class="img">Leave Request From</th>
+                  <th class="more">Click below to approve</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rec of pendingLeaves">
+                  <td class="select">
+                    <input id="checkbox1" type="checkbox">
+                    <label for="checkbox1">Select</label>
+                  </td>
+                  <td>{{rec.fromDate }}</td>
+                  <td>{{rec.toDate}}</td>
+                  <td>{{rec.name}}</td>
+                  <td>{{rec.reason}}</td>
+                  <td>{{rec.createdBy}}</td>
+
+                  <td class="more">
+                    <a class="action-btn fa fa-check-circle"  (click)="onApproval(rec.id)">Approve</a>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

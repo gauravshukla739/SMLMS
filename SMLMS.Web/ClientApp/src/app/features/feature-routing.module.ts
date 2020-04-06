@@ -15,8 +15,12 @@ import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
 import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
+import { LeaveRequestComponent } from './components/leave/leave-request/leave-request.component';
+import { ApproveComponent } from './components/leave/approve/approve.component';
 import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
 import { LeaveComponent } from './components/leave/leave.component';
+
+
 
 const routes: Routes = [
   {
@@ -49,7 +53,9 @@ const routes: Routes = [
         path: 'leave', component: LeaveComponent,
         children: [
           { path: 'type', component: LeaveTypeComponent },
-          { path: 'epmloyee-leave', component: EmployeeLeaveComponent }
+            { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+            { path: 'request', component: LeaveRequestComponent },
+            { path: 'approve', component: ApproveComponent }
         ]
       },
     ]

@@ -6,7 +6,10 @@ using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Security.Claims;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SMLMS.Services.services
@@ -14,9 +17,12 @@ namespace SMLMS.Services.services
     public class LeaveService : ILeaveService
     {
         private IUnitOfWork unitOfWork;
-        public LeaveService(IUnitOfWork _unitOfWork)
+        private IUserService userService;
+
+        public LeaveService(IUnitOfWork _unitOfWork, IUserService _userService)
         {
             unitOfWork = _unitOfWork;
+            userService = _userService;
         }
         public async Task<ServiceResponse> GetLeaveType()
         {
@@ -30,7 +36,7 @@ namespace SMLMS.Services.services
                     _response.Message = "Sucess";
                     _response.Data = data;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -39,17 +45,16 @@ namespace SMLMS.Services.services
             }
             return _response;
         }
-        public async Task<ServiceResponse> PostLeave(LeaveDto _leave )
+        public async Task<ServiceResponse> PostLeave(LeaveDto _leave)
         {
-            {
                 ServiceResponse response = new ServiceResponse();
                 try
                 {
-                        unitOfWork.LeaveRepositry.Add(_leave);
-                        unitOfWork.Commit();
-                        response.IsSuccess = true;
-                        response.Message = "Data Added";
-                   
+                    unitOfWork.LeaveRepositry.Add(_leave);
+                    unitOfWork.Commit();
+                    response.IsSuccess = true;
+                    response.Message = "Data Added";
+
                 }
                 catch (Exception ex)
                 {
@@ -59,29 +64,8 @@ namespace SMLMS.Services.services
                 }
                 return response;
             }
-        }
-        public async Task<ServiceResponse> UpdateLeave(LeaveDto _leave, string id)
-        {
-            {
-                ServiceResponse response = new ServiceResponse();
-                try
-                {
-                        unitOfWork.LeaveRepositry.UpdateData(_leave,id);
-                        unitOfWork.Commit();
-                        response.IsSuccess = true;
-                        response.Message = "Data Added";
-                   
-                 }
-                
-                catch (Exception ex)
-                {
+        
 
-                    response.IsSuccess = false;
-                    response.Message = ex.ToString();
-                }
-                return response;
-            }
-        }
         public async Task<ServiceResponse> DeleteLeave(string id)
         {
             {
@@ -91,8 +75,6 @@ namespace SMLMS.Services.services
                     unitOfWork.LeaveRepositry.Remove(id);
                     unitOfWork.Commit();
                     response.IsSuccess = true;
-                    response.Message = "Data Added";
-
                 }
 
                 catch (Exception ex)
@@ -104,12 +86,15 @@ namespace SMLMS.Services.services
                 return response;
             }
         }
-        public async Task<ServiceResponse> GetLeaveRequest()
+        public async Task<ServiceResponse> GetLeaveRequest(ClaimsPrincipal claim)
         {
             ServiceResponse _response = new ServiceResponse();
             try
             {
-                var data = unitOfWork.LeaveRepositry.GetLeaveRequest();
+                var loggedId = claim.Claims.First(x => x.Type == "UserId").Value;
+                Guid id = Guid.Parse(loggedId);
+
+                var data = unitOfWork.LeaveRepositry.GetLeaveRequest(id);
                 unitOfWork.Commit();
                 {
                     _response.IsSuccess = true;
@@ -124,28 +109,70 @@ namespace SMLMS.Services.services
             }
             return _response;
         }
-        public async Task<ServiceResponse> RequestLeave(RequestLeave _RequestLeave,string id)
+        public async Task<ServiceResponse> GetDataBasedOnId(ClaimsPrincipal claim)
+        {
+            ServiceResponse _response = new ServiceResponse();
+            try
+            {
+                var deptid = claim.Claims.Where(c => c.Type == "DepartmentId").Select(c => c.Value).SingleOrDefault();
+                var RoleName = claim.Claims.First(x => x.Type == ClaimTypes.Role).Value;
+
+                var data = unitOfWork.LeaveRepositry.GetDataBasedOnId(Guid.Parse(deptid), RoleName);
+                unitOfWork.Commit();
+                {
+                    _response.IsSuccess = true;
+                    _response.Message = "Sucess";
+                    _response.Data = data;
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+            }
+            return _response;
+        }
+
+
+        public async Task<ServiceResponse> RequestLeave(RequestLeave _RequestLeave, ClaimsPrincipal claim)
+        {
+            {
+                var loggedInUserEmailId = claim.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                var loggedInUserRoleId = claim.Claims.First(x => x.Type == "RoleId").Value;
+                var loggedInUserUserId = claim.Claims.First(x => x.Type == "UserId").Value;
+                var loggedInUserRoleName = claim.Claims.First(x => x.Type == ClaimTypes.Role).Value;
+                var a = claim.Claims.Where(c => c.Type == "DepartmentId").Select(c => c.Value).SingleOrDefault();
+                _RequestLeave.CreatedBy = loggedInUserEmailId;
+                _RequestLeave.Userid =  Guid.Parse(loggedInUserUserId);
+
+                ServiceResponse response = new ServiceResponse();
+                try
+                {
+                    unitOfWork.LeaveRepositry.RequestLeave(_RequestLeave);
+                    unitOfWork.Commit();
+                    response.IsSuccess = true;
+                    response.Message = "Data Added";
+
+                }
+                catch (Exception ex)
+                {
+                    response.IsSuccess = false;
+                    response.Message = ex.ToString();
+                }
+                return response;
+            }
+        }
+
+
+        public async Task<ServiceResponse> DeleteLeaveRequest(string id)
         {
             {
                 ServiceResponse response = new ServiceResponse();
                 try
                 {
-                    if ( string.IsNullOrEmpty(_RequestLeave.Id) &&  string.IsNullOrEmpty(id))
-                    {
-                        unitOfWork.LeaveRepositry.RequestLeave(_RequestLeave); // create
-                        
-                        unitOfWork.Commit();
-                        response.IsSuccess = true;
-                        response.Message = "Success";
-                    }
-                    else if (string.IsNullOrEmpty(_RequestLeave.Id) && id.Length > 0)
-                    {
-                        unitOfWork.LeaveRepositry.UpdateRequestLeave(_RequestLeave, id); // update
-                        unitOfWork.Commit();
-                        response.IsSuccess = true;
-                        response.Message = "Success";
-                    }
-
+                    unitOfWork.LeaveRepositry.RemoveRequest(id);
+                    unitOfWork.Commit();
+                    response.IsSuccess = true;
                 }
                 catch (Exception ex)
                 {
@@ -157,35 +184,33 @@ namespace SMLMS.Services.services
             }
         }
 
-
-
-        public async Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId)
+        public async Task<ServiceResponse> ApproveLeaveRequest(Guid id, ClaimsPrincipal claim)
         {
-            ServiceResponse response = new ServiceResponse();
-            try
             {
-               response.Data  = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
-               // var aa1 = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
-               //  var aa = (List<EmpolyeeLeaveDto>)aa1;
-               // var aa12 = aa.GroupBy(x => new { x.UserId, x.EmpName}).Select(x => new
-               // {
-               //     id = x.Key.UserId,
-               //     name = x.Key.EmpName,
-               //     list = x.ToList()
+                ServiceResponse response = new ServiceResponse();
+                try
+                {
+                    var aprovalByName = claim.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                    var loggedInUserUserId = claim.Claims.First(x => x.Type == "UserId").Value;
+                    RequestLeave requestLeave = new RequestLeave
+                    {
+                        Id = id,
+                        UpdatedBy = aprovalByName
+                    };
+                    unitOfWork.LeaveRepositry.ApproveLeaveRequest(requestLeave);
+                    unitOfWork.Commit();
+                    response.IsSuccess = true;
+                }
+                catch (Exception ex)
+                {
 
-               // }).ToList();
-                response.IsSuccess = true;
-                response.Message = "Success";
-
+                    response.IsSuccess = false;
+                    response.Message = ex.ToString();
+                }
+                return response;
             }
-            catch (Exception ex)
-            {
-
-                response.IsSuccess = false;
-                response.Message = ex.ToString();
-            }
-            return response;
         }
+
         public async Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model)
         {
             ServiceResponse response = new ServiceResponse();
@@ -199,7 +224,7 @@ namespace SMLMS.Services.services
                     UserId = model.UserId
                 };
                 var res = unitOfWork.EmployeeLeaveRepository.Find(Convert.ToString(model.Id));
-                if(res != null)
+                if (res != null)
                 {
                     model.UpdateDate = DateTime.Now;
                     model.UpdatedBy = "";
@@ -243,8 +268,6 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-
-
     }
 }
 

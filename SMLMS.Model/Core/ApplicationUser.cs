@@ -13,7 +13,6 @@ namespace SMLMS.Model.Core
 		public DateTime DateOfJoin { get; set; }
 		public DateTime DateOfAppointment { get; set; }
 		public DateTime DateOfLeave { get; set; }
-		public string DepartmentId { get; set; }
 		public string Address { get; set; }
 		public bool? IsDeleted { get; set; }
 		public DateTime? CreateDate { get; set; }

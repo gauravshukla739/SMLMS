@@ -32,12 +32,6 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
-        [Route("Put")]
-        public async Task<ServiceResponse> Put(LeaveDto model,string id)
-        {
-            return await _leave.UpdateLeave(model,id);
-        }
-        [HttpPost]
         [Route("Delete")]
         public async Task<ServiceResponse> Delete(string id)
         {
@@ -46,16 +40,36 @@ namespace SMLMS.REST.Controllers
 
         [HttpPost]
         [Route("RequestLeave")]
-        public async Task<ServiceResponse> RequestLeave(RequestLeave model,string id)
+        public async Task<ServiceResponse> RequestLeave(RequestLeave model)
         {
-            return await _leave.RequestLeave(model, id);
+            return await _leave.RequestLeave(model,User);
         }
 
         [HttpGet]
         [Route("GetLeaveRequest")]
         public async Task<ServiceResponse> GetLeaveRequest()
           {
-            return await _leave.GetLeaveRequest();
+            return await _leave.GetLeaveRequest(User);
         }
+        [HttpPost]
+        [Route("DeleteLeaveRequest")]
+        public async Task<ServiceResponse> DeleteLeaveRequest(string id)
+        {
+            return await _leave.DeleteLeaveRequest(id);
+        }
+
+        [HttpGet]
+        [Route("GetDataBasedOnId")]
+        public async Task<ServiceResponse> GetDataBasedOnId()
+        {
+            return await _leave.GetDataBasedOnId(User);
+        }
+        [HttpPost]
+        [Route("ApproveLeaveRequest")]
+        public async Task<ServiceResponse> ApproveLeaveRequest(Guid id)
+        {
+            return await _leave.ApproveLeaveRequest(id,User);
+        }
+
     }
 }

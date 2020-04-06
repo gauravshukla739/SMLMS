@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using static Dapper.SqlMapper;
 
 namespace SMLMS.Data.Interfaces
@@ -11,12 +12,10 @@ namespace SMLMS.Data.Interfaces
 
         void UpdateData(LeaveDto model,string id);
         void RequestLeave(RequestLeave model); 
+        IEnumerable<RequestLeave> GetLeaveRequest(Guid id);
+        IEnumerable<RequestLeave> GetDataBasedOnId(Guid deptid, string RoleName);
 
-        void UpdateRequestLeave(RequestLeave model,string id);
-
-        IEnumerable<RequestLeave> GetLeaveRequest();
-        /*Leave FindByName(string roleName);*/ // this is extra method apart from already defined methods which are all comman or we can say is fulfilling our needs.
-
-        // No custom need of any method yet , requirement is getting fulfilled by all defined methods in 'IRepository' which is inheriting in 'ILeaveRepositry'    
+        void ApproveLeaveRequest( RequestLeave requestLeave);
+        void RemoveRequest(string key);
     }
 }
