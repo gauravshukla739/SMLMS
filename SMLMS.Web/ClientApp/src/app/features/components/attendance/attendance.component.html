@@ -2,17 +2,23 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 page-title">
-        <button class="btn btn-primary" (click)="PunchIn_Out()" [disabled]="disableBtn">Punch In</button>
+        <button class="btn btn-primary" (click)="Punch_In()" [disabled]="disableBtn">Punch In</button>
       </div>
     </div>
     <div class="row">
       <div class="col-12 page-title">
-        
-        <button class="btn btn-primary" (click)="PunchIn_Out()">Punch Out</button>
+
+        <button class="btn btn-primary" (click)="Punch_out()">Punch Out</button>
       </div>
     </div>
   </div>
 </section>
+<div [class]="timerConfig?.timerClass ? timerConfig.timerClass : ''">
+  <span>{{timerObj.hours}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.hourText ? timerTextConfig.hourText : 'hh'}} </span>
+  <span>{{timerObj.mins}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.minuteText ? timerTextConfig.minuteText : 'mm'}}  </span>
+  <span>{{timerObj.seconds}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.secondsText ? timerTextConfig.secondsText : 'ss'}}</span>
+</div>
+
 <!--<section><div class="form-group">
            <form (ngSubmit)="onSubmit(f)" #f="ngForm">
              <label for="hireDate">Start Date:</label>
@@ -31,11 +37,11 @@
              </div>
              <button type="submit" class="btn btn-primary">Find</button>
            </form>
-  
+
 </div></section>-->
 <section>
   <div class="container-fluid">
-    
+
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">

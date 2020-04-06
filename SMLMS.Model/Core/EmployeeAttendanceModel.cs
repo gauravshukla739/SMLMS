@@ -12,5 +12,6 @@ namespace SMLMS.Model.Core
         public DateTime? SignOut { get; set; }
         public DateTime? CreatedOn { get; set; }
         public string TotalTime { get; set; }
+        public string ResumeTime { get; set; }
     }
 }

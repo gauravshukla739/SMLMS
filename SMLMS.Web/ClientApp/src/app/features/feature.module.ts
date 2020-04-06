@@ -17,6 +17,7 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { TaskComponent } from './components/task/tasksubmit/task.component';
 
 
+
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
@@ -44,6 +45,7 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
     RoleComponent,
     LeaveTypeComponent,
     AttendanceComponent
+
   ],
   imports: [
     FeatureRoutingModule,

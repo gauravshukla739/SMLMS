@@ -31,7 +31,7 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<EmployeeAttendanceModel> All()
         {
             return Query<EmployeeAttendanceModel>(
-                sql: "select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ,(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id"
+                sql: "select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ,(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime,(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id"
             );
         }
 

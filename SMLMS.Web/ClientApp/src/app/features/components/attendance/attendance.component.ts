@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { SharedService } from '../../../shared/services/shared.service.';
 import { Router } from '@angular/router';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { NgForm } from '@angular/forms';
+import { CountupTimerService } from '../../../core/services/countup.service';
+import { countUpTimerConfigModel, timerTexts } from '../../../core/models/countup-timer';
 
- 
+
+
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
@@ -16,28 +19,79 @@ export class AttendanceComponent implements OnInit {
   displayColumn = ["firstName", "lastName", "signIn", , "signOut", "createdOn", "totalTime"];
   userAttendance = [];
   disableBtn: boolean = false;
-  constructor(private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, ) {
+
+  @Input() startTime: String;
+  @Input() countUpTimerConfig: countUpTimerConfigModel;
+
+  //Init
+  timerObj: any = {};
+  private timerSubscription;
+  timerConfig: countUpTimerConfigModel;
+  timerTextConfig: timerTexts;
+
+  constructor(private countupTimerService: CountupTimerService, private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, ) {
 
   }
+
+
 
   ngOnInit() {
     debugger;
-   this.getAllUsers();
+    this.getAllUsers();
     //this.Cre();
+    this.getTimerValue();
+    this.timerConfig = new countUpTimerConfigModel();
+    this.timerTextConfig = new timerTexts();
+    this.timerConfig = this.countUpTimerConfig ? Object.assign(this.countUpTimerConfig) : null;
+    this.timerTextConfig = this.countUpTimerConfig && this.countUpTimerConfig.timerTexts ? Object.assign(this.countUpTimerConfig.timerTexts) : null;
+
+  }
+
+  //get timer value
+  getTimerValue = () => {
+    this.timerSubscription = this.countupTimerService.getTimerValue().subscribe(res => {
+      this.timerObj = Object.assign(res);
+    }, error => {
+      console.log(error);
+      console.log('Failed to get timer value');
+    });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
   }
 
 
-  PunchIn_Out() {
+  Punch_In() {
     this.sharedService.startLoading();
-    
+
     this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
       if (data.isSuccess) {
         this.getAllUsers();
         this.disableBtn = true;
+        debugger;
+        this.countupTimerService.startTimer();
         this.sharedService.showPopup("Successfully punchin");
       }
       else {
         this.sharedService.showPopup("Failed punchin");
+      }
+    })
+  }
+
+
+  Punch_out() {
+    this.sharedService.startLoading();
+
+    this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
+      if (data.isSuccess) {
+        this.getAllUsers();
+        this.disableBtn = true;
+        this.countupTimerService.stopTimer();
+        this.sharedService.showPopup("Successfully punch Out");
+      }
+      else {
+        this.sharedService.showPopup("Failed punch Out");
       }
     })
   }
@@ -50,9 +104,21 @@ export class AttendanceComponent implements OnInit {
     debugger;
     this.attendanceService.all().subscribe((data: any) => {
       if (data.isSuccess) {
+        debugger;
         this.userAttendance = data.data;
         console.log(data);
-        //this.router.navigate(['/permissions']);
+
+        for (var i = 0; i < data.data.length; i++) {
+          if (data.data[i].signOut == null) {
+            this.disableBtn = true;
+            debugger;
+            //var date = new Date(data.data[i].resumeTime);
+            //this.countupTimerService.startTimer(date);
+            //this.countupTimerService.timerValue()
+
+          }
+        }
+
       } else {
         this.sharedService.showPopup(data.Message);
         //this.sharedService.showPopup("Login failed , Invalid user");
