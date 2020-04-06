@@ -83,6 +83,8 @@ namespace SMLMS.REST
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<ILeaveService, LeaveService>();
             services.AddScoped<ITaskService, TaskService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            
 
 
            // services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -17,6 +17,7 @@ namespace SMLMS.Data.Interfaces
         ITaskRepository TaskRepository { get; }
         IEmployeeLeaveRepository EmployeeLeaveRepository { get; }
 
+        IAttendanceRepository AttendanceRepository { get; }
         void Commit();
     }
 }

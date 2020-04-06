@@ -19,6 +19,7 @@ import { LeaveRequestComponent } from './components/leave/leave-request/leave-re
 import { ApproveComponent } from './components/leave/approve/approve.component';
 import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
 import { LeaveComponent } from './components/leave/leave.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
 
 
 
@@ -61,6 +62,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'attendance', component: AttendanceComponent,
+    children: [
+      { path: '', component: AttendanceComponent },
+      { path: 'add', component: AttendanceComponent },
+      { path: 'update', component: AttendanceComponent }
+
+
+    ]
+  },
+  {
     path: 'secure', component: AccountLayoutComponent,
     children: [
       { path: '', component: LoginComponent },
@@ -69,8 +80,8 @@ const routes: Routes = [
       { path: 'password/reset', component: ResetPasswordComponent },
     ]
   }
-
-];
+ ]
+   
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
