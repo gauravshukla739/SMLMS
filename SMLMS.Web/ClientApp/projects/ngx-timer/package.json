@@ -1,0 +1,28 @@
+{
+  "name": "ngx-timer",
+  "version": "1.0.4",
+  "author": "Yashvida Jayasekara",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Y4SHVINE/ngx-timer-lib"
+  },
+  "homepage": "https://github.com/Y4SHVINE/ngx-timer-lib",
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "rxjs": "6.3.3",
+    "rxjs-compat": "6.3.3"
+  },
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "timer",
+    "countup",
+    "countdown",
+    "ngx-timer",
+    "count-up-timer",
+    "ngx count up timer",
+    "count-down-timer",
+    "ngx count down timer"
+  ]
+}
