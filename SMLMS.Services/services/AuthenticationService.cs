@@ -51,9 +51,10 @@ namespace SMLMS.Services.services
                     var userDetail = await _userManager.FindByEmailAsync(user.UserName);
                     var role = await _userManager.GetRolesAsync(userDetail);
                     var getRole =await _roleManager.FindByNameAsync(role[0]);
+                    var data=  _unitOfWork.UserRoleRepository.GetAllByUserId(appUser.Id);
                     response.IsSuccess = true;
                     response.Message = "Login Succsessfull!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString()),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id,appUser.DepartmentId,RoleId=getRole.Id} };
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString(),data.DepartmentId),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=getRole.Id} };
                 }
                 else
                 {
@@ -84,12 +85,14 @@ namespace SMLMS.Services.services
             try
             {
                 var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
-                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber,DepartmentId=user.DepartmentId};
+                var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, user.RoleName);
+                    _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId);
+                    _unitOfWork.Commit();
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
                 }
@@ -154,7 +157,7 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId)
+        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId)
         {
             var claims = _userManager.GetClaimsAsync(user).Result.ToList();
             var claimsnew = new List<Claim>
@@ -165,7 +168,7 @@ namespace SMLMS.Services.services
                 new Claim(ClaimTypes.Email, user.UserName),
                 new Claim(ClaimTypes.Role,role),
                 new Claim("RoleId",roleId),
-                new Claim("DepartmentId",(user.DepartmentId ==null)?"NA":user.DepartmentId),
+                new Claim("DepartmentId",(string.IsNullOrEmpty(departmentId))?"NA":departmentId),
                  new Claim("UserId",user.Id.ToString() )
             };
             claims.AddRange(claimsnew);

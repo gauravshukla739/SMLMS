@@ -25,6 +25,17 @@ namespace SMLMS.Data.Repositories
             );
         }
 
+        public void UpdateDepartment(string userId, string departmentId)
+        {
+            Execute(
+                sql: @"
+                    Update AspNetUserRoles
+                    set DepartmentId=@departmentId,IsDeleted=0
+                    WHERE UserId = @userId and IsDeleted is null",
+                param: new { userId, departmentId  }
+            );
+        }
+
         public IEnumerable<string> GetRoleNamesByUserId(string userId)
         {
             return Query<string>(
@@ -33,6 +44,18 @@ namespace SMLMS.Data.Repositories
                     FROM AspNetUserRoles ur INNER JOIN
                         AspNetRoles r ON ur.RoleId = r.Id
                     WHERE ur.UserId = @userId
+                ",
+                param: new { userId }
+            );
+        }
+
+        public UserRole GetAllByUserId(Guid userId)
+        {
+            return QuerySingleOrDefault<UserRole>(
+                sql: @"
+                    SELECT UserId,RoleId,DepartmentId,IsDeleted
+                    FROM AspNetUserRoles
+                    WHERE UserId = @userId and IsDeleted=0
                 ",
                 param: new { userId }
             );
