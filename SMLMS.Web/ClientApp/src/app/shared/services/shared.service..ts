@@ -47,10 +47,10 @@ export class SharedService {
   }
 
   private _showPopup: boolean = false;
-  popupMsg : any;
+  popupMsg: any;
   popupStatus: any = new Subject();
 
-  get showpopup():boolean {
+  get showpopup(): boolean {
     return this._showPopup;
   }
 
@@ -59,7 +59,7 @@ export class SharedService {
     this.popupStatus.next(this.popupMsg);
   }
 
-  showPopup( msg :any) {
+  showPopup(msg: any) {
     this.popupMsg = msg;
     this.showpopup = true;
   }

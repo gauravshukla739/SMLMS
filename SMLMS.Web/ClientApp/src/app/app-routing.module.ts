@@ -4,10 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   { path: '', loadChildren: './features/feature.module#FeatureModule' },
-  {
-    path: 'leaves',
-    loadChildren: () => import('./features/components/leave-management/leave-management.module').then(m => m.LeaveManagementModule)
-  }
+  //{
+  //  path: 'leaves',
+  //  loadChildren: () => import('./features/components/leave-management/leave-management.module').then(m => m.LeaveManagementModule)
+  //}
 ];
 
 

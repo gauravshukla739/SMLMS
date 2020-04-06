@@ -20,7 +20,7 @@ export class DepartmentService {
   }
 
   delete(id) {
-    return this.http.delete(this.apiBaseUrl + "/Department", id);
+    return this.http.post(this.apiBaseUrl + "/Department/delete/" + id, null);
   }
   
 

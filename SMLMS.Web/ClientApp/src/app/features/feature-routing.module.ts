@@ -14,46 +14,54 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
+import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 
 const routes: Routes = [
-
- 
-  { path: '', component: MainLayoutComponent , 
-  canActivate:[AuthGuard],
-  children:[
-    { path: '', component: DashboardComponent },
-    { path: 'setting', component: SettingComponent },
-    { path: 'dashboard', component: SettingComponent },
-    { path: 'password/change', component: ChangePasswordComponent },
-    {
-      path: 'user',
-      children: [
+  {
+    path: '', component: MainLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: DashboardComponent },
+      { path: 'setting', component: SettingComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'password/change', component: ChangePasswordComponent },
+      {
+        path: 'user',
+        children: [
           { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
           { path: 'update', component: UserCreateUpdateComponent }
-      ]
+        ]
       },
-    { path: 'department', component: DepartmentComponent },
-    { path: 'role', component: RoleComponent },
-    {
-      path: 'task', component: TaskComponent,
-      children: [
-        { path: '', component: TaskComponent },
-        { path: 'create', component: TaskComponent },
-        { path: 'edit/:id', component: TaskComponent },
-      ]
-    },
-  ]
-},
-  { path: 'secure', component: AccountLayoutComponent,
-  children :[
-    { path: '', component: LoginComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'password/forgot', component: ForgotPasswordComponent },
-    { path: 'password/reset', component: ResetPasswordComponent },
-  ]
- }
-  
+      { path: 'department', component: DepartmentComponent },
+      { path: 'role', component: RoleComponent },
+      {
+        path: 'task', component: TaskComponent,
+        children: [
+          { path: '', component: TaskComponent },
+          { path: 'create', component: TaskComponent },
+          { path: 'edit/:id', component: TaskComponent },
+        ]
+      },
+      {
+        path: 'leave', component: LeaveTypeComponent,
+        children: [
+          { path: '', component: LeaveTypeComponent },
+          { path: 'type', component: LeaveTypeComponent }
+        ]
+      },
+    ]
+  },
+  {
+    path: 'secure', component: AccountLayoutComponent,
+    children: [
+      { path: '', component: LoginComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'password/forgot', component: ForgotPasswordComponent },
+      { path: 'password/reset', component: ResetPasswordComponent },
+    ]
+  }
+
 ];
 
 @NgModule({
