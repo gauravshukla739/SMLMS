@@ -8,6 +8,7 @@ import { PasswordService } from './services/password.service';
 import { DepartmentService } from './services/department.service';
 import { RoleService } from './services/role.service';
 import { PasswordValidator } from './directives/passwordvalidate.directive';
+import { LeaveService } from './services/leave.service';
 
 
 
@@ -21,7 +22,7 @@ import { PasswordValidator } from './directives/passwordvalidate.directive';
     HttpClientModule 
   ],
   providers: [
-    AuthenticationService, UserService, PasswordService, DepartmentService, RoleService,
+    AuthenticationService, UserService, PasswordService, DepartmentService, RoleService, LeaveService,
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }
     
     ],

@@ -17,6 +17,11 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> RequestLeave(RequestLeave model,string id);
         Task<ServiceResponse> GetLeaveRequest();
-        
+
+
+        Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId);
+        Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model);
+        Task<ServiceResponse> DeleteEmployeeLeave(Guid id);
+
     }
 }

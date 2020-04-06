@@ -15,6 +15,8 @@ import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
 import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
+import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
+import { LeaveComponent } from './components/leave/leave.component';
 
 const routes: Routes = [
   {
@@ -44,10 +46,10 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'leave', component: LeaveTypeComponent,
+        path: 'leave', component: LeaveComponent,
         children: [
-          { path: '', component: LeaveTypeComponent },
-          { path: 'type', component: LeaveTypeComponent }
+          { path: 'type', component: LeaveTypeComponent },
+          { path: 'epmloyee-leave', component: EmployeeLeaveComponent }
         ]
       },
     ]

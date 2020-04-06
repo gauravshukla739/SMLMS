@@ -38,4 +38,10 @@ export class LeaveService {
     return this.http.post(this.apiBaseUrl + "Leave/Delete?id="+id, null);
   }
 
+
+
+  allEmpLeaves() {
+    return this.http.get(this.apiBaseUrl + "/EmployeeLeave");
+  }
+
 }

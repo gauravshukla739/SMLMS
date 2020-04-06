@@ -5,6 +5,7 @@ using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -158,7 +159,90 @@ namespace SMLMS.Services.services
 
 
 
+        public async Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+               response.Data  = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
+               // var aa1 = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
+               //  var aa = (List<EmpolyeeLeaveDto>)aa1;
+               // var aa12 = aa.GroupBy(x => new { x.UserId, x.EmpName}).Select(x => new
+               // {
+               //     id = x.Key.UserId,
+               //     name = x.Key.EmpName,
+               //     list = x.ToList()
 
+               // }).ToList();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public async Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                var rec = new EmpolyeeLeave
+                {
+                    Id = model.Id,
+                    LeaveCount = model.LeaveCount,
+                    LeaveTypeId = model.LeaveTypeId,
+                    UserId = model.UserId
+                };
+                var res = unitOfWork.EmployeeLeaveRepository.Find(Convert.ToString(model.Id));
+                if(res != null)
+                {
+                    model.UpdateDate = DateTime.Now;
+                    model.UpdatedBy = "";
+                    unitOfWork.EmployeeLeaveRepository.Update(rec);
+                }
+                else
+                {
+                    model.CreateDate = DateTime.Now;
+                    model.CreatedBy = "";
+                    unitOfWork.EmployeeLeaveRepository.Add(rec);
+                }
+                unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public async Task<ServiceResponse> DeleteEmployeeLeave(Guid id)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                unitOfWork.EmployeeLeaveRepository.Remove(Convert.ToString(id));
+                unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
 
 
     }

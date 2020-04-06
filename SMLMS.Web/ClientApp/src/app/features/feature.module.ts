@@ -21,6 +21,8 @@ import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
 import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
+import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
+import { LeaveComponent } from './components/leave/leave.component';
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { LeaveTypeComponent } from './components/leave/type/leave-type.component
     TaskComponent,
     DepartmentComponent,
     RoleComponent,
-    LeaveTypeComponent
+    LeaveTypeComponent,
+    EmployeeLeaveComponent,
+    LeaveComponent
   ],
   imports: [
     FeatureRoutingModule,
