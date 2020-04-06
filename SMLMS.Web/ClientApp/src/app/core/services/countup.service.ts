@@ -24,6 +24,7 @@ export class CountupTimerService {
 
   //start timer
   startTimer = (startTime?: any) => {
+    debugger;
     if (startTime) {
       let currentDate = new Date();
       let startedTime = new Date(startTime);
@@ -90,6 +91,7 @@ export class CountupTimerService {
 
   //set timer value
   setTimervalue = (val) => {
+   
     let valString = val + "";
     return (valString.length < 2) ? "0" + valString : valString;
   }

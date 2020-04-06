@@ -86,7 +86,7 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
       if (data.isSuccess) {
         this.getAllUsers();
-        this.disableBtn = true;
+        this.disableBtn = false;
         this.countupTimerService.stopTimer();
         this.sharedService.showPopup("Successfully punch Out");
       }
@@ -111,11 +111,8 @@ export class AttendanceComponent implements OnInit {
         for (var i = 0; i < data.data.length; i++) {
           if (data.data[i].signOut == null) {
             this.disableBtn = true;
-            debugger;
-            //var date = new Date(data.data[i].resumeTime);
-            //this.countupTimerService.startTimer(date);
-            //this.countupTimerService.timerValue()
-
+            var signIn_Date = new Date(data.data[i].signIn);
+            this.countupTimerService.startTimer(signIn_Date);
           }
         }
 
@@ -126,6 +123,12 @@ export class AttendanceComponent implements OnInit {
     })
   }
 
+
+  public timerValue = {
+    seconds: '00',
+    mins: '00',
+    hours: '00',
+  }
 
   Cre() {
     this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
