@@ -32,11 +32,11 @@
                 <div *ngIf="description.errors.required">Description is required</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="userRole!='Admin'">
               <label for="comment">Comment (if any):</label>
               <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="userRole==='Admin'">
               <label for="admincomment">Admin Comment (if any):</label>
               <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
             </div>

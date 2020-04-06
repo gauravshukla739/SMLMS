@@ -11,10 +11,12 @@ export class TaskComponent implements OnInit {
 
   constructor(private taskService: TaskService, private sharedService: SharedService ) { }
   isAddEdit = false;
+  userRole: string;
   task: any = {};   
   taskList: any;
   ngOnInit() {
     this.task.employeeId = this.sharedService.user.id;
+    this.userRole = this.sharedService.user.roleName || "";
     this.getTask();
    
   }
@@ -39,7 +41,7 @@ export class TaskComponent implements OnInit {
   }
   
   onSubmit(formValid: any) {
-    this.task.departmentId = "A5DEECC0-88A6-4F89-9A7F-E554D3FA886A";
+    this.task.departmentId = "2951FE55-9466-4F37-A515-D3F9B0915EEB";
     this.task.employeeId = this.sharedService.user.id;
     this.taskService.addTask(this.task).subscribe((res: any) => {
       debugger;
