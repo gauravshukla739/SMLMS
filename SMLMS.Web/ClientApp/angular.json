@@ -82,7 +82,8 @@
             "scripts": [],
             "assets": [
               "src/assets",
-              "src/assets/images"
+              "src/assets/images",
+              "src/assets/file"
             ]
           }
         },

@@ -30,7 +30,7 @@ namespace SMLMS.Services.services
                 var roleId = claims.Claims.First(x => x.Type == "RoleId").Value;
                 if (model.Id == Guid.Empty)
                 {
-                    model.RoleId = roleId;
+                    model.RoleId =Guid.Parse(roleId);
                     model.CreatedBy = emailId;
                     _unitOfWork.DepartmentRepository.Add(model);
                     _unitOfWork.Commit();

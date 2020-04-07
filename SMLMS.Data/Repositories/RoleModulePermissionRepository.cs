@@ -1,6 +1,7 @@
 ﻿
 using SMLMS.Data.Interfaces;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,6 +24,49 @@ namespace SMLMS.Data.Repositories
                     VALUES(@Id, @RoleId,@ModuleId ,@CanAdd ,@CanEdit ,@CanDelete,@CanView,
                     @IsDeleted, @CreateDate , @UpdateDate,@CreatedBy,@UpdatedBy)",
                 param: entity
+            );
+        }
+
+        public void AddRoleToTask(List<RoleTaskPermissionDto> entity)
+        {
+            //string sql = @"INSERT INTO [dbo].[RoleTaskPermission] ([TaskName],[RoleName],[Permission],[createdby])";
+            //int i = 0;
+            //foreach(var item in entity)
+            //{
+            //    if(i< entity.Count-1)
+            //    sql = sql + @" VALUES(@TaskName,@RoleName ,@Permission ,@createdby),";
+            //    else
+            //        sql = sql + @" VALUES(@TaskName,@RoleName ,@Permission ,@createdby)";
+            //    i++;
+            //}
+            foreach (var item in entity)
+            {
+                Execute(
+                    sql: @"INSERT INTO [dbo].[RoleTaskPermission] ([TaskName],[RoleName],[Permission],[createdby])  VALUES(@TaskName,@RoleName ,@Permission ,@createdby)",
+                    param: item
+                );
+            }
+        }
+
+        public void Truncate()
+        {            
+            Execute(
+                sql: @"truncate table [dbo].[RoleTaskPermission]",
+                param: null
+            );
+        }
+
+        public IEnumerable<RoleTaskPermissionDto> FindPermissionByRole(string key)
+        {
+            return Query<RoleTaskPermissionDto>(
+                sql: "SELECT * FROM [dbo].[RoleTaskPermission] WHERE RoleName = @key",
+                param: new { key }
+            );
+        }
+        public IEnumerable<RoleTaskPermissionDto> GetAllPermission()
+        {
+            return Query<RoleTaskPermissionDto>(
+                sql: "SELECT * FROM [dbo].[RoleTaskPermission]"
             );
         }
 

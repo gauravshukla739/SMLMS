@@ -27,6 +27,8 @@ import { ApproveComponent } from './components/leave/approve/approve.component';
 import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
 import { LeaveComponent } from './components/leave/leave.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { PromoteUserComponent } from './components/user/promote/promote.component';
+import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
 
 
 
@@ -53,7 +55,9 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
         ApproveComponent,
         EmployeeLeaveComponent,
         LeaveComponent,
-        AttendanceComponent
+    AttendanceComponent,
+    PromoteUserComponent,
+    TaskRolePermissionComponent
   ],
   imports: [
     FeatureRoutingModule,

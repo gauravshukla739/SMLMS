@@ -17,4 +17,11 @@ export class RoleService {
   post(data: any) {
     return this.http.post(this.apiBaseUrl + "/Role", data);
   }
+  permission(data: any) {
+    return this.http.post(this.apiBaseUrl + "/Role/Permission", data);
+  }
+
+  getpermission() {
+    return this.http.get(this.apiBaseUrl + "/Role/Permission");
+  }
 }

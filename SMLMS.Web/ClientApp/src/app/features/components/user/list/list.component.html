@@ -4,8 +4,12 @@
     <div class="row">
       <div class="col-12 page-title">
         <h3 class="title-top">Employee</h3>
-        <button [routerLink]="['/user/add']" class="btn sm-primary" >Add New</button>
+        <button [routerLink]="['/user/add']" class="btn sm-primary">Add New</button>
+        <a class="action-btn fa fa-eye view" target="_blank" href="/assets/file/Employee.xlsx">Download</a>
+        <input type="file" id="input" value="Upload Employee" />
       </div>
+     
+     
     </div>
     <div class="row">
       <div class="col-12 sm-table employee">
@@ -36,8 +40,9 @@
 
                 <td *ngFor="let i of displayColumn">{{user[i] || '-'}}</td>
 
+                <td> <a class="action-btn" (click)="promote(user.id)">Promote</a></td>
                 <td class="more">
-                  <a class="action-btn fa fa-eye view"  href="javascript:void(0);" [routerLink]="['/user/update']" [queryParams]="{id:user.id}">Edit</a>
+                  <a class="action-btn fa fa-eye view" href="javascript:void(0);" [routerLink]="['/user/update']" [queryParams]="{id:user.id}">Edit</a>
                   <a class="action-btn fa fa-trash delete" (click)="delete(user.id , user)">Remove</a>
                 </td>
               </tr>

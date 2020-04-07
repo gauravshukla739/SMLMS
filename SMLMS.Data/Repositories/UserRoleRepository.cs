@@ -35,7 +35,7 @@ namespace SMLMS.Data.Repositories
                 param: new { userId, departmentId  }
             );
         }
-
+      
         public IEnumerable<string> GetRoleNamesByUserId(string userId)
         {
             return Query<string>(
@@ -54,7 +54,7 @@ namespace SMLMS.Data.Repositories
             return QuerySingleOrDefault<UserRole>(
                 sql: @"
                     SELECT UserId,RoleId,DepartmentId,IsDeleted
-                    FROM AspNetUserRoles
+                    FROM AspNetUserRoles 
                     WHERE UserId = @userId and IsDeleted=0
                 ",
                 param: new { userId }
@@ -74,16 +74,14 @@ namespace SMLMS.Data.Repositories
                 param: new { roleName });
         }
 
-        public void Remove(string userId, string roleName)
+        public void Remove(string userId)
         {
             Execute(
                 sql: @"
-                    DELETE ur
-                    FROM AspNetUserRoles ur INNER JOIN
-                        AspNetRoles r ON ur.RoleId = r.Id
-                    WHERE r.NormalizedName = @roleName
-                ",
-                param: new { userId, roleName }
+                    Update AspNetUserRoles
+                    set IsDeleted=1
+                    WHERE UserId = @userId and IsDeleted=0",
+                param: new { userId }
             );
         }
     }

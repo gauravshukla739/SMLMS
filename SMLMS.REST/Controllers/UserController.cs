@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMLMS.Helper.ServiceResponse;
+using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
@@ -33,6 +34,20 @@ namespace SMLMS.REST.Controllers
         public async Task<ServiceResponse> DeleteUser(string userId)
         {
             return await _userService.Delete(userId);
+        }
+
+        [HttpPost]
+        [Route("import")]
+        public async Task<ServiceResponse> Import(List<UserDto> user)
+        {
+            return await _userService.Import(user,User);
+        }
+
+        [HttpPost]
+        [Route("promote")]
+        public async Task<ServiceResponse> Promote(UserDto user)
+        {
+            return await _userService.Promote(user, User);
         }
     }
 }

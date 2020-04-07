@@ -1,10 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +15,13 @@ namespace SMLMS.Services.services
     public class UserService : IUserService
     {
         private IUnitOfWork unitOfWork;
-        public UserService(IUnitOfWork _unitOfWork)
+        private readonly IAuthenticationService _authenticationService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        public UserService(IUnitOfWork _unitOfWork, IAuthenticationService authenticationService, UserManager<ApplicationUser> userManager)
         {
             unitOfWork = _unitOfWork;
+            _authenticationService = authenticationService;
+            _userManager = userManager;
         }
         public async Task<ServiceResponse> GetAll()
         {
@@ -83,6 +89,73 @@ namespace SMLMS.Services.services
             catch (Exception e)
             {
                 response.IsSuccess = false;
+            }
+            return response;
+        }
+
+
+        public async Task<ServiceResponse> Import(List<UserDto> user,ClaimsPrincipal claims)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                int i = 0;
+                var count = user.Count;
+                response.IsSuccess = true;
+                foreach (var item in user)
+                {
+                    
+                    var dept = unitOfWork.DepartmentRepository.Find(item.DepartmentName);
+                    item.DepartmentId = dept.Id;
+                    var result= await _authenticationService.CreateUser(item, claims);
+                    if (!result.IsSuccess)
+                    {
+                        i++;
+                    }
+                   
+                }
+
+                if (i == 0)
+                {
+                    response.Message = "All record inserted successfully!";
+                }
+                else if (i == count)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Error in Saving data";
+                }
+                else
+                {
+                    response.Message = $"Only {count - i} record inserted successfully!";
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> Promote(UserDto user, ClaimsPrincipal claims)
+        {
+            ServiceResponse response = new ServiceResponse() { IsSuccess = true};
+            try
+            {
+                unitOfWork.UserRoleRepository.Remove(user.Id.ToString());
+                unitOfWork.Commit();
+                var userDetail = await _userManager.FindByIdAsync(user.Id);
+                await _userManager.AddToRoleAsync(userDetail, user.RoleName);
+                unitOfWork.UserRoleRepository.UpdateDepartment(user.Id.ToString(), user.DepartmentId.ToString());
+                unitOfWork.Commit();
+                response.Message = "User is Promoted Successfully!";
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
             return response;
         }
