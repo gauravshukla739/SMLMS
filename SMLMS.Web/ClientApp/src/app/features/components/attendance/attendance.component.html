@@ -1,85 +1,66 @@
-<section>
+
+<section >
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 page-title">
-        <button class="btn btn-primary" (click)="Punch_In()" [disabled]="disableBtn">Punch In</button>
+        <h3 class="title-top">Attendance Tracking</h3>
+        <!--<button class="btn sm-primary">Add New</button>-->
       </div>
     </div>
     <div class="row">
-      <div class="col-12 page-title">
-
-        <button class="btn btn-primary" (click)="Punch_out()">Punch Out</button>
+     
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="Punch_In()" [disabled]="disable_SignIn">Clock In</button>
       </div>
-    </div>
-  </div>
-</section>
-<div [class]="timerConfig?.timerClass ? timerConfig.timerClass : ''">
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="Punch_out()" [disabled]="disable_SignOut">Clock Out</button>
+      </div>
+      <div class="col-8">
+        <div class="col-3"><h6> Time Tracking:</h6></div>
+        <div class="col-5" style="color:darkgoldenrod;"><div [class]="timerConfig?.timerClass ? timerConfig.timerClass : ''">
   <span>{{timerObj.hours}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.hourText ? timerTextConfig.hourText : 'hh'}} </span>
   <span>{{timerObj.mins}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.minuteText ? timerTextConfig.minuteText : 'mm'}}  </span>
   <span>{{timerObj.seconds}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.secondsText ? timerTextConfig.secondsText : 'ss'}}</span>
-</div>
+</div></div>
+      </div>
+    </div>
+  </div>
+  
+</section>
 
-<!--<section><div class="form-group">
-           <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-             <label for="hireDate">Start Date:</label>
-             <div class="form-group form-inline">
-               <div class="input-group">
-                 <input class="form-control" name="startDate" type="date" id="hireDate" placeholder="yyyy-mm-dd">
-               </div>
-             </div>
-
-
-             <label for="hireDate">End Date:</label>
-             <div class="form-group form-inline">
-               <div class="input-group">
-                 <input class="form-control" name="endDate" type="date" id="hireDate" placeholder="yyyy-mm-dd">
-               </div>
-             </div>
-             <button type="submit" class="btn btn-primary">Find</button>
-           </form>
-
-</div></section>-->
 <section>
   <div class="container-fluid">
-
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th class="select">
-                  <input id="selectAll" type="checkbox">
-                  <label for="selectAll">Select</label>
-                </th>
-
-
-                <th class="img">Img</th>
-
-                <th *ngFor="let item of displayColumn">{{item}}</th>
-
-                <th class="more">Actions</th>
+                <th>Name</th>
+                <th>Sign In</th>
+                <th>Sign Out</th>
+                <th>TotalTime</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let attendance of userAttendance">
-                <td class="select">
-                  <input id="checkbox1" type="checkbox">
-                  <label for="checkbox1">Select</label>
-                </td>
-                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
 
-                <td *ngFor="let i of displayColumn">{{attendance[i] || '-'}}</td>
-
-                <td class="more">
-                  <a class="action-btn fa fa-eye view" href="javascript:void(0)">View</a>
-                  <a class="action-btn fa fa-trash delete" (click)="delete(user.id , user)">Remove</a>
-                </td>
+                <td>{{attendance.firstName  || '-'}} {{attendance.lastName  || '-'}}</td>
+                <td>{{attendance.signIn | date:'HH:mm:ss'}}</td>
+                <td>{{attendance.signOut | date:'HH:mm:ss'}}</td>
+                <td>{{attendance.totalTime || '-'}}</td>
+                <td>{{attendance.createdOn | date: 'dd-MM-yyyy'}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      <!--<div class="col-4 sm-table employee">
+        <div>
+         test
+        </div>
+      </div>-->
     </div>
   </div>
 </section>

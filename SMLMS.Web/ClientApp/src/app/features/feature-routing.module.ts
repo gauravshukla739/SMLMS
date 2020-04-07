@@ -41,6 +41,7 @@ const routes: Routes = [
         ]
       },
       { path: 'department', component: DepartmentComponent },
+      { path: 'attendance', component: AttendanceComponent },
       { path: 'role', component: RoleComponent },
       {
         path: 'task', component: TaskComponent,
@@ -59,16 +60,6 @@ const routes: Routes = [
             { path: 'approve', component: ApproveComponent }
         ]
       },
-    ]
-  },
-  {
-    path: 'attendance', component: AttendanceComponent,
-    children: [
-      { path: '', component: AttendanceComponent },
-      { path: 'add', component: AttendanceComponent },
-      { path: 'update', component: AttendanceComponent }
-
-
     ]
   },
   {

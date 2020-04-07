@@ -88,7 +88,7 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> GetEmployess(AttendanceDto model)
+        public async Task<ServiceResponse> Employess(AttendanceDto model)
         {
             ServiceResponse response = new ServiceResponse();
             try
@@ -96,6 +96,23 @@ namespace SMLMS.Services.services
                 response.IsSuccess = true;
                 response.Message = "Data Fetch";
                 response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance_DateFilter(model.startDate, model.endDate);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> GetEmployeAttendance(string userid)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance(userid);
             }
             catch (Exception ex)
             {

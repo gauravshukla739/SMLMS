@@ -38,15 +38,22 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
-        [Route("EmployeeAttendance")]
-        public async Task<ServiceResponse> EmployeeAttendance(AttendanceDto model)
+        [Route("EmployeeAttendancess")]
+        public async Task<ServiceResponse> EmployeeAttendanceee(AttendanceDto model)
         {
-            return await _attendanceService.GetEmployess(model);
+            return await _attendanceService.Employess(model);
         }
 
         [HttpGet]
         [Route("getAll")]
         public async Task<ServiceResponse> GetAll()
+        {
+            return await _attendanceService.GetAll();
+        }
+
+        [HttpGet]
+        [Route("EmployeeAttendance")]
+        public async Task<ServiceResponse> EmployeeAttendance()
         {
             return await _attendanceService.GetAll();
         }

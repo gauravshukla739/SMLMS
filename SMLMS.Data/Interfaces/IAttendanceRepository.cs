@@ -13,5 +13,6 @@ namespace SMLMS.Data.Interfaces
         IEnumerable<EmployeeAttendanceModel> All();
         IEnumerable<Attendance> EmployeeAttendance_DateFilter(string startDate, string endDate);
         Attendance FindUserById(string UserId);
+        IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId);
     }
 }

@@ -19,4 +19,9 @@ export class AttendanceService {
   CreateOrUpDate() {
     return this.http.post(this.apiBaseUrl + `/Attendance/CreateOrUpdate`, null);
   }
+
+  getemployee_attendance(userid) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/EmployeeAttendance?userid=` + userid);
+  }
+
 }
