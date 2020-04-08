@@ -18,11 +18,19 @@ export class TaskComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   totalRecord = 0;
+  sliceStart = 0;
+  sliceEnd = 5;
+  pageNumberT = 1;
+  pageSizeT = 5;
+  totalRecordT = 0;
+  sliceStartT = 0;
+  sliceEndT = 5;
   userRole: string;
   task: any = {};   
   taskList: any;
   users: any;
   myTaskList: any;
+  
   dept: any = "";/*this.sharedService.user.departmentId;
 */  departments: any = [];
   ngOnInit() {
@@ -74,17 +82,20 @@ export class TaskComponent implements OnInit {
     if (this.userRole === 'Admin') {
       this.taskService.getTask().subscribe((data: any) => {
         this.taskList = data.data;
+        this.totalRecordT = data.data.length;
       });
     }
     else {
       this.taskService.getTaskByUser(this.task.employeeId).subscribe((data: any) => {
         this.taskList = data.data;
+        this.totalRecordT = data.data.length;
       });
     }   
   }
   getTaskByDept() {
     this.taskService.getTaskByDepartment(this.dept).subscribe((data: any) => {
       this.taskList = data.data;
+      this.totalRecordT = data.data.length;
     });
   }
   getMyTask() {
@@ -125,22 +136,58 @@ export class TaskComponent implements OnInit {
       });
     }
   }
+  sliceArray(): void {
+    this.sliceStart = this.pageSize * (this.pageNumber - 1);
+    this.sliceEnd = this.sliceStart + this.pageSize;
+  }
   goToPage(n: number): void {
     this.pageNumber = n;
+    this.sliceArray();
     this.getMyTask();
   }
 
   onNext(): void {
     this.pageNumber++;
+    this.sliceArray();
     this.getMyTask();
   }
 
   onPrev(): void {
     this.pageNumber--;
+    this.sliceArray();
     this.getMyTask();
   }
   changePageSize() {
     this.pageNumber = 1;
+    this.sliceStart = 0;
+    this.sliceEnd = this.pageSize;
     this.getMyTask();
+  }
+  sliceArrayT(): void {
+    this.sliceStartT = this.pageSizeT * (this.pageNumberT - 1);
+    this.sliceEndT = this.sliceStartT + this.pageSizeT;
+  }
+  goToPageT(n: number): void {
+    this.pageNumberT = n;
+    this.sliceArrayT();
+    this.getTask();
+  }
+
+  onNextT(): void {
+    this.pageNumberT++;
+    this.sliceArrayT();
+    this.getTask();
+  }
+
+  onPrevT(): void {
+    this.pageNumberT--;
+    this.sliceArrayT();
+    this.getTask();
+  }
+  changePageSizeT() {
+    this.pageNumberT = 1;
+    this.sliceStartT = 0;
+    this.sliceEndT = this.pageSizeT;
+    this.getTask();
   }
 }

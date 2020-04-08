@@ -102,7 +102,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let task of taskList;">
+                  <tr *ngFor="let task of taskList | slice:sliceStartT:sliceEndT; let i = index;">
                     <td class="select">
                       <input id="checkbox1" type="checkbox">
                       <label for="checkbox1">Select</label>
@@ -121,6 +121,32 @@
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="totalRecordT > pageSizeT">
+          <div class="col-2"></div>
+          <div class="col-6">
+            <app-pagination (goPage)="goToPageT($event)" (goNext)="onNextT()" (goPrev)="onPrevT()" [pagesToShow]="5"
+                            [pageSize]="pageSizeT" [totalRecord]="totalRecordT" [pageNumber]="pageNumberT"></app-pagination>
+
+          </div>
+          <div class="col-1">
+            Record
+
+
+          </div>
+          <div class="col-1">
+            <select class="form-control" [(ngModel)]="pageSizeT" (change)="changePageSizeT()">
+              <option value=5>5</option>
+              <option value=10>10</option>
+              <option value=25>25</option>
+              <option value=50>50</option>
+              <option value=100>100</option>
+            </select>
+          </div>
+          <div class="col-2">
+            Per Page
           </div>
         </div>
       </div>
@@ -152,7 +178,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let task of myTaskList;">
+                  <tr *ngFor="let task of myTaskList | slice:sliceStart:sliceEnd; let i = index;">
                     <td class="select">
                       <input id="checkbox1" type="checkbox">
                       <label for="checkbox1">Select</label>
