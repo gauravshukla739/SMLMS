@@ -2,6 +2,7 @@
 using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
 using System.Collections.Generic;
@@ -323,6 +324,61 @@ namespace SMLMS.Services.services
                     response.IsSuccess = false;
                     response.Message = "Record Not Found";
                 }
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> AddRoleToTask(List<RoleTaskPermissionDto> model,ClaimsPrincipal claims)
+        {
+            ServiceResponse response = new ServiceResponse() { IsSuccess = true };
+            try
+            {   var email= claims.Claims.First(x => x.Type == ClaimTypes.Email).Value; 
+                model.ForEach(x => x.CreatedBy = email);
+                unitOfWork.RoleModulePermissionRepository.Truncate();
+                 unitOfWork.RoleModulePermissionRepository.AddRoleToTask(model);
+                unitOfWork.Commit();
+                response.Message = "Data Saved Successfully!";
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> GetPermissionByRole(string roleName)
+        {
+            ServiceResponse response = new ServiceResponse() { IsSuccess = true };
+            try
+            {
+                var rolePermission = unitOfWork.RoleModulePermissionRepository.FindPermissionByRole(roleName);
+                response.Data = rolePermission;
+                response.IsSuccess = true;
+
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                response.Message = e.ToString();
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> GetAllPermission()
+        {
+            ServiceResponse response = new ServiceResponse() {IsSuccess=true };
+            try
+            {
+                var rolePermission = unitOfWork.RoleModulePermissionRepository.GetAllPermission();              
+                response.Data = rolePermission;
+                response.IsSuccess = true;
+              
             }
             catch (Exception e)
             {

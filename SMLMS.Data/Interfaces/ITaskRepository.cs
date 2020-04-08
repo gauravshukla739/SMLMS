@@ -7,8 +7,10 @@ namespace SMLMS.Data.Interfaces
 {
     public interface ITaskRepository : IRepository<Task, string>
     {
-        IEnumerable<Task> FindByEmployeeId(Guid employeeId);
-        IEnumerable<Task> FindByDepartmentId(Guid departmentId);
+        IEnumerable<TaskDto> FindByEmployeeId(Guid employeeId);
+        IEnumerable<TaskDto> FindByAssignToId(Guid employeeId);        
+        IEnumerable<TaskDto> FindByDepartmentId(Guid departmentId);
+        IEnumerable<TaskDto> AllTask();
         void Remove(Guid key, string userName);
     }
 }

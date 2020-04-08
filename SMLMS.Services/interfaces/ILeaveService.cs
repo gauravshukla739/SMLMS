@@ -22,5 +22,9 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> ApproveLeaveRequest(Guid id, ClaimsPrincipal claim);
 
+        Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId);
+        Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model);
+        Task<ServiceResponse> DeleteEmployeeLeave(Guid id);
+
     }
 }

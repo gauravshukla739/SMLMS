@@ -17,12 +17,19 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { TaskComponent } from './components/task/tasksubmit/task.component';
 
 
+
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
 import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 import { LeaveRequestComponent } from './components/leave/leave-request/leave-request.component';
 import { ApproveComponent } from './components/leave/approve/approve.component';
+import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
+import { LeaveComponent } from './components/leave/leave.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
+import { PromoteUserComponent } from './components/user/promote/promote.component';
+import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
+
 
 
 @NgModule({
@@ -45,7 +52,12 @@ import { ApproveComponent } from './components/leave/approve/approve.component';
     RoleComponent,
     LeaveTypeComponent,
     LeaveRequestComponent,
-    ApproveComponent
+        ApproveComponent,
+        EmployeeLeaveComponent,
+        LeaveComponent,
+    AttendanceComponent,
+    PromoteUserComponent,
+    TaskRolePermissionComponent
   ],
   imports: [
     FeatureRoutingModule,

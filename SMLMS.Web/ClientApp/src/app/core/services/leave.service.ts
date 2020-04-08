@@ -44,5 +44,9 @@ export class LeaveService {
 
   approveLeave(id: any) {
     return this.http.post(this.apiBaseUrl + "/Leave/ApproveLeaveRequest?id=" + id,null);
-  }
+    }
+
+    allEmpLeaves() {
+        return this.http.get(this.apiBaseUrl + "/EmployeeLeave");
+    }
 }

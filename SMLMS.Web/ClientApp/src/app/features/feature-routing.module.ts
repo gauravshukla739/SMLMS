@@ -17,6 +17,12 @@ import { RoleComponent } from './components/role/role.component';
 import { LeaveTypeComponent } from './components/leave/type/leave-type.component';
 import { LeaveRequestComponent } from './components/leave/leave-request/leave-request.component';
 import { ApproveComponent } from './components/leave/approve/approve.component';
+import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
+import { LeaveComponent } from './components/leave/leave.component';
+import { AttendanceComponent } from './components/attendance/attendance.component';
+import { PromoteUserComponent } from './components/user/promote/promote.component';
+import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
+
 
 
 const routes: Routes = [
@@ -33,11 +39,19 @@ const routes: Routes = [
         children: [
           { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
-          { path: 'update', component: UserCreateUpdateComponent }
+          { path: 'update', component: UserCreateUpdateComponent },
+          { path: 'promote', component: PromoteUserComponent }
         ]
       },
-      { path: 'department', component: DepartmentComponent },
-      { path: 'role', component: RoleComponent },
+        { path: 'department', component: DepartmentComponent },
+        { path: 'attendance', component: AttendanceComponent },
+      {
+        path: 'role',
+        children: [
+          { path: '', component: RoleComponent },
+          { path: 'permission', component: TaskRolePermissionComponent }
+        ]
+      },
       {
         path: 'task', component: TaskComponent,
         children: [
@@ -47,16 +61,14 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'leave', component: LeaveTypeComponent,
+        path: 'leave', component: LeaveComponent,
         children: [
-          { path: '', component: LeaveTypeComponent },
-          { path: 'type', component: LeaveTypeComponent }
-          
+          { path: 'type', component: LeaveTypeComponent },
+            { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+            { path: 'request', component: LeaveRequestComponent },
+            { path: 'approve', component: ApproveComponent }
         ]
       },
-
-      { path: 'request', component: LeaveRequestComponent },
-      { path: 'approve', component: ApproveComponent },
     ]
   },
   {
@@ -68,8 +80,8 @@ const routes: Routes = [
       { path: 'password/reset', component: ResetPasswordComponent },
     ]
   }
-
-];
+ ]
+   
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

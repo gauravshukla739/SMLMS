@@ -3,6 +3,7 @@ using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +17,9 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> GetRole(string userId);
 
         Task<ServiceResponse> Delete(string userId);
+        Task<ServiceResponse> Import(List<UserDto> user, ClaimsPrincipal claims);
+        Task<ServiceResponse> Promote(UserDto user, ClaimsPrincipal claims);
+
 
     }
 }

@@ -9,6 +9,9 @@ namespace SMLMS.Model.Core
         public Guid Id { get; set; }
         public Guid DepartmentId { get; set; }
         public Guid EmployeeId { get; set; }
+        public Guid AssignTo { get; set; }
+        public string Status { get; set; }
+        public DateTime? EstimatedDate { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Comment { get; set; }

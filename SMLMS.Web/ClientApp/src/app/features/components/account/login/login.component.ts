@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit {
       debugger;
       if (data.isSuccess) {
         this.sharedService.showPopup("Successfully login");
-        localStorage.setItem("user-token" , data.data.token);
+        localStorage.setItem("user-token", data.data.token);
+        localStorage.setItem("role-permission", data.data.permission);
         this.sharedService.accessToken = data.data.token;
         this.sharedService.setUser(data.data.user);
         this.router.navigate(['/dashboard']);

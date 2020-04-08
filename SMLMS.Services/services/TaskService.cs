@@ -27,7 +27,7 @@ namespace SMLMS.Services.services
             ServiceResponse _response = new ServiceResponse();
             try
             {
-                var data = unitOfWork.TaskRepository.All();
+                var data = unitOfWork.TaskRepository.AllTask();
                 unitOfWork.Commit();
                 _response.IsSuccess = true;
                 _response.Message = "Success";
@@ -41,7 +41,7 @@ namespace SMLMS.Services.services
             }
             return _response;
         }
-
+        
         public async Task<ServiceResponse> SaveUpdateTask(Model.Core.Task _task, ClaimsPrincipal claims)
         {
             ServiceResponse _response = new ServiceResponse();
@@ -117,7 +117,7 @@ namespace SMLMS.Services.services
             }
             return _response;
         }
-
+        
         public async Task<ServiceResponse> GetTaskByEmployeeId(Guid id)
         {
             ServiceResponse _response = new ServiceResponse();
@@ -138,7 +138,26 @@ namespace SMLMS.Services.services
             }
             return _response;
         }
+        public async Task<ServiceResponse> GetMyTaskByEmployeeId(Guid id)
+        {
+            ServiceResponse _response = new ServiceResponse();
+            try
+            {
+                var taskList = unitOfWork.TaskRepository.FindByAssignToId(id);
+                unitOfWork.Commit();
+                _response.IsSuccess = true;
+                _response.Message = "Task fetched successfully";
+                _response.Data = taskList;
 
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+            }
+            return _response;
+        }
         public async Task<ServiceResponse> GetTaskByDepartmentId(Guid id)
         {
             ServiceResponse _response = new ServiceResponse();

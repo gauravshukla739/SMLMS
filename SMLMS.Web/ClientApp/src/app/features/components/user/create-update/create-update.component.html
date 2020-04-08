@@ -20,13 +20,13 @@
       <div *ngIf="email.errors.required">Email is required</div>
     </div>
   </div>
-  <div class="form-group" *ngIf="isAdd">
+  <!--<div class="form-group" *ngIf="isAdd">
     <label for="pwd">Password:</label>
     <input type="password" class="form-control requried" placeholder="Enter Password" name="newpwd" [(ngModel)]="user.password" required #newpwd="ngModel">
     <div *ngIf="f.submitted && newpwd.invalid" class="alert-danger">
       <div *ngIf="newpwd.errors.required">Password is required</div>
     </div>
-  </div>
+  </div>-->
 
   <div class="form-group" *ngIf="isAdd">
     <label for="select">Role:</label>

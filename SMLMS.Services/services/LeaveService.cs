@@ -47,24 +47,24 @@ namespace SMLMS.Services.services
         }
         public async Task<ServiceResponse> PostLeave(LeaveDto _leave)
         {
-                ServiceResponse response = new ServiceResponse();
-                try
-                {
-                    unitOfWork.LeaveRepositry.Add(_leave);
-                    unitOfWork.Commit();
-                    response.IsSuccess = true;
-                    response.Message = "Data Added";
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                unitOfWork.LeaveRepositry.Add(_leave);
+                unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Data Added";
 
-                }
-                catch (Exception ex)
-                {
-
-                    response.IsSuccess = false;
-                    response.Message = ex.ToString();
-                }
-                return response;
             }
-        
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+
 
         public async Task<ServiceResponse> DeleteLeave(string id)
         {
@@ -136,14 +136,13 @@ namespace SMLMS.Services.services
 
         public async Task<ServiceResponse> RequestLeave(RequestLeave _RequestLeave, ClaimsPrincipal claim)
         {
-            {
                 var loggedInUserEmailId = claim.Claims.First(x => x.Type == ClaimTypes.Email).Value;
                 var loggedInUserRoleId = claim.Claims.First(x => x.Type == "RoleId").Value;
                 var loggedInUserUserId = claim.Claims.First(x => x.Type == "UserId").Value;
                 var loggedInUserRoleName = claim.Claims.First(x => x.Type == ClaimTypes.Role).Value;
                 var a = claim.Claims.Where(c => c.Type == "DepartmentId").Select(c => c.Value).SingleOrDefault();
                 _RequestLeave.CreatedBy = loggedInUserEmailId;
-                _RequestLeave.Userid =  Guid.Parse(loggedInUserUserId);
+                _RequestLeave.Userid = Guid.Parse(loggedInUserUserId);
 
                 ServiceResponse response = new ServiceResponse();
                 try
@@ -160,13 +159,11 @@ namespace SMLMS.Services.services
                     response.Message = ex.ToString();
                 }
                 return response;
-            }
         }
 
 
         public async Task<ServiceResponse> DeleteLeaveRequest(string id)
         {
-            {
                 ServiceResponse response = new ServiceResponse();
                 try
                 {
@@ -181,12 +178,10 @@ namespace SMLMS.Services.services
                     response.Message = ex.ToString();
                 }
                 return response;
-            }
         }
 
         public async Task<ServiceResponse> ApproveLeaveRequest(Guid id, ClaimsPrincipal claim)
         {
-            {
                 ServiceResponse response = new ServiceResponse();
                 try
                 {
@@ -208,10 +203,92 @@ namespace SMLMS.Services.services
                     response.Message = ex.ToString();
                 }
                 return response;
-            }
         }
 
-        
+        public async Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.Data = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
+                // var aa1 = unitOfWork.EmployeeLeaveRepository.GetEmployeeLeaves(id, deptId);
+                //  var aa = (List<EmpolyeeLeaveDto>)aa1;
+                // var aa12 = aa.GroupBy(x => new { x.UserId, x.EmpName}).Select(x => new
+                // {
+                //     id = x.Key.UserId,
+                //     name = x.Key.EmpName,
+                //     list = x.ToList()
+
+                // }).ToList();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public async Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                var rec = new EmpolyeeLeave
+                {
+                    Id = model.Id,
+                    LeaveCount = model.LeaveCount,
+                    LeaveTypeId = model.LeaveTypeId,
+                    UserId = model.UserId
+                };
+                var res = unitOfWork.EmployeeLeaveRepository.Find(Convert.ToString(model.Id));
+                if (res != null)
+                {
+                    model.UpdateDate = DateTime.Now;
+                    model.UpdatedBy = "";
+                    unitOfWork.EmployeeLeaveRepository.Update(rec);
+                }
+                else
+                {
+                    model.CreateDate = DateTime.Now;
+                    model.CreatedBy = "";
+                    unitOfWork.EmployeeLeaveRepository.Add(rec);
+                }
+                unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public async Task<ServiceResponse> DeleteEmployeeLeave(Guid id)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                unitOfWork.EmployeeLeaveRepository.Remove(Convert.ToString(id));
+                unitOfWork.Commit();
+                response.IsSuccess = true;
+                response.Message = "Success";
+
+            }
+            catch (Exception ex)
+            {
+
+                response.IsSuccess = false;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
     }
 }
 

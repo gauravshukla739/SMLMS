@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 
 namespace SMLMS.REST.Controllers
@@ -30,5 +31,20 @@ namespace SMLMS.REST.Controllers
         {
             return await _roleService.SaveUpdateRole(roleDto, User);
         }
+
+        [HttpPost]
+        [Route("Permission")]
+        public async Task<ServiceResponse> Permission(List<RoleTaskPermissionDto> roleDto)
+        {
+            return await _roleService.AddRoleToTask(roleDto, User);
+        }
+        [HttpGet]
+        [Route("Permission")]
+        public async Task<ServiceResponse> GetPermission()
+        {
+            return await _roleService.GetAllPermission();
+        }
+
+       
     }
 }

@@ -21,6 +21,8 @@ namespace SMLMS.Data.Entity
         public ILeaveRepositry _ILeaveRepositry;
         public IDepartmentRepository _departmentRepository;
         public ITaskRepository _ITaskRepository;
+        public IEmployeeLeaveRepository _IEmployeeLeaveRepository;
+        public IAttendanceRepository _attendanceRepository;
 
         private bool _disposed;
         #endregion
@@ -104,6 +106,26 @@ namespace SMLMS.Data.Entity
                     ?? (_ITaskRepository = new TaskRepository(_transaction));
             }
         }
+
+        public IEmployeeLeaveRepository EmployeeLeaveRepository
+        {
+            get
+            {
+                return _IEmployeeLeaveRepository
+                    ?? (_IEmployeeLeaveRepository = new EmployeeLeaveRepository(_transaction));
+            }
+        }
+
+
+        public IAttendanceRepository AttendanceRepository 
+        {
+            get
+            {
+                return _attendanceRepository
+                    ?? (_attendanceRepository = new AttendanceRepository(_transaction));
+            }
+        }
+
         public void Commit()
         {
             try

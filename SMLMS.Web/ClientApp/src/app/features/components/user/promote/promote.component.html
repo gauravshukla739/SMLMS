@@ -1,0 +1,37 @@
+<form (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+  <div class="form-group">
+    <label for="text">UserName:</label>
+    <label for="text">{{user.firstName}} {{user.lastName}}</label>
+  </div>
+  
+  <div class="form-group">
+    <label for="text">Email:</label>
+    <label for="text">{{user.Email}}</label>
+  </div>
+ 
+
+  <div class="form-group">
+    <label for="select">Role:</label>
+    <select class="form-control" placeholder="Select Role" name="rolename" required [(ngModel)]="user.roleName" #rolename="ngModel">
+      <option selected="" value="">Select Role</option>
+      <option [value]="role.name" *ngFor="let role of roles">{{role.name}}</option>
+    </select>
+    <div *ngIf="f.submitted && rolename.invalid" class="alert-danger">
+      <div *ngIf="rolename.errors.required">Role is required</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="select">Department:</label>
+    <select class="form-control" placeholder="Select Role" name="dept" required [(ngModel)]="user.departmentId" #dept="ngModel">
+      <option selected="" value="">Select Role</option>
+      <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+    </select>
+    <div *ngIf="f.submitted && dept.invalid" class="alert-danger">
+      <div *ngIf="dept.errors.required">Department is required</div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

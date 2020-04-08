@@ -31,5 +31,13 @@ export class UserService {
     return this.http.get(this.apiBaseUrl+"/Role/getAllRolePermissions");
   }
 
+  import(user: any) {
+    return this.http.post(this.apiBaseUrl + "/user/import", user);
+  }
+
+  promote(user: any) {
+    return this.http.post(this.apiBaseUrl + "/user/promote", user);
+  }
+
 
 }
