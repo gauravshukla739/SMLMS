@@ -20,6 +20,11 @@ export class LeaveRequestComponent implements OnInit {
   userRole: string;
 
 
+  pageNumber = 1;
+  pageSize = 5;
+  totalRecord = 0;
+
+
   constructor(private userService: UserService,
     private sharedService: SharedService,
     private confirmDialogService: ConfirmDialogService,
@@ -114,5 +119,39 @@ export class LeaveRequestComponent implements OnInit {
         }
       });
     }
+  }
+
+  //PAgination
+
+  sliceStart = 0;
+  sliceEnd = 5;
+  goToPage(n: number): void {
+    this.pageNumber = n;
+    this.sliceArray();
+    this.getAll();
+  }
+
+  onNext(): void {
+    debugger;
+    this.pageNumber++;
+    this.sliceArray();
+    this.getAll();
+  }
+
+  sliceArray(): void {
+    this.sliceStart = this.pageSize * (this.pageNumber - 1);
+    this.sliceEnd = this.sliceStart + this.pageSize;
+  }
+
+  onPrev(): void {
+    this.pageNumber--;
+    this.sliceArray();
+    this.getAll();
+  }
+  changePageSize() {
+    this.pageNumber = 1;
+    this.sliceStart = 0;
+    this.sliceEnd = this.pageSize;
+    this.getAll();
   }
 }

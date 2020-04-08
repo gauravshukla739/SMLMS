@@ -60,15 +60,22 @@ const routes: Routes = [
           { path: 'edit/:id', component: TaskComponent },
         ]
       },
-      {
-        path: 'leave', component: LeaveComponent,
-        children: [
-          { path: 'type', component: LeaveTypeComponent },
-            { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
-            { path: 'request', component: LeaveRequestComponent },
-            { path: 'approve', component: ApproveComponent }
-        ]
-      },
+
+                { path: 'type', component: LeaveTypeComponent },
+                { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+                { path: 'request', component: LeaveRequestComponent },
+                { path: 'approve', component: ApproveComponent }
+
+
+      //{
+      //  path: 'leave', component: LeaveComponent,
+      //  children: [
+      //    { path: 'type', component: LeaveTypeComponent },
+      //      { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+      //      { path: 'request', component: LeaveRequestComponent },
+      //      { path: 'approve', component: ApproveComponent }
+      //  ]
+      //},
     ]
   },
   {

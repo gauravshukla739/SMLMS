@@ -98,7 +98,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let rec of leaveRequests">
+                <tr *ngFor="let rec of leaveRequests | slice:sliceStart:sliceEnd; let i = index;">
                   <td class="select">
                     <input id="checkbox1" type="checkbox">
                     <label for="checkbox1">Select</label>
@@ -109,22 +109,43 @@
                   <td>{{rec.reason}}</td>
                   <td>{{rec.isApproved}}</td>
                   <td>{{rec.updatedBy}}</td>
-                  
+
 
                   <td class="more">
                     <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(rec)">Edit</a>
                     <a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>
                   </td>
 
-                  <!--<td class="more">
-    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Approve</a>
-    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Reject</a>
-  </td>-->
 
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="totalRecord > pageSize">
+        <div class="col-2"></div>
+        <div class="col-6">
+          <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                          [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+        </div>
+        <div class="col-1">
+          Record
+
+
+        </div>
+        <div class="col-1">
+          <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+            <option value=5>5</option>
+            <option value=10>10</option>
+            <option value=25>25</option>
+            <option value=50>50</option>
+            <option value=100>100</option>
+          </select>
+        </div>
+        <div class="col-2">
+          Per Page
         </div>
       </div>
     </div>
