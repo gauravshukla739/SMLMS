@@ -39,6 +39,12 @@ export class AttendanceComponent implements OnInit {
   SelectedMonth: any;
   Selecteddepartment: any;
   Selecteduser: any;
+
+
+  pageNumber = 1;
+  pageSize = 5;
+  totalRecord = 0;
+
   constructor(private countupTimerService: CountupTimerService, private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, private deptService: DepartmentService, private userService: UserService) {
 
   }
@@ -80,6 +86,42 @@ export class AttendanceComponent implements OnInit {
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
   }
+
+
+  //PAgination
+
+  sliceStart = 0;
+  sliceEnd = 5;
+  goToPage(n: number): void {
+    this.pageNumber = n;
+    this.sliceArray();
+    this.GetEmployee_attendance();
+  }
+
+  onNext(): void {
+    debugger;
+    this.pageNumber++;
+    this.sliceArray();
+    this.GetEmployee_attendance();
+  }
+
+  sliceArray(): void {
+    this.sliceStart = this.pageSize * (this.pageNumber - 1);
+    this.sliceEnd = this.sliceStart + this.pageSize;
+  }
+
+  onPrev(): void {
+    this.pageNumber--;
+    this.sliceArray();
+    this.GetEmployee_attendance();
+  }
+  changePageSize() {
+    this.pageNumber = 1;
+    this.sliceStart = 0;
+    this.sliceEnd = this.pageSize;
+    this.GetEmployee_attendance();
+  }
+
 
   getDepartments() {
     var response = this.deptService.all().subscribe((data: any) => {
@@ -171,6 +213,7 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.getemployee_attendance(userId, userRole).subscribe((data: any) => {
       if (data.isSuccess) {
         this.userAttendance = data.data;
+        this.totalRecord = this.userAttendance.length;
         console.log(data.data);
 
         for (var i = 0; i < data.data.length; i++) {

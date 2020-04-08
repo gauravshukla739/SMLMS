@@ -77,7 +77,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let attendance of userAttendance">
+              <tr *ngFor="let attendance of userAttendance | slice:sliceStart:sliceEnd; let i = index;">
 
                 <td>{{attendance.firstName  || '-'}} {{attendance.lastName  || '-'}}</td>
                 <td>{{attendance.signIn | date:'HH:mm:ss'}}</td>
@@ -88,12 +88,38 @@
             </tbody>
           </table>
         </div>
+
       </div>
       <!--<div class="col-4 sm-table employee">
-        <div>
-         test
-        </div>
-      </div>-->
+      <div>
+       test
+      </div>
+    </div>-->
+    </div>
+    <div class="row" *ngIf="totalRecord > pageSize">
+      <div class="col-2"></div>
+      <div class="col-6">
+        <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                        [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+      </div>
+      <div class="col-1">
+        Record
+
+
+      </div>
+      <div class="col-1">
+        <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+          <option value=5>5</option>
+          <option value=10>10</option>
+          <option value=25>25</option>
+          <option value=50>50</option>
+          <option value=100>100</option>
+        </select>
+      </div>
+      <div class="col-2">
+        Per Page
+      </div>
     </div>
   </div>
 </section>
