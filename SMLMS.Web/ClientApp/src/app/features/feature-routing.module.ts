@@ -43,7 +43,8 @@ const routes: Routes = [
           { path: 'promote', component: PromoteUserComponent }
         ]
       },
-      { path: 'department', component: DepartmentComponent },
+        { path: 'department', component: DepartmentComponent },
+        { path: 'attendance', component: AttendanceComponent },
       {
         path: 'role',
         children: [
@@ -68,16 +69,6 @@ const routes: Routes = [
             { path: 'approve', component: ApproveComponent }
         ]
       },
-    ]
-  },
-  {
-    path: 'attendance', component: AttendanceComponent,
-    children: [
-      { path: '', component: AttendanceComponent },
-      { path: 'add', component: AttendanceComponent },
-      { path: 'update', component: AttendanceComponent }
-
-
     ]
   },
   {

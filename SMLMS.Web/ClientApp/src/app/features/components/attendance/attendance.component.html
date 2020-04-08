@@ -1,85 +1,134 @@
-<section>
+
+<section >
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 page-title">
-        <button class="btn btn-primary" (click)="Punch_In()" [disabled]="disableBtn">Punch In</button>
+        <h3 class="title-top">Attendance Tracking</h3>
+        <!--<button class="btn sm-primary">Add New</button>-->
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 page-title">
-
-        <button class="btn btn-primary" (click)="Punch_out()">Punch Out</button>
+    <div class="row" *ngIf="userRole!='Admin'">
+     
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="Punch_In()" [disabled]="disable_SignIn">Clock In</button>
       </div>
-    </div>
-  </div>
-</section>
-<div [class]="timerConfig?.timerClass ? timerConfig.timerClass : ''">
+      <div class="col-2">
+        <button class="btn btn-primary" (click)="Punch_out()" [disabled]="disable_SignOut">Clock Out</button>
+      </div>
+      <div class="col-8">
+        <div class="col-3"><h6> Time Tracking:</h6></div>
+        <div class="col-5" style="color:darkgoldenrod;"><div [class]="timerConfig?.timerClass ? timerConfig.timerClass : ''">
   <span>{{timerObj.hours}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.hourText ? timerTextConfig.hourText : 'hh'}} </span>
   <span>{{timerObj.mins}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.minuteText ? timerTextConfig.minuteText : 'mm'}}  </span>
   <span>{{timerObj.seconds}}</span><span class="time-category">{{timerTextConfig && timerTextConfig.secondsText ? timerTextConfig.secondsText : 'ss'}}</span>
-</div>
+</div></div>
+      </div>
+    </div>
+  </div>
+  
+</section>
 
-<!--<section><div class="form-group">
-           <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-             <label for="hireDate">Start Date:</label>
-             <div class="form-group form-inline">
-               <div class="input-group">
-                 <input class="form-control" name="startDate" type="date" id="hireDate" placeholder="yyyy-mm-dd">
-               </div>
+<section><div class="container-fluid">
+           <div class="row">
+             <div class="col-3"><select class="form-control" [(ngModel)]="SelectedMonth">
+                <option value="">Select Month</option>
+                <option value="1">Jan</option>
+                <option value="2">Feb</option>
+                <option value="3">Mar</option>
+                <option value="4">Apr</option>
+                <option value="5">May</option>
+                <option value="6">Jun</option>
+                <option value="7">Jul</option>
+                <option value="8">Aug</option>
+                <option value="9">Sep</option>
+                <option value="10">Oct</option>
+                <option value="11">Nov</option>
+                <option value="12">Dec</option>
+                </select></div>
+             <div class="col-3" *ngIf="userRole==='Admin'"><select class="form-control"  name="dept" [(ngModel)]="Selecteddepartment" >
+  <option selected="selected" value="">Select Department</option>
+  <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+</select></div>
+             <div class="col-3" *ngIf="userRole==='Admin'"><select class="form-control"  name="user" [(ngModel)]="Selecteduser">
+  <option selected="selected" value="">Select User</option>
+  <option [value]="user.normalizedEmail" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+</select></div>
+             <div class="col-3">
+               <button class="btn btn-primary" (click)="selectedFilter()">Search</button>
              </div>
+             
+           </div>
+  </div>
+</section>
 
-
-             <label for="hireDate">End Date:</label>
-             <div class="form-group form-inline">
-               <div class="input-group">
-                 <input class="form-control" name="endDate" type="date" id="hireDate" placeholder="yyyy-mm-dd">
-               </div>
-             </div>
-             <button type="submit" class="btn btn-primary">Find</button>
-           </form>
-
-</div></section>-->
-<section>
+<section *ngIf="userRole!='Admin'">
   <div class="container-fluid">
-
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th class="select">
-                  <input id="selectAll" type="checkbox">
-                  <label for="selectAll">Select</label>
-                </th>
-
-
-                <th class="img">Img</th>
-
-                <th *ngFor="let item of displayColumn">{{item}}</th>
-
-                <th class="more">Actions</th>
+                <th>Name</th>
+                <th>Sign In</th>
+                <th>Sign Out</th>
+                <th>TotalTime</th>
+                <th>Date</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let attendance of userAttendance">
-                <td class="select">
-                  <input id="checkbox1" type="checkbox">
-                  <label for="checkbox1">Select</label>
-                </td>
-                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
 
-                <td *ngFor="let i of displayColumn">{{attendance[i] || '-'}}</td>
-
-                <td class="more">
-                  <a class="action-btn fa fa-eye view" href="javascript:void(0)">View</a>
-                  <a class="action-btn fa fa-trash delete" (click)="delete(user.id , user)">Remove</a>
-                </td>
+                <td>{{attendance.firstName  || '-'}} {{attendance.lastName  || '-'}}</td>
+                <td>{{attendance.signIn | date:'HH:mm:ss'}}</td>
+                <td>{{attendance.signOut | date:'HH:mm:ss'}}</td>
+                <td>{{attendance.totalTime || '-'}}</td>
+                <td>{{attendance.createdOn | date: 'dd-MM-yyyy'}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      <!--<div class="col-4 sm-table employee">
+        <div>
+         test
+        </div>
+      </div>-->
+    </div>
+  </div>
+</section>
+
+<section *ngIf="userRole ==='Admin'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 sm-table employee">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Present Days</th>
+                <th>Absent Days</th>
+                <th>Department Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attendance of employeeAttendanceTrack">
+
+                <td>{{attendance.firstName  || '-'}} {{attendance.lastName  || '-'}}</td>
+                <td>{{attendance.presentDays || '-'}}</td>
+                <td>{{attendance.absentDays || '-'}}</td>
+                <td>{{attendance.departmentName || '-'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--<div class="col-4 sm-table employee">
+        <div>
+         test
+        </div>
+      </div>-->
     </div>
   </div>
 </section>

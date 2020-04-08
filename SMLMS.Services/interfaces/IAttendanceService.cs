@@ -15,7 +15,15 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> Delete(string Name);
         Task<ServiceResponse> GetAll();
 
-        Task<ServiceResponse> GetEmployess(AttendanceDto model);
+        Task<ServiceResponse> Employess(AttendanceDto model);
+
+        Task<ServiceResponse> GetEmployeAttendance(string userid,string role, string month, string dept, string user);
+        Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid);
+
+        Task<ServiceResponse> FindByEmail(string Email);
+
+        Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid, string role);
+
 
 
     }

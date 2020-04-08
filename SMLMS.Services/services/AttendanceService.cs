@@ -1,5 +1,6 @@
 ﻿using SMLMS.Data.Interfaces;
 using SMLMS.Helper.ServiceResponse;
+using SMLMS.Model.Core;
 using SMLMS.Model.DTO;
 using SMLMS.Services.interfaces;
 using System;
@@ -26,7 +27,7 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var userId= claims.Claims.First(x => x.Type == "UserId").Value;
+                var userId = claims.Claims.First(x => x.Type == "UserId").Value;
                 var Exist = unitOfWork.AttendanceRepository.FindUserById(userId);
 
                 AttendanceDto data = new AttendanceDto
@@ -63,7 +64,7 @@ namespace SMLMS.Services.services
             return response;
         }
 
-       
+
 
         public Task<ServiceResponse> Delete(string Name)
         {
@@ -78,7 +79,7 @@ namespace SMLMS.Services.services
             {
                 response.IsSuccess = true;
                 response.Message = "Data Fetch";
-                response.Data = unitOfWork.AttendanceRepository.All();
+                response.Data = unitOfWork.AttendanceRepository.All(null, null, null,0);
             }
             catch (Exception ex)
             {
@@ -88,7 +89,7 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        public async Task<ServiceResponse> GetEmployess(AttendanceDto model)
+        public async Task<ServiceResponse> Employess(AttendanceDto model)
         {
             ServiceResponse response = new ServiceResponse();
             try
@@ -103,6 +104,115 @@ namespace SMLMS.Services.services
                 response.Message = ex.Message;
             }
             return response;
+        }
+
+        public async Task<ServiceResponse> GetEmployeAttendance(string userid, string role, string month, string dept, string user)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                if (role == "Admin")
+                {
+
+                    var workingDays = GetWorkingDays();
+
+                    response.Data = unitOfWork.AttendanceRepository.All(month, dept, user, workingDays);
+                }
+                else
+                {
+                    response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance(userid, month);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> FindByEmail(string email)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.FindByNormalizedEmail(email);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid, string role)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                var workingDays = GetWorkingDays();
+
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = null;
+              
+               
+                if (role == "Admin")
+                {
+                    response.Data = unitOfWork.AttendanceRepository.GetAttendance(null, workingDays);
+                   
+
+                }
+                else
+                {
+                    response.Data = unitOfWork.AttendanceRepository.GetAttendance(userid, workingDays);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        public Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public int GetWorkingDays()
+        {
+            var lastDayOfMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime endDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
+            TimeSpan diff = endDate - startDate;
+            int days = diff.Days;
+            int totalWeekend_Days = 0;
+            for (var i = 0; i <= days; i++)
+            {
+                var testDate = startDate.AddDays(i);
+                switch (testDate.DayOfWeek)
+                {
+                    case DayOfWeek.Saturday:
+                    case DayOfWeek.Sunday:
+                        Console.WriteLine(testDate.ToShortDateString());
+                        totalWeekend_Days++;
+                        break;
+                }
+            }
+
+            int workingDays = DateTime.Now.Day - totalWeekend_Days;
+            return workingDays;
         }
     }
 }

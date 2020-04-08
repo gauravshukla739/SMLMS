@@ -13,5 +13,12 @@ namespace SMLMS.Model.Core
         public DateTime? CreatedOn { get; set; }
         public string TotalTime { get; set; }
         public string ResumeTime { get; set; }
+        public  Guid UserId { get; set; }
+        public string PresentDays { get; set; }
+        public int? AbsentDays { get; set; }
+        public string WorkingDays { get; set; }
+        public string CurrentMonth { get; set; }
+        public string DepartmentName { get; set; }
+
     }
 }

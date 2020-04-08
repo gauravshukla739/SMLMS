@@ -22,13 +22,6 @@ namespace SMLMS.REST.Controllers
             _attendanceService = attendanceService;
         }
 
-        //[HttpGet]
-        //[Route("CreateOrUpdate")]
-        //public async Task<ServiceResponse> CreateOrUpdate(Attendence model)
-        //{
-        //    return await _attendanceService.CreateOrUpdate(model);
-        //}
-
 
         [HttpPost]
         [Route("CreateOrUpdate")]
@@ -38,10 +31,10 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
-        [Route("EmployeeAttendance")]
-        public async Task<ServiceResponse> EmployeeAttendance(AttendanceDto model)
+        [Route("EmployeeAttendancess")]
+        public async Task<ServiceResponse> EmployeeAttendanceee(AttendanceDto model)
         {
-            return await _attendanceService.GetEmployess(model);
+            return await _attendanceService.Employess(model);
         }
 
         [HttpGet]
@@ -50,6 +43,43 @@ namespace SMLMS.REST.Controllers
         {
             return await _attendanceService.GetAll();
         }
+
+        [HttpGet]
+        [Route("EmployeeAttendance")]
+        public async Task<ServiceResponse> EmployeeAttendance(string userid, string role)
+        {
+            if (role == "Admin")
+            {
+                return await _attendanceService.GetAll();
+            }
+            else
+            {
+                return await _attendanceService.GetEmployeAttendance(userid, role, null, null, null);
+            }
+
+        }
+
+        [HttpGet]
+        [Route("AttendanceFilter")]
+        public async Task<ServiceResponse> AttendanceFilter(string userid,string role, string month, string dept, string user)
+        {
+            return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, month == "undefined" ? null : month, dept == "undefined" ? null : dept, user == "undefined" ? null : dept);
+        }
+
+        [HttpGet]
+        [Route("FindByEmail")]
+        public async Task<ServiceResponse> FindByEmail(string email)
+        {
+            return await _attendanceService.FindByEmail(email);
+        }
+
+        [HttpGet]
+        [Route("Employees_Absent_Present")]
+        public async Task<ServiceResponse> Employees_Absent_Present(string userid, string role)
+        {
+            return await _attendanceService.GetPresent_AbsentDays_Emp(userid, role == "undefined" ? null : role);
+        }
+
 
     }
 }
