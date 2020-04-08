@@ -12,15 +12,21 @@ export class TaskComponent implements OnInit {
 
   constructor(private taskService: TaskService, private sharedService: SharedService,private userService:UserService ) { }
   isAddEdit = false;
+
+  pageNumber = 1;
+  pageSize = 5;
+  totalRecord = 0;
   userRole: string;
   task: any = {};   
   taskList: any;
   users: any;
+  myTaskList: any;
   ngOnInit() {
+    debugger;
     this.task.employeeId = this.sharedService.user.id;
     this.userRole = this.sharedService.user.roleName || "";
     this.getTask();
-    debugger;
+    this.getMyTask();
     this.getUsers();
   }
 
@@ -47,19 +53,34 @@ export class TaskComponent implements OnInit {
   }
   getTask() {
     this.task.employeeId = this.sharedService.user.id;
-    this.taskService.getTaskByUser(this.task.employeeId).subscribe((data: any) => {
-      this.taskList = data.data;
+    if (this.userRole === 'Admin') {
+      this.taskService.getTask().subscribe((data: any) => {
+        this.taskList = data.data;
+      });
+    }
+    else {
+      this.taskService.getTaskByUser(this.task.employeeId).subscribe((data: any) => {
+        this.taskList = data.data;
+      });
+    }   
+  }
+  getMyTask() {
+    this.task.employeeId = this.sharedService.user.id;
+    this.taskService.getMyTaskByUser(this.task.employeeId).subscribe((data: any) => {
+      this.myTaskList = data.data;
+      this.totalRecord = data.data.length;
     });
   }
   
   onSubmit(formValid: any) {
-    this.task.departmentId = "2951FE55-9466-4F37-A515-D3F9B0915EEB";
+    this.task.departmentId = this.sharedService.user.departmentId;
     this.task.employeeId = this.sharedService.user.id;
     this.taskService.addTask(this.task).subscribe((res: any) => {
       debugger;
       if (res.isSuccess) {
         this.isAddEdit = false;
         this.getTask();
+        this.getMyTask();
       }
       else {
         alert(res.message);
@@ -73,11 +94,30 @@ export class TaskComponent implements OnInit {
       this.taskService.delete(taskId).subscribe((res: any) => {
         if (res.isSuccess) {
           this.getTask();
+          this.getMyTask();
         }
         else {
           alert(res.message);
         }
       });
     }
+  }
+  goToPage(n: number): void {
+    this.pageNumber = n;
+    this.getMyTask();
+  }
+
+  onNext(): void {
+    this.pageNumber++;
+    this.getMyTask();
+  }
+
+  onPrev(): void {
+    this.pageNumber--;
+    this.getMyTask();
+  }
+  changePageSize() {
+    this.pageNumber = 1;
+    this.getMyTask();
   }
 }

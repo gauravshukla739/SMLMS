@@ -36,7 +36,7 @@
               <label for="comment">Comment (if any):</label>
               <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
             </div>
-            <div class="form-group" *ngIf="userRole==='Admin'">
+            <div class="form-group" *ngIf="userRole==='Admin' || userRole==='teamLead'">
               <label for="admincomment">Admin Comment (if any):</label>
               <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
             </div>
@@ -65,56 +65,133 @@
     </div>
 
     <div *ngIf="!isAddEdit">
-      <div class="row">
-        <div class="col-12 page-title">
-          <h3 class="title-top">Task List</h3>
-          <!--<button class="btn sm-primary">Add New</button>-->
+      <div>
+        <div class="row">
+          <div class="col-12 page-title">
+            <h3 class="title-top">Task List (Created by me)</h3>
+          </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-12">
-          <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 sm-table employee">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th class="select">
+                      <input id="selectAll" type="checkbox">
+                      <label for="selectAll">Select</label>
+                    </th>
+                    <th class="img">Task Title</th>
+                    <th class="name">Task Description</th>
+                    <th class="department">Comment</th>
+                    <th class="mobile">Admin Comment</th>
+                    <th class="mobile">Assigned To</th>
+                    <th class="mobile">Progress %</th>
+                    <th class="more">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let task of taskList;">
+                    <td class="select">
+                      <input id="checkbox1" type="checkbox">
+                      <label for="checkbox1">Select</label>
+                    </td>
+                    <td class="img">{{task.title}}</td>
+                    <td class="name">{{task.description}}</td>
+                    <td class="department">{{task.comment}}</td>
+                    <td class="mobile">{{task.adminComment}}</td>
+                    <td class="mobile">{{task.assignToName}}</td>
+                    <td class="mobile">{{task.status}} %</td>
+                    <td class="more">
+                      <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
+                      <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 sm-table employee">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <th class="select">
-                    <input id="selectAll" type="checkbox">
-                    <label for="selectAll">Select</label>
-                  </th>
-                  <th class="img">Task Title</th>
-                  <th class="name">Task Description</th>
-                  <th class="department">Comment</th>
-                  <th class="mobile">Admin Comment</th>
-                  <th class="mobile">Assigned To</th>
-                  <th class="mobile">Progress %</th>
-                  <th class="more">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let task of taskList;">
-                  <td class="select">
-                    <input id="checkbox1" type="checkbox">
-                    <label for="checkbox1">Select</label>
-                  </td>
-                  <td class="img">{{task.title}}</td>
-                  <td class="name">{{task.description}}</td>
-                  <td class="department">{{task.comment}}</td>
-                  <td class="mobile">{{task.adminComment}}</td>
-                  <td class="mobile">{{task.assignToName}}</td>
-                  <td class="mobile">{{task.status}} %</td>
-                  <td class="more">
-                    <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
-                    <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+      <!--assigned to me-->
+      <div>
+        <div class="row">
+          <div class="col-12 page-title">
+            <h3 class="title-top">Task List (Assigned to me)</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 sm-table task">
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th class="select">
+                      <input id="selectAll" type="checkbox">
+                      <label for="selectAll">Select</label>
+                    </th>
+                    <th class="img">Task Title</th>
+                    <th class="name">Task Description</th>
+                    <th class="department">Comment</th>
+                    <th class="mobile">Admin Comment</th>
+                    <th class="mobile">Assigned To</th>
+                    <th class="mobile">Progress %</th>
+                    <th class="more">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let task of myTaskList;">
+                    <td class="select">
+                      <input id="checkbox1" type="checkbox">
+                      <label for="checkbox1">Select</label>
+                    </td>
+                    <td class="img">{{task.title}}</td>
+                    <td class="name">{{task.description}}</td>
+                    <td class="department">{{task.comment}}</td>
+                    <td class="mobile">{{task.adminComment}}</td>
+                    <td class="mobile">{{task.assignToName}}</td>
+                    <td class="mobile">{{task.status}} %</td>
+                    <td class="more">
+                      <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
+                      <a class="action-btn fa fa-trash delete" href="javascript:void(0)" *ngIf="userRole==='Admin' || userRole==='teamLead'" (click)="delete(task.id)">Remove</a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="totalRecord > pageSize">
+          <div class="col-2"></div>
+          <div class="col-6">
+            <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                            [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+          </div>
+          <div class="col-1">
+            Record
+
+
+          </div>
+          <div class="col-1">
+            <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+              <option value=5>5</option>
+              <option value=10>10</option>
+              <option value=25>25</option>
+              <option value=50>50</option>
+              <option value=100>100</option>
+            </select>
+          </div>
+          <div class="col-2">
+            Per Page
           </div>
         </div>
       </div>

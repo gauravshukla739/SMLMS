@@ -34,7 +34,17 @@ namespace SMLMS.Data.Repositories
                 sql: "SELECT * FROM Task"
             );
         }
-
+        public IEnumerable<TaskDto> AllTask()
+        {
+            return Query<TaskDto>(
+                sql: @"SELECT t.[Id],t.[DepartmentId],t.[Title],t.[Description],t.[Comment]
+                   , t.[AdminComment], t.[UpdateDate], t.[CreateDate], t.[CreatedBy]
+                   , t.[UpdatedBy], t.[IsDeleted], t.[EmployeeId], t.[DeletedBy]
+                   , t.[Status], t.[EstimatedDate], t.[AssignTo], u.[FirstName] + ' ' + u.[LastName] as [AssignToName]
+                    FROM Task t join AspNetUsers u on t.AssignTo = u.Id
+                    WHERE t.[IsDeleted] is null or t.[IsDeleted] = 0"
+            );
+        }
         public Task Find(string key)
         {
             return QuerySingleOrDefault<Task>(
@@ -65,7 +75,20 @@ namespace SMLMS.Data.Repositories
            );
           
         }
+        public IEnumerable<TaskDto> FindByAssignToId(Guid assignTo)
+        {
+            return Query<TaskDto>(
+                 sql: @"SELECT t.[Id],t.[DepartmentId],t.[Title],t.[Description],t.[Comment]
+                   ,t.[AdminComment],t.[UpdateDate],t.[CreateDate],t.[CreatedBy]
+                   ,t.[UpdatedBy],t.[IsDeleted],t.[EmployeeId],t.[DeletedBy]
+                   ,t.[Status],t.[EstimatedDate],t.[AssignTo],u.[FirstName]+' '+ u.[LastName] as [AssignToName]
+                    FROM Task t join AspNetUsers u on t.AssignTo=u.Id
+                    WHERE t.AssignTo = @assignTo and ( t.[IsDeleted] is null or t.[IsDeleted] = 0 )",
+                 param: new { assignTo }
+             );
 
+        }
+        
         public void Remove(string key)
         {
             Execute(

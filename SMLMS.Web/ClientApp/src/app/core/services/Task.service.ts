@@ -19,6 +19,9 @@ export class TaskService {
   }
   getTaskByUser(employeeId:any){
     return this.http.get(this.apiBaseUrl + "/Task/getTaskByEmployeeId/" + employeeId);
+  }    
+  getMyTaskByUser(employeeId: any) {
+    return this.http.get(this.apiBaseUrl + "/Task/getMyTaskByEmployeeId/" + employeeId);
   }
   getTaskByDepartment(departmentId:any){
     return this.http.get(this.apiBaseUrl + "/Task/getTaskByDepartmentId/" + departmentId);
