@@ -49,12 +49,14 @@ namespace SMLMS.Services.services
                     response.IsSuccess = true;
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == user.UserName);
                     var userDetail = await _userManager.FindByEmailAsync(user.UserName);
-                    var role = await _userManager.GetRolesAsync(userDetail);
-                    var getRole =await _roleManager.FindByNameAsync(role[0]);
+                   // var role = await _userManager.GetRolesAsync(userDetail);
+                   // var getRole =await _roleManager.FindByNameAsync(role[0]);
                     var data=  _unitOfWork.UserRoleRepository.GetAllByUserId(appUser.Id);
+                    var role= _unitOfWork.RoleRepository.Find(data.RoleId.ToString());
+                    var rolePermission= _unitOfWork.RoleModulePermissionRepository.FindPermissionByRole(role.Name);
                     response.IsSuccess = true;
                     response.Message = "Login Succsessfull!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role[0], getRole.Id.ToString(),data.DepartmentId),user=new {appUser.FirstName,appUser.LastName,RoleName=role[0],appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=getRole.Id} };
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role.Name, role.Id.ToString(),data.DepartmentId),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id},permission= rolePermission };
                 }
                 else
                 {
@@ -79,19 +81,63 @@ namespace SMLMS.Services.services
             return response;
         }
 
+
+        public string GeneratePassword()
+        {
+            var options = _userManager.Options.Password;
+
+            int length = options.RequiredLength;
+
+            bool nonAlphanumeric = options.RequireNonAlphanumeric;
+            bool digit = options.RequireDigit;
+            bool lowercase = options.RequireLowercase;
+            bool uppercase = options.RequireUppercase;
+
+            StringBuilder password = new StringBuilder();
+            Random random = new Random();
+
+            while (password.Length < length)
+            {
+                char c = (char)random.Next(32, 126);
+
+                password.Append(c);
+
+                if (char.IsDigit(c))
+                    digit = false;
+                else if (char.IsLower(c))
+                    lowercase = false;
+                else if (char.IsUpper(c))
+                    uppercase = false;
+                else if (!char.IsLetterOrDigit(c))
+                    nonAlphanumeric = false;
+            }
+
+            if (nonAlphanumeric)
+                password.Append((char)random.Next(33, 48));
+            if (digit)
+                password.Append((char)random.Next(48, 58));
+            if (lowercase)
+                password.Append((char)random.Next(97, 123));
+            if (uppercase)
+                password.Append((char)random.Next(65, 91));
+
+            return password.ToString();
+        }
+
         public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
                 var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
+                user.Password = GeneratePassword();
                 var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, user.RoleName);
-                    _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId);
+                    _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
                     _unitOfWork.Commit();
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";

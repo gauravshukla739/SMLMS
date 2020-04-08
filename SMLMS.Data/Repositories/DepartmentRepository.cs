@@ -34,7 +34,10 @@ namespace SMLMS.Data.Repositories
 
         public DepartmentDto Find(string key)
         {
-            throw new NotImplementedException();
+            return QuerySingleOrDefault<DepartmentDto>(
+              sql: "SELECT * FROM [dbo].[Department]  WHERE Name = @key",
+              param: new { key }
+          );
         }
 
         public DepartmentDto FindById(Guid key)

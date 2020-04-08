@@ -1,0 +1,36 @@
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 page-title">
+        <h3 class="title-top">Role Task Permission</h3>
+        <a class="action-btn fa fa-eye view" target="_blank" href="/assets/file/Task-Role-Permission.xlsx" >Download</a>
+        <input type="file" id="input" value="Upload" />
+      </div>
+     
+     
+    </div>
+    <div class="row">
+      <div class="col-12 sm-table employee">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+  
+                <th *ngFor="let item of roleList">{{item}}</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let role of rolesPermissionList;">
+                
+                <td *ngFor="let i of roleList;">{{role[i]}}</td>
+               
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

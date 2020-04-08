@@ -20,6 +20,8 @@ import { ApproveComponent } from './components/leave/approve/approve.component';
 import { EmployeeLeaveComponent } from './components/leave/emp-leave/emp-leave.component';
 import { LeaveComponent } from './components/leave/leave.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
+import { PromoteUserComponent } from './components/user/promote/promote.component';
+import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
 
 
 
@@ -37,11 +39,18 @@ const routes: Routes = [
         children: [
           { path: '', component: UserComponent },
           { path: 'add', component: UserCreateUpdateComponent },
-          { path: 'update', component: UserCreateUpdateComponent }
+          { path: 'update', component: UserCreateUpdateComponent },
+          { path: 'promote', component: PromoteUserComponent }
         ]
       },
       { path: 'department', component: DepartmentComponent },
-      { path: 'role', component: RoleComponent },
+      {
+        path: 'role',
+        children: [
+          { path: '', component: RoleComponent },
+          { path: 'permission', component: TaskRolePermissionComponent }
+        ]
+      },
       {
         path: 'task', component: TaskComponent,
         children: [

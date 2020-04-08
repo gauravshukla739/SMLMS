@@ -1,6 +1,7 @@
 ﻿
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -23,5 +24,9 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> SaveUpdateRoleModulePermission(RoleModulePermissionDto model);
         Task<ServiceResponse> DeleteRoleModulePermission(string id);
         Task<ServiceResponse> GetRoleModulePermissionById(string id);
+
+        Task<ServiceResponse> AddRoleToTask(List<RoleTaskPermissionDto> model, ClaimsPrincipal claims);
+        Task<ServiceResponse> GetPermissionByRole(string roleName);
+        Task<ServiceResponse> GetAllPermission();
     }
 }

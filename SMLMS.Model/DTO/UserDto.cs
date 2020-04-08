@@ -18,7 +18,8 @@ namespace SMLMS.Model.Core
 		public DateTime DateOfJoin { get; set; }
 		public DateTime DateOfAppointment { get; set; }
 		public DateTime DateOfLeave { get; set; }
-		public string DepartmentId { get; set; }
+		public Guid DepartmentId { get; set; }
+		public string DepartmentName { get; set; }
 		public string Address { get; set; }
 		public string PhoneNumber { get; set; }
 	}

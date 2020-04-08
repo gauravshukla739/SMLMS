@@ -8,7 +8,7 @@ namespace SMLMS.Model.DTO
     {
 		    public Guid Id  { get; set; }
 		    public string Name { get; set; }
-		    public string RoleId { get; set; }
+		    public Guid RoleId { get; set; }
             public bool IsDeleted { get; set; }
             public DateTime? CreateDate { get; set; }
             public DateTime? UpdateDate { get; set; }
