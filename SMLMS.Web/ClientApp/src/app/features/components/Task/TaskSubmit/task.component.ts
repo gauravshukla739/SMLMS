@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 import { TaskService } from 'src/app/core/services/Task.service';
 import { UserService } from '../../../../core/services/user.service';
+import { DepartmentService } from '../../../../core/services/department.service';
+import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 @Component({
   selector: 'app-setting',
@@ -10,7 +12,7 @@ import { UserService } from '../../../../core/services/user.service';
 })
 export class TaskComponent implements OnInit {
 
-  constructor(private taskService: TaskService, private sharedService: SharedService,private userService:UserService ) { }
+  constructor(private taskService: TaskService, private deptService: DepartmentService, private sharedService: SharedService,private userService:UserService ) { }
   isAddEdit = false;
 
   pageNumber = 1;
@@ -21,6 +23,8 @@ export class TaskComponent implements OnInit {
   taskList: any;
   users: any;
   myTaskList: any;
+  dept: any = "";/*this.sharedService.user.departmentId;
+*/  departments: any = [];
   ngOnInit() {
     debugger;
     this.task.employeeId = this.sharedService.user.id;
@@ -28,6 +32,7 @@ export class TaskComponent implements OnInit {
     this.getTask();
     this.getMyTask();
     this.getUsers();
+    this.getDepartments();
   }
 
   addNew() {
@@ -51,6 +56,19 @@ export class TaskComponent implements OnInit {
       } 
     });
   }
+  getDepartments() {
+    var response = this.deptService.all().subscribe((data: any) => {
+      console.log(data);
+      if (data.isSuccess) {
+        this.departments = data.data;
+      } else {
+        this.sharedService.showPopup(data.message);
+      }
+    });
+    response.add(() => {
+      this.sharedService.stopLoading();
+    })
+  }
   getTask() {
     this.task.employeeId = this.sharedService.user.id;
     if (this.userRole === 'Admin') {
@@ -63,6 +81,11 @@ export class TaskComponent implements OnInit {
         this.taskList = data.data;
       });
     }   
+  }
+  getTaskByDept() {
+    this.taskService.getTaskByDepartment(this.dept).subscribe((data: any) => {
+      this.taskList = data.data;
+    });
   }
   getMyTask() {
     this.task.employeeId = this.sharedService.user.id;

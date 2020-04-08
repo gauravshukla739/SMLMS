@@ -53,12 +53,33 @@ namespace SMLMS.Data.Repositories
            );
         }
 
-        public IEnumerable<Task> FindByDepartmentId(Guid departmentId)
+        public IEnumerable<TaskDto> FindByDepartmentId(Guid departmentId)
         {
-            return Query<Task>(
-              sql: @"SELECT * FROM Task WHERE departmentId = @departmentId",
-              param: new { departmentId }
-          );
+            if(departmentId==Guid.Empty)
+            {
+
+                return Query<TaskDto>(
+                    sql: @"SELECT t.[Id],t.[DepartmentId],t.[Title],t.[Description],t.[Comment]
+                   , t.[AdminComment], t.[UpdateDate], t.[CreateDate], t.[CreatedBy]
+                   , t.[UpdatedBy], t.[IsDeleted], t.[EmployeeId], t.[DeletedBy]
+                   , t.[Status], t.[EstimatedDate], t.[AssignTo], u.[FirstName] + ' ' + u.[LastName] as [AssignToName]
+                    FROM Task t join AspNetUsers u on t.AssignTo = u.Id
+                    WHERE t.[IsDeleted] is null or t.[IsDeleted] = 0"
+                );
+            }
+            else
+            {
+                return Query<TaskDto>(
+              sql: @"SELECT t.[Id],t.[DepartmentId],t.[Title],t.[Description],t.[Comment]
+                   ,t.[AdminComment],t.[UpdateDate],t.[CreateDate],t.[CreatedBy]
+                   ,t.[UpdatedBy],t.[IsDeleted],t.[EmployeeId],t.[DeletedBy]
+                   ,t.[Status],t.[EstimatedDate],t.[AssignTo],u.[FirstName]+' '+ u.[LastName] as [AssignToName]
+                    FROM Task t join AspNetUsers u on t.AssignTo=u.Id WHERE departmentId = @departmentId 
+                    and ( t.[IsDeleted] is null or t.[IsDeleted] = 0 )",
+              param: new { departmentId });
+            }
+            
+         
         }
 
         

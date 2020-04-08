@@ -78,6 +78,11 @@
           </div>
         </div>
         <div class="row">
+          <label class="col-3" for="select">Filter by department:</label>
+          <select class="form-control col-3" placeholder="Select Role" (change)="getTaskByDept()" name="dept" [(ngModel)]="dept">
+            <option selected="" value="">Select Department</option>
+            <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+          </select>
           <div class="col-12 sm-table employee">
             <div class="table-responsive">
               <table class="table table-bordered table-hover">

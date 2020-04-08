@@ -9,7 +9,7 @@ namespace SMLMS.Data.Interfaces
     {
         IEnumerable<TaskDto> FindByEmployeeId(Guid employeeId);
         IEnumerable<TaskDto> FindByAssignToId(Guid employeeId);        
-        IEnumerable<Task> FindByDepartmentId(Guid departmentId);
+        IEnumerable<TaskDto> FindByDepartmentId(Guid departmentId);
         IEnumerable<TaskDto> AllTask();
         void Remove(Guid key, string userName);
     }
