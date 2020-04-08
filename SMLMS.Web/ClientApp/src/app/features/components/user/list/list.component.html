@@ -25,13 +25,13 @@
 
                 <th class="img">Img</th>
 
-                <th  *ngFor="let item of displayColumn" >{{item}}</th>
+                <th *ngFor="let item of displayColumn">{{item}}</th>
 
                 <th class="more">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users">
+              <tr *ngFor="let user of users | slice:sliceStart:sliceEnd; let i = index;">
                 <td class="select">
                   <input id="checkbox1" type="checkbox">
                   <label for="checkbox1">Select</label>
@@ -48,6 +48,32 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="row" *ngIf="totalRecord > pageSize">
+          <div class="col-2"></div>
+          <div class="col-6">
+            <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                            [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+          </div>
+          <div class="col-1">
+            Record
+
+
+          </div>
+          <div class="col-1">
+            <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+              <option value=5>5</option>
+              <option value=10>10</option>
+              <option value=25>25</option>
+              <option value=50>50</option>
+              <option value=100>100</option>
+            </select>
+          </div>
+          <div class="col-2">
+            Per Page
+          </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,9 @@ import readXlsxFile from 'read-excel-file';
 })
 export class UserComponent implements OnInit {
 
+  pageNumber = 1;
+  pageSize = 5;
+  totalRecord = 0;
 
   displayColumn = [
      "email"
@@ -33,6 +36,36 @@ export class UserComponent implements OnInit {
     private confirmDialogService: ConfirmDialogService,
     private router: Router) {
 
+  }
+  sliceStart = 0;
+  sliceEnd = 5;
+  goToPage(n: number): void {
+    this.pageNumber = n;
+    this.sliceArray();
+    this.getAllUsers();
+  }
+
+  onNext(): void {   
+    this.pageNumber++;
+    this.sliceArray();
+    this.getAllUsers();
+  }
+
+  sliceArray(): void {
+    this.sliceStart = this.pageSize * (this.pageNumber - 1);
+    this.sliceEnd = this.sliceStart + this.pageSize;
+  }
+
+  onPrev(): void {
+    this.pageNumber--;
+    this.sliceArray();
+    this.getAllUsers();
+  }
+  changePageSize() {
+    this.pageNumber = 1;
+    this.sliceStart = 0;
+    this.sliceEnd = this.pageSize;
+    this.getAllUsers();
   }
 
    formatDate(date) {
@@ -93,8 +126,10 @@ export class UserComponent implements OnInit {
   getAllUsers() {
     this.userService.getAll().subscribe((data: any) => {
       console.log(data);
+      debugger;
       if (data.isSuccess) {
         this.users = data.data;
+        this.totalRecord = this.users.length;
       } else {
         this.sharedService.showPopup(data.message);
       }
