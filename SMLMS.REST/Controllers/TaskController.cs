@@ -55,7 +55,13 @@ namespace SMLMS.REST.Controllers
         {
             return await _taskService.GetTaskByEmployeeId(EmployeeId);
         }
-
+        [HttpGet]
+        [Route("GetMyTaskByEmployeeId/{EmployeeId}")]
+        public async Task<ServiceResponse> GetMyTaskByEmployeeId(Guid EmployeeId)
+        {
+            return await _taskService.GetMyTaskByEmployeeId(EmployeeId);
+        }
+        
         [HttpGet]
         [Route("GetTaskByDepartmentId/{DepartmentId}")]
         public async Task<ServiceResponse> GetTaskByDepartmentId(Guid DepartmentId)

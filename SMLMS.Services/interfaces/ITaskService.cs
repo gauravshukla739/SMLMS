@@ -16,6 +16,7 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> DeleteTask(Guid taskId, ClaimsPrincipal claims);
         Task<ServiceResponse> GetTaskById(string taskId);
         Task<ServiceResponse> GetTaskByEmployeeId(Guid id);
+        Task<ServiceResponse> GetMyTaskByEmployeeId(Guid id);        
         Task<ServiceResponse> GetTaskByDepartmentId(Guid id);
     }
 }
