@@ -13,7 +13,7 @@ export class TaskRolePermissionComponent implements OnInit {
 
   rolesPermissionList = [];
 
- rolepermission: any = {};
+  rolepermission: any = {};
   rolePermissionAdd=[];
   constructor(private roleService: RoleService,
     private sharedService: SharedService,
