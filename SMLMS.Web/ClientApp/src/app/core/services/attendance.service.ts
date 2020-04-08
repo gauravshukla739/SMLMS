@@ -20,8 +20,19 @@ export class AttendanceService {
     return this.http.post(this.apiBaseUrl + `/Attendance/CreateOrUpdate`, null);
   }
 
-  getemployee_attendance(userid) {
-    return this.http.get(this.apiBaseUrl + `/Attendance/EmployeeAttendance?userid=` + userid);
+  getemployee_attendance(userid, Role) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/EmployeeAttendance?userid=` + userid + `&role=` + Role);
+  }
+
+  Filter_attendance(userid, role, month, department, user) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/AttendanceFilter?userid=` + userid + `&role=` + role + `&month=` + month + `&dept=` + department + `&user=` + user);
+  }
+
+  FindByEmail(Email) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/FindByEmail?email=` + Email);
+  }
+  getEmployeeAttendance(userid, Role) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/Employees_Absent_Present?userid=` + userid + `&role=` + Role);
   }
 
 }
