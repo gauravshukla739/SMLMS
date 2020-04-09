@@ -16,5 +16,8 @@ namespace SMLMS.Data.Interfaces
         IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId, string month);
         ApplicationUser FindByNormalizedEmail(string normalizedEmail);
         IEnumerable<EmployeeAttendanceModel> GetAttendance(string userid, int workingDays);
+        IEnumerable<EmployeeAttendanceModel> getAllEmployess();
+        IEnumerable<EmployeeAttendanceModel> GetTodayPunchIn();
+        IEnumerable<EmployeeAttendanceModel> GetEmployeeAttendance(string userid, int workingDays);
     }
 }

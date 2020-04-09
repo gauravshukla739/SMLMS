@@ -28,57 +28,61 @@ namespace SMLMS.Data.Repositories
 
 
 
-        public IEnumerable<EmployeeAttendanceModel> All(string month, string dept, string email,int workingDays)
+        public IEnumerable<EmployeeAttendanceModel> All(string month, string dept, string email, int workingDays)
         {
-            //var query = @"select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ," +
-            //    "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
-            //    "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
-            //    " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
-            //    "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
-            //if (month != null && dept == null && email == null)
-            //{
-            //    query = query + " Where MONTH(a.CreatedOn) = @month";
-            //}
-            //else if (month != null && dept != null && email == null)
-            //{
-            //    query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept";
-            //}
-            //else if (month != null && dept != null && email != null)
-            //{
-            //    query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email";
-            //}
-
-            //var data = Query<EmployeeAttendanceModel>(sql: query, param: new { month, dept, email });
-
-            // ----To check User Status (Present or absent)
-
-            var sqlQuery = @"select count(a.UserId)as PresentDays,a.UserId,b.FirstName,b.LastName,(d.Name) as DepartmentName from [dbo].[Attendance] as a
-                         join [dbo].[AspNetUsers] b on a.UserId =b.Id 
-                           join [dbo].[AspNetUserRoles] c on b.Id =c.UserId
-                           join [dbo].[Department] d on c.DepartmentId =d.Id";
+            var query = @"select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ," +
+                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
+                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
+                " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
+                "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
             if (month != null && dept == null && email == null)
             {
-                sqlQuery = sqlQuery + " Where MONTH(a.CreatedOn) = @month group by a.UserId, b.FirstName,b.LastName,d.Name";
+                query = query + " Where MONTH(a.CreatedOn) = @month";
             }
             else if (month != null && dept != null && email == null)
             {
-                sqlQuery = sqlQuery + "  Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept group by a.UserId, b.FirstName,b.LastName,d.Name";
+                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept";
             }
             else if (month != null && dept != null && email != null)
             {
-                sqlQuery = sqlQuery + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email group by a.UserId, b.FirstName,b.LastName,d.Name";
+                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email";
             }
-
-            List<EmployeeAttendanceModel> model = new List<EmployeeAttendanceModel>();
-
-            var Get_Absent_Present = Query<EmployeeAttendanceModel>(sql: sqlQuery, param: new { month, dept, email,workingDays });
-           
-            foreach (var item in Get_Absent_Present)
+            else if (month == null && dept != null && email == null)
             {
-                model.Add(new EmployeeAttendanceModel { FirstName = item.FirstName, LastName = item.LastName, PresentDays = item.PresentDays, AbsentDays = workingDays - Convert.ToInt32(item.PresentDays) ,DepartmentName=item.DepartmentName});
+                query = query + " Where c.DepartmentId =@dept";
             }
 
-            return Get_Absent_Present;
+            var data = Query<EmployeeAttendanceModel>(sql: query, param: new { month, dept, email });
+
+            // ----To check User Status (Present or absent)
+
+            //var sqlQuery = @"select count(a.UserId)as PresentDays,a.UserId,b.FirstName,b.LastName,(d.Name) as DepartmentName from [dbo].[Attendance] as a
+            //             join [dbo].[AspNetUsers] b on a.UserId =b.Id 
+            //               join [dbo].[AspNetUserRoles] c on b.Id =c.UserId
+            //               join [dbo].[Department] d on c.DepartmentId =d.Id";
+            //if (month != null && dept == null && email == null)
+            //{
+            //    sqlQuery = sqlQuery + " Where MONTH(a.CreatedOn) = @month group by a.UserId, b.FirstName,b.LastName,d.Name";
+            //}
+            //else if (month != null && dept != null && email == null)
+            //{
+            //    sqlQuery = sqlQuery + "  Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept group by a.UserId, b.FirstName,b.LastName,d.Name";
+            //}
+            //else if (month != null && dept != null && email != null)
+            //{
+            //    sqlQuery = sqlQuery + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email group by a.UserId, b.FirstName,b.LastName,d.Name";
+            //}
+
+            //List<EmployeeAttendanceModel> model = new List<EmployeeAttendanceModel>();
+
+            //var Get_Absent_Present = Query<EmployeeAttendanceModel>(sql: sqlQuery, param: new { month, dept, email,workingDays });
+
+            //foreach (var item in Get_Absent_Present)
+            //{
+            //    model.Add(new EmployeeAttendanceModel { FirstName = item.FirstName, LastName = item.LastName, PresentDays = item.PresentDays, AbsentDays = workingDays - Convert.ToInt32(item.PresentDays) ,DepartmentName=item.DepartmentName});
+            //}
+
+            return data;
         }
 
         public Attendance FindUserById(string UserId)
@@ -137,7 +141,7 @@ namespace SMLMS.Data.Repositories
 
 
 
-        public IEnumerable<EmployeeAttendanceModel> All()
+        public IEnumerable<EmployeeAttendanceModel> getAllEmployess()
         {
             var query = @"select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ," +
                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
@@ -147,6 +151,19 @@ namespace SMLMS.Data.Repositories
             var data = Query<EmployeeAttendanceModel>(sql: query);
             return data;
         }
+
+        public IEnumerable<EmployeeAttendanceModel> GetTodayPunchIn()
+        {
+            var query = @"select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ," +
+               "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
+               "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
+               " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
+               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId where cast(a.CreatedOn as Date) = cast(getdate() as Date) ";
+            var data = Query<EmployeeAttendanceModel>(sql: query);
+            return data;
+        }
+
+
 
         public IEnumerable<EmployeeAttendanceModel> GetAttendance(string userid, int workingDays)
         {
@@ -162,9 +179,28 @@ namespace SMLMS.Data.Repositories
             List<EmployeeAttendanceModel> model = new List<EmployeeAttendanceModel>();
             foreach (var item in data)
             {
-                model.Add(new EmployeeAttendanceModel { FirstName = item.FirstName, LastName = item.LastName, PresentDays = item.PresentDays, AbsentDays = workingDays - Convert.ToInt32(item.PresentDays), DepartmentName=item.DepartmentName });
+                model.Add(new EmployeeAttendanceModel { UserId = item.UserId, FirstName = item.FirstName, LastName = item.LastName, PresentDays = item.PresentDays, AbsentDays = workingDays - Convert.ToInt32(item.PresentDays), DepartmentName = item.DepartmentName, WorkingDays = Convert.ToString(workingDays) });
             }
             return model;
         }
+
+
+        public IEnumerable<EmployeeAttendanceModel> GetEmployeeAttendance(string userid, int workingDays)
+        {
+            var query = @"select b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ," +
+               "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
+               "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
+               " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
+               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
+            if (userid != null)
+            {
+                query = query + " where a.UserId=@userid  ORDER BY desc";
+            }
+            var data = Query<EmployeeAttendanceModel>(sql: query, param: new { userid });
+
+            return data;
+        }
+
+
     }
 }

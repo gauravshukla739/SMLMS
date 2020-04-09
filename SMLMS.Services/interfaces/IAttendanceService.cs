@@ -24,7 +24,9 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid, string role);
 
-
+        Task<ServiceResponse> getAllEmployess();
+        Task<ServiceResponse> GetTodayPunchIn();
+        Task<ServiceResponse> GetEmployeeatendanceDetails(string userid);
 
     }
 }

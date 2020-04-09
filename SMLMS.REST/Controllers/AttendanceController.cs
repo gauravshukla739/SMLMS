@@ -80,6 +80,28 @@ namespace SMLMS.REST.Controllers
             return await _attendanceService.GetPresent_AbsentDays_Emp(userid, role == "undefined" ? null : role);
         }
 
+        [HttpGet]
+        [Route("getAllEmployess")]
+        public async Task<ServiceResponse> getAllEmployess()
+        {
+            return await _attendanceService.getAllEmployess();
+        }
 
+        [HttpGet]
+        [Route("getTodayPunchIn")]
+        public async Task<ServiceResponse> getTodayPunchIn()
+        {
+            return await _attendanceService.GetTodayPunchIn();
+        }
+
+
+
+        [HttpGet]
+        [Route("GetEmployeeatendanceDetails")]
+        public async Task<ServiceResponse> GetEmployeeatendanceDetails(string userid)
+        {
+            return await _attendanceService.GetEmployeeatendanceDetails(userid);
+        }
+        
     }
 }

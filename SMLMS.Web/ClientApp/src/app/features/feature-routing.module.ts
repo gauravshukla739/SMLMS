@@ -22,6 +22,7 @@ import { LeaveComponent } from './components/leave/leave.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { PromoteUserComponent } from './components/user/promote/promote.component';
 import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
+import { AttendanceDetailComponent } from './components/attendance/attendance-detail/attendance-detail.component';
 
 
 
@@ -44,7 +45,12 @@ const routes: Routes = [
         ]
       },
         { path: 'department', component: DepartmentComponent },
-        { path: 'attendance', component: AttendanceComponent },
+        { path: 'attendance', component: AttendanceComponent,
+      children:[
+        { path: '', component: AttendanceComponent },
+        { path: 'details', component: AttendanceDetailComponent }
+      ]
+      },
       {
         path: 'role',
         children: [
@@ -81,7 +87,7 @@ const routes: Routes = [
     ]
   }
  ]
-   
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

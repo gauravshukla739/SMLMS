@@ -89,6 +89,24 @@ namespace SMLMS.Services.services
             return response;
         }
 
+        public async Task<ServiceResponse> getAllEmployess()
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.getAllEmployess();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+        
+
         public async Task<ServiceResponse> Employess(AttendanceDto model)
         {
             ServiceResponse response = new ServiceResponse();
@@ -183,10 +201,29 @@ namespace SMLMS.Services.services
             return response;
         }
 
+
+
         public Task<ServiceResponse> GetPresent_AbsentDays_Emp(string userid)
         {
             throw new NotImplementedException();
         }
+        public async Task<ServiceResponse> GetTodayPunchIn()
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                response.Data = unitOfWork.AttendanceRepository.GetTodayPunchIn();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+        
 
 
         public int GetWorkingDays()
@@ -214,5 +251,24 @@ namespace SMLMS.Services.services
             int workingDays = DateTime.Now.Day - totalWeekend_Days;
             return workingDays;
         }
+        public async Task<ServiceResponse> GetEmployeeatendanceDetails(string userid)
+        {
+            ServiceResponse response = new ServiceResponse();
+            try
+            {
+                response.IsSuccess = true;
+                response.Message = "Data Fetch";
+                var workingDays = GetWorkingDays();
+                response.Data = unitOfWork.AttendanceRepository.GetEmployeeAttendance(userid, workingDays);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+
+        
     }
 }

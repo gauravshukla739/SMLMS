@@ -13,8 +13,12 @@ export class AttendanceService {
   }
 
   all() {
-    return this.http.get(this.apiBaseUrl + `/Attendance/getAll`);
+    return this.http.get(this.apiBaseUrl + `/Attendance/getAllEmployess`);
   }
+  todayPunchIn() {
+    return this.http.get(this.apiBaseUrl + `/Attendance/getTodayPunchIn`);
+  }
+  
 
   CreateOrUpDate() {
     return this.http.post(this.apiBaseUrl + `/Attendance/CreateOrUpdate`, null);
@@ -22,6 +26,10 @@ export class AttendanceService {
 
   getemployee_attendance(userid, Role) {
     return this.http.get(this.apiBaseUrl + `/Attendance/EmployeeAttendance?userid=` + userid + `&role=` + Role);
+  }
+
+  GetEmployeeatendanceDetails(userid) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/GetEmployeeatendanceDetails?userid=` + userid );
   }
 
   Filter_attendance(userid, role, month, department, user) {
