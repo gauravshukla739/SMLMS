@@ -2,7 +2,7 @@
 <section>
   <div class="container-fluid">
 
-  
+
     <div *ngIf="!isAddEdit">
       <div class="row">
         <div class="col-12 page-title">
@@ -10,14 +10,20 @@
 
         </div>
       </div>
-      <!--<div class="row">
-    <div class="col-12">
-      <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Request Leave</button>
-    </div>
-  </div>-->
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6 sm-table employee">
+
+      
+    
+      
+        <div class="row col-12" *ngIf="userRole==='Admin'">
+          <label class="col-3" for="select">Filter by department:</label>
+          <select class="form-control col-5" placeholder="Select Role" (change)="getLeaveByDept()" name="dept" [(ngModel)]="dept">
+            <option selected="" value="">Select Department</option>
+            <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+          </select>
+        </div>
+
+        
+        <div class="col-12 sm-table employee" style="margin-top:50px">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
@@ -29,9 +35,9 @@
                   <th class="img">From Date</th>
                   <th class="img">To Date</th>
                   <th class="img">Leave Type</th>
-                  <th class="img">Reason</th>
+                  <th class="img">Leave Reason</th>
                   <th class="img">Leave Request From</th>
-                  <th class="more">Click below to approve</th>
+                  <th class="more">Click Below to Approve/Reject</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,14 +46,24 @@
                     <input id="checkbox1" type="checkbox">
                     <label for="checkbox1">Select</label>
                   </td>
-                  <td>{{rec.fromDate }}</td>
-                  <td>{{rec.toDate}}</td>
+                  <td>{{rec.fromDate | date: 'dd-MM-yyyy'  }}</td>
+                  <td>{{rec.toDate | date: 'dd-MM-yyyy' }}</td>
                   <td>{{rec.name}}</td>
                   <td>{{rec.reason}}</td>
-                  <td>{{rec.createdBy}}</td>
+                  <td>
+                    {{rec.createdBy}}
+
+                  </td>
 
                   <td class="more">
-                    <a class="action-btn fa fa-check-circle" (click)="onApproval(rec.id)">Approve</a>
+                    <a class="action-btn fa fa-check-circle" (click)="onApproval(rec.id)">Approve</a>&nbsp;&nbsp;&nbsp;
+
+                    <a class="action-btn fa fa-close" (click)="onRejection(rec.id,rec.isRejected)" [hidden]="rec.isRejected">Reject</a>
+                    <div [hidden]="!rec.isRejected">
+                      <input type="text" placeholder="Enter rejection reason" name="reason" [(ngModel)]="rejectLeave.reason" required #name="ngModel" id="reason" />
+                      <button (click)="rejectLeaves(rec.id)">Reject</button>
+                      <button (click)="onRejection(rec.id,rec.isRejected)">Cancel</button>
+                    </div>
                   </td>
 
                 </tr>
@@ -58,7 +74,6 @@
       </div>
 
       <div class="row" *ngIf="totalRecord > pageSize">
-        <div class="col-2"></div>
         <div class="col-6">
           <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
                           [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
@@ -84,5 +99,5 @@
       </div>
 
     </div>
-  </div>
+  
 </section>

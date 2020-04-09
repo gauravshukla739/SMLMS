@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LeaveService } from '../../../../core/services/leave.service';
 import { SharedService } from '../../../../shared/services/shared.service.';
+import { DepartmentService } from '../../../../core/services/department.service';
+import { UserService } from '../../../../core/services/user.service';
+
 
 @Component({
   selector: 'app-approve',
@@ -9,33 +12,93 @@ import { SharedService } from '../../../../shared/services/shared.service.';
 export class ApproveComponent implements OnInit {
   approveRequest: any = {};
   pendingLeaves: any = [];
+
+  leavesListById: any = [];
+
   userRole: string;
   tokendata: any = []
+  rejectLeave: any = {};
 
+  text: string;
+  Selecteddepartment: any;
+  Selecteduser: any;
 
+  departments: any = [];
+  users: any = [];
 
   pageNumber = 1;
   pageSize = 5;
   totalRecord = 0;
+  prevLeaveid: any;
+  dept: any = "";
 
-  constructor(private leaveService: LeaveService,  private sharedService: SharedService) { }
+
+  constructor(private leaveService: LeaveService, private sharedService: SharedService, private deptService: DepartmentService, private userService: UserService) {
+    this.prevLeaveid = null;
+  }
 
   ngOnInit() {
+
+    this.userRole = this.sharedService.user.roleName || "";
+
     this.getLeaveDataByRoles();
+    this.getDepartments();
+
 
   }
 
-  getLeaveDataByRoles() {
-    this.leaveService.getLeaveDataBasedOnId().subscribe((data: any) => {
-     
-      if (data.isSuccess) {
+  getLeaveByDept() {
+    if (this.dept == "" || this.dept == null) {
+      this.getLeaveDataByRoles();
+    } else {
+      this.leaveService.getLeaveByDepartment(this.dept).subscribe((data: any) => {
+        debugger;
         this.pendingLeaves = data.data;
-        
+        this.totalRecord = data.data.length;
+      });
+    }
+
+  }
+
+  getDepartments() {
+    var response = this.deptService.all().subscribe((data: any) => {
+      console.log(data);
+      if (data.isSuccess) {
+        this.departments = data.data;
       } else {
-        
+        this.sharedService.showPopup(data.message);
+      }
+    });
+    response.add(() => {
+      this.sharedService.stopLoading();
+    })
+  }
+  getUsers() {
+    var response = this.userService.getAll().subscribe((data: any) => {
+      console.log(data);
+      if (data.isSuccess) {
+        this.users = data.data;
+      } else {
+        this.sharedService.showPopup(data.message);
       }
     })
   }
+
+
+  getLeaveDataByRoles() {
+    this.leaveService.getLeaveDataBasedOnId().subscribe((data: any) => {
+
+      if (data.isSuccess) {
+        this.pendingLeaves = data.data;
+        this.totalRecord = data.data.length;
+
+      } else {
+
+      }
+    })
+  }
+
+
 
   onApproval(id: any) {
 
@@ -49,6 +112,41 @@ export class ApproveComponent implements OnInit {
       }
     });
   }
+
+
+
+
+  onRejection(id: any, isRejected: boolean) {
+
+    if (this.prevLeaveid != null) {
+      this.pendingLeaves.find(item => item.id == this.prevLeaveid).isRejected = isRejected;
+    }
+
+    this.pendingLeaves.find(item => item.id == id).isRejected = !isRejected;
+    this.prevLeaveid = id;
+    this.rejectLeave.reason = "";
+
+  }
+
+  rejectLeaves(id: any) {
+    if (this.rejectLeave.reason == "" || this.rejectLeave.reason == null) {
+      alert("Reason required.");
+      return;
+    }
+    this.rejectLeave.id = id;
+    this.leaveService.rejectLeave(this.rejectLeave).subscribe((res: any) => {
+
+      if (res.isSuccess) {
+        alert("Leave Rejected");
+        this.getLeaveByDept();
+
+      }
+      else {
+        alert(res.message);
+      }
+    });
+  }
+
 
 
   //PAgination

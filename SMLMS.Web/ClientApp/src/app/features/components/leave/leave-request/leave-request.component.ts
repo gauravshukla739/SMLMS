@@ -13,6 +13,7 @@ import { LeaveService } from '../../../../core/services/leave.service';
 })
 export class LeaveRequestComponent implements OnInit {
   leaveRequest :any= {};
+  
   leaveRequests = [];
   typesofleave: any = [];
   isAddEdit = false;
@@ -23,13 +24,16 @@ export class LeaveRequestComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   totalRecord = 0;
+  minDate: Date;
+ 
 
 
   constructor(private userService: UserService,
     private sharedService: SharedService,
     private confirmDialogService: ConfirmDialogService,
     private leaveService: LeaveService,
-    private router: Router) { }
+    private router: Router) {
+  }
 
 
   ngOnInit() {
@@ -57,6 +61,8 @@ export class LeaveRequestComponent implements OnInit {
       if (data.isSuccess) {
         this.leaveRequests = data.data;
         debugger;
+        this.totalRecord = data.data.length;
+        debugger;
       } else {
         this.sharedService.showPopup(data.Message);
       }
@@ -79,6 +85,7 @@ export class LeaveRequestComponent implements OnInit {
     debugger;
     this.isAddEdit = true;
     this.leaveRequest = {};
+
  
   }
   edit(rec) {

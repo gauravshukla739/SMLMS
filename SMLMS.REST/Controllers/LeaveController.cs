@@ -71,5 +71,19 @@ namespace SMLMS.REST.Controllers
             return await _leave.ApproveLeaveRequest(id,User);
         }
 
+        [HttpPost]
+        [Route("RejectLeaveRequest")]
+        public async Task<ServiceResponse> RejectLeaveRequest(RejectLeave model)
+        {
+            return await _leave.RejectLeaveRequest(model, User);
+        }
+
+        [HttpGet]
+        [Route("getLeaveByDepartmentId")]
+        public async Task<ServiceResponse> GetLeaveByDepartmentId(Guid DepartmentId)
+        {
+            return await _leave.GetLeaveByDepartmentId(DepartmentId);
+        }
+
     }
 }
