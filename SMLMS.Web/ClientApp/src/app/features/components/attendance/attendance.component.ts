@@ -45,6 +45,29 @@ export class AttendanceComponent implements OnInit {
   pageSize = 5;
   totalRecord = 0;
 
+
+  private years: number[] = [];
+  private yy: number;
+  private mm: string;
+  val: string;
+  name: string;
+
+
+  months = [
+    { val: '01', name: 'Jan' },
+    { val: '02', name: 'Feb' },
+    { val: '03', name: 'Mar' },
+    { val: '04', name: 'Apr' },
+    { val: '05', name: 'May' },
+    { val: '06', name: 'Jun' },
+    { val: '07', name: 'Jul' },
+    { val: '08', name: 'Aug' },
+    { val: '09', name: 'Sep' },
+    { val: '10', name: 'Oct' },
+    { val: '11', name: 'Nov' },
+    { val: '12', name: 'Dec' }
+  ];
+
   constructor(private countupTimerService: CountupTimerService, private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, private deptService: DepartmentService, private userService: UserService) {
 
   }
@@ -86,6 +109,23 @@ export class AttendanceComponent implements OnInit {
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
   }
+
+  getMonth() {
+    var today = new Date();
+    this.mm = today.getMonth() + 1;
+    if (this.mm < 10) {
+      this.mm = '0' + this.mm
+    }
+  }
+  getYear() {
+    debugger;
+    var today = new Date();
+    this.yy = today.getFullYear();
+    for (var i = (this.yy - 100); i <= this.yy; i++) {
+      this.years.push(i);
+    }
+  }
+
 
 
   //PAgination

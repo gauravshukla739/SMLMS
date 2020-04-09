@@ -30,33 +30,32 @@
 
 <section><div class="container-fluid">
            <div class="row">
-             <div class="col-3"><select class="form-control" [(ngModel)]="SelectedMonth">
-                <option value="">Select Month</option>
-                <option value="1">Jan</option>
-                <option value="2">Feb</option>
-                <option value="3">Mar</option>
-                <option value="4">Apr</option>
-                <option value="5">May</option>
-                <option value="6">Jun</option>
-                <option value="7">Jul</option>
-                <option value="8">Aug</option>
-                <option value="9">Sep</option>
-                <option value="10">Oct</option>
-                <option value="11">Nov</option>
-                <option value="12">Dec</option>
-                </select></div>
-             <div class="col-3" *ngIf="userRole==='Admin'"><select class="form-control"  name="dept" [(ngModel)]="Selecteddepartment" >
-  <option selected="selected" value="">Select Department</option>
-  <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
-</select></div>
-             <div class="col-3" *ngIf="userRole==='Admin'"><select class="form-control"  name="user" [(ngModel)]="Selecteduser">
-  <option selected="selected" value="">Select User</option>
-  <option [value]="user.normalizedEmail" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
-</select></div>
-             <div class="col-3">
+             <div class="col-2">
+               <select class="form-control" required>
+                 <option *ngFor="let p of months" [selected]="mm === p.val ">{{p.name}}</option>
+               </select>
+             </div>
+             <div class="col-2">
+               <select class="form-control">
+                 <option *ngFor="let y of years" [selected]="yy === y ">{{y}}</option>
+               </select>
+             </div>
+             <div class="col-3" *ngIf="userRole==='Admin'">
+               <select class="form-control" name="dept" [(ngModel)]="Selecteddepartment">
+                 <option selected="selected" value="">Select Department</option>
+                 <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+               </select>
+             </div>
+             <div class="col-3" *ngIf="userRole==='Admin'">
+               <select class="form-control" name="user" [(ngModel)]="Selecteduser">
+                 <option selected="selected" value="">Select User</option>
+                 <option [value]="user.normalizedEmail" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+               </select>
+             </div>
+             <div class="col-2">
                <button class="btn btn-primary" (click)="selectedFilter()">Search</button>
              </div>
-             
+
            </div>
   </div>
 </section>
