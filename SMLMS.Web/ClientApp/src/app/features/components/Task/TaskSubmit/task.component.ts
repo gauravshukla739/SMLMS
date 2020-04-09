@@ -5,6 +5,7 @@ import { UserService } from '../../../../core/services/user.service';
 import { DepartmentService } from '../../../../core/services/department.service';
 //import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
+
 @Component({
   selector: 'app-setting',
   templateUrl: './task.component.html',
@@ -33,6 +34,7 @@ export class TaskComponent implements OnInit {
   
   dept: any = "";/*this.sharedService.user.departmentId;
 */  departments: any = [];
+  isAssignTo: any = true;
   ngOnInit() {
     debugger;
     this.task.employeeId = this.sharedService.user.id;
@@ -48,6 +50,17 @@ export class TaskComponent implements OnInit {
     this.task = {};
   }
   edit(rec) {
+    this.isAddEdit = true;
+    this.task = rec;
+  }
+  editMyTask(rec) {
+    if (rec.assignTo != rec.employeeId) {
+      this.isAssignTo = false;
+    }
+    if (this.userRole === 'Admin') {
+      this.isAssignTo = true;
+    }
+
     this.isAddEdit = true;
     this.task = rec;
   }
@@ -105,7 +118,9 @@ export class TaskComponent implements OnInit {
       this.totalRecord = data.data.length;
     });
   }
-  
+  setDeptId() {
+    //this.task.departmentId = deptId;
+  }
   onSubmit(formValid: any) {
     this.task.departmentId = this.sharedService.user.departmentId;
     this.task.employeeId = this.sharedService.user.id;
