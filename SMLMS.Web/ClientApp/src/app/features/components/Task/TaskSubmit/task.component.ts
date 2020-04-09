@@ -119,7 +119,7 @@ export class TaskComponent implements OnInit {
     });
   }
   setDeptId() {
-    //this.task.departmentId = deptId;
+    this.task.departmentId = this.users.filter(x => x.userId == this.task.assignTo)[0].departmentId;
   }
   onSubmit(formValid: any) {
     this.task.departmentId = this.sharedService.user.departmentId;

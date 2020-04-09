@@ -48,7 +48,7 @@
                 <label for="select" >Assign To:</label>
                 <select [disabled]="!isAssignTo" class="form-control" placeholder="Select Employee" name="assignTo" (change)="setDeptId()" [(ngModel)]="task.assignTo" #assignTo="ngModel">
                   <option selected="selected" value="">Select Employee</option>
-                  <option [value]="user.id"  *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+                  <option [value]="user.userId"  *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
                 </select>
               </div>
               <div class="form-group">
