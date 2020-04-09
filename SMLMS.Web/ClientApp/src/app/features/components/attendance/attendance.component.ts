@@ -36,9 +36,9 @@ export class AttendanceComponent implements OnInit {
   timerTextConfig: timerTexts;
   departments: any = [];
   users: any = [];
-  SelectedMonth: any;
-  Selecteddepartment: any;
-  Selecteduser: any;
+  SelectedMonth: any = "";
+  Selecteddepartment: any = "";
+  Selecteduser: any = "";
 
 
   pageNumber = 1;
