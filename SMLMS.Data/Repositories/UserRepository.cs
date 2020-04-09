@@ -1,6 +1,7 @@
 ﻿
 using SMLMS.Data.Interfaces;
 using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -62,7 +63,26 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<ApplicationUser> All()
         {
             return Query<ApplicationUser>(
-                sql: "SELECT * FROM AspNetUsers where [IsDeleted] is null or [IsDeleted] = 0"
+                sql: "SELECT *,role.DepartmentId FROM AspNetUsers as userd INNER JOIN AspNetUserRoles as role ON userd.Id=role.UserId where (userd.[IsDeleted] is null or userd.[IsDeleted] = 0) and role.isdeleted=0"
+            );
+        }
+
+        public IEnumerable<UserDepartmentListDto> GetAll()
+        {
+            return Query<UserDepartmentListDto>(
+                sql: "SELECT *,role.UserId,role.DepartmentId,role.RoleId,dept.Name as DepartmentName FROM AspNetUsers as userd INNER JOIN AspNetUserRoles as role ON userd.Id=role.UserId  INNER JOIN Department as dept ON role.DepartmentId=dept.Id  where (userd.[IsDeleted] is null or userd.[IsDeleted] = 0) and role.isdeleted=0 and dept.isdeleted=0"
+            );
+        }
+
+        public void UpdateImage(string userId, byte[] image, string updatedBy)
+        {
+            var updateDate = DateTime.Now;
+            Execute(
+                sql: @"
+                    Update AspNetUsers
+                    set Image=@image,UpdatedBy=@updatedBy,UpdateDate=@updateDate
+                    WHERE Id = @userId and (IsDeleted=0 or IsDeleted is null)",
+                param: new { userId, image,updatedBy,updateDate }
             );
         }
 

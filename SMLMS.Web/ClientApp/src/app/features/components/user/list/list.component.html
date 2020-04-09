@@ -8,9 +8,30 @@
         <a class="action-btn fa fa-eye view" target="_blank" href="/assets/file/Employee.xlsx">Download</a>
         <input type="file" id="input" value="Upload Employee" />
       </div>
-     
-     
+
+
     </div>
+    
+        <div class="row">
+          
+          <div class="col-4">
+            <select class="form-control" name="dept" [(ngModel)]="selectedDepartment">
+              <option selected="selected" value="">Select Department</option>
+              <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <select class="form-control" name="user" [(ngModel)]="selectedUser">
+              <option selected="selected" value="">Select User</option>
+              <option [value]="user.email" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+            </select>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-primary" (click)="selectedFilter()">Search</button>
+          </div>
+
+        </div>
+     
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">
@@ -26,7 +47,7 @@
                 <th class="img">Img</th>
 
                 <th *ngFor="let item of displayColumn">{{item}}</th>
-
+                <th>Promotion</th>
                 <th class="more">Actions</th>
               </tr>
             </thead>
@@ -36,14 +57,14 @@
                   <input id="checkbox1" type="checkbox">
                   <label for="checkbox1">Select</label>
                 </td>
-                <td data-target="img" class="img"><img src="images/user.png" alt=""></td>
+                <td data-target="img" class="img"><img src="{{formatImage(user.imageData)}}" alt=""></td>
 
-                <td *ngFor="let i of displayColumn">{{user[i] || '-'}}</td>
+                <td *ngFor="let i of displayColumn">{{(i=='dateOfBirth' || i=='dateOfJoin')?formatDate(user[i]):user[i] || '-'}}</td>
 
-                <td> <a class="action-btn" (click)="promote(user.id)">Promote</a></td>
+                <td> <a href="javascript:void(0);" (click)="promote(user.userId,user.roleId,user.departmentId)">Promote</a></td>
                 <td class="more">
-                  <a class="action-btn fa fa-eye view" href="javascript:void(0);" [routerLink]="['/user/update']" [queryParams]="{id:user.id}">Edit</a>
-                  <a class="action-btn fa fa-trash delete" (click)="delete(user.id , user)">Remove</a>
+                  <a class="action-btn fa fa-eye view" href="javascript:void(0);" [routerLink]="['/user/update']" [queryParams]="{id:user.userId}">Edit</a>
+                  <a class="action-btn fa fa-trash delete" (click)="delete(user.userId , user)">Remove</a>
                 </td>
               </tr>
             </tbody>

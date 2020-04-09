@@ -7,7 +7,7 @@ import { UserService } from './services/user.service';
 import { PasswordService } from './services/password.service';
 import { DepartmentService } from './services/department.service';
 import { RoleService } from './services/role.service';
-import { PasswordValidator } from './directives/passwordvalidate.directive';
+import { EqualValidator } from './directives/passwordvalidate.directive';
 import { LeaveService } from './services/leave.service';
 
 
@@ -15,11 +15,11 @@ import { LeaveService } from './services/leave.service';
 
 @NgModule({
   declarations: [
-    PasswordValidator
+    EqualValidator
   ],
   imports: [
     BrowserModule  ,
-    HttpClientModule 
+    HttpClientModule
   ],
   providers: [
     AuthenticationService, UserService, PasswordService, DepartmentService, RoleService, LeaveService,

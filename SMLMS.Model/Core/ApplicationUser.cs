@@ -20,5 +20,7 @@ namespace SMLMS.Model.Core
 		public string CreatedBy { get; set; }
 		public string UpdatedBy { get; set; }
 		public string IsDeletedBy { get; set; }
+		public byte[] Image { get; set; }
+
 	}
 }

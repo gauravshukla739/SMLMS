@@ -22,6 +22,7 @@ import { LeaveComponent } from './components/leave/leave.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { PromoteUserComponent } from './components/user/promote/promote.component';
 import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
+import { AccountDetailComponent } from './components/account/detail/detail.component';
 
 
 
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'setting', component: SettingComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'password/change', component: ChangePasswordComponent },
+      { path: 'account/detail', component: AccountDetailComponent },
       {
         path: 'user',
         children: [

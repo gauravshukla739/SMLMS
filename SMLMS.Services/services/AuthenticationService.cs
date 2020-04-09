@@ -23,7 +23,6 @@ namespace SMLMS.Services.services
         private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _configuration;
         private IUnitOfWork _unitOfWork;
-  
         public AuthenticationService(
             UserManager<ApplicationUser> userManager,
            SignInManager<ApplicationUser> signInManager,
@@ -36,8 +35,8 @@ namespace SMLMS.Services.services
             _configuration = configuration;
             _unitOfWork = unitOfWork;
         }
-
       
+
         public async Task<ServiceResponse> SignIn(UserDto user)
         {
             ServiceResponse response = new ServiceResponse();
@@ -52,11 +51,17 @@ namespace SMLMS.Services.services
                    // var role = await _userManager.GetRolesAsync(userDetail);
                    // var getRole =await _roleManager.FindByNameAsync(role[0]);
                     var data=  _unitOfWork.UserRoleRepository.GetAllByUserId(appUser.Id);
+                    var dept=  _unitOfWork.DepartmentRepository.FindById(Guid.Parse(data.DepartmentId));
                     var role= _unitOfWork.RoleRepository.Find(data.RoleId.ToString());
                     var rolePermission= _unitOfWork.RoleModulePermissionRepository.FindPermissionByRole(role.Name);
+                    string image = string.Empty;
+                    if (userDetail.Image != null)
+                    {
+                        image = ViewImage(userDetail.Image);
+                    }
                     response.IsSuccess = true;
                     response.Message = "Login Succsessfull!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role.Name, role.Id.ToString(),data.DepartmentId),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id},permission= rolePermission };
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role.Name, role.Id.ToString(),data.DepartmentId,dept.Name),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id,DepartmentName=dept.Name, image },permission= rolePermission };
                 }
                 else
                 {
@@ -79,6 +84,12 @@ namespace SMLMS.Services.services
                 response.Message = ex.ToString();
             }
             return response;
+        }
+
+          public string ViewImage(byte[] image)
+        {
+            string base64String = Convert.ToBase64String(image, 0, image.Length);
+            return "data:image/png;base64," + base64String;
         }
 
 
@@ -160,7 +171,7 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-                var userDetail = await _userManager.FindByIdAsync(id);
+                var userDetail = await _userManager.FindByIdAsync(id);               
                 response.IsSuccess = true;
                 response.Message = "Data Fetch";
                 response.Data = userDetail;
@@ -203,7 +214,7 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId)
+        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId,string deptName)
         {
             var claims = _userManager.GetClaimsAsync(user).Result.ToList();
             var claimsnew = new List<Claim>
@@ -215,6 +226,7 @@ namespace SMLMS.Services.services
                 new Claim(ClaimTypes.Role,role),
                 new Claim("RoleId",roleId),
                 new Claim("DepartmentId",(string.IsNullOrEmpty(departmentId))?"NA":departmentId),
+                new Claim("DepartmentName",deptName),
                  new Claim("UserId",user.Id.ToString() )
             };
             claims.AddRange(claimsnew);

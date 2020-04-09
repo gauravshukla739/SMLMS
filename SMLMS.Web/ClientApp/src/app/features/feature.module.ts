@@ -29,6 +29,7 @@ import { LeaveComponent } from './components/leave/leave.component';
 import { AttendanceComponent } from './components/attendance/attendance.component';
 import { PromoteUserComponent } from './components/user/promote/promote.component';
 import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
+import { AccountDetailComponent } from './components/account/detail/detail.component';
 
 
 
@@ -57,7 +58,8 @@ import { TaskRolePermissionComponent } from './components/role/permission/permis
         LeaveComponent,
     AttendanceComponent,
     PromoteUserComponent,
-    TaskRolePermissionComponent
+    TaskRolePermissionComponent,
+    AccountDetailComponent
   ],
   imports: [
     FeatureRoutingModule,
