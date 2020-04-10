@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMLMS.Helper.ServiceResponse;
@@ -21,6 +22,7 @@ namespace SMLMS.REST.Controllers
 
         [HttpGet]
         [Route("Forgot")]
+        [AllowAnonymous]
         public async Task<ServiceResponse> Forgot(string emailId)
         {
             return await  _passwordService.Forgot(emailId);
@@ -28,6 +30,7 @@ namespace SMLMS.REST.Controllers
 
         [HttpPost]
         [Route("Reset")]
+        [AllowAnonymous]
         public async Task<ServiceResponse> Reset(ResetPasswordDto model)
         {
             return await _passwordService.Reset(model);

@@ -28,15 +28,15 @@
           <a class="nav-link" href="javascript:void(0)" routerLink="/dashboard"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dashboard <span class="sr-only">(current)</span></a>
         </li>
 
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="permission.LeaveType">
           <a class="nav-link" href="javascript:void(0)" routerLink="/type"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Leave</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="permission.LeaveRequest">
           <a class="nav-link" href="javascript:void(0)" routerLink="/request"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Request Leave</a>
         </li>
 
 
-        <li class="nav-item active" *ngIf="userRole==='Admin' || userRole==='teamLead'">
+        <li class="nav-item active" *ngIf="permission.LeaveApprove">
           <a class="nav-link" href="javascript:void(0)" routerLink="/approve"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Pending Leave Requests</a>
         </li>
 
@@ -70,18 +70,18 @@
   </li>-->
 
 
-        <li class="nav-item active">
+        <li class="nav-item active" *ngIf="permission.TaskCRUD">
           <!--*ngIf="userRole==='Admin' || userRole==='Developer'"-->
           <a class="nav-link" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Task</a>
         </li>
 
-        <li class="nav-item active" *ngIf="userRole==='Admin'">
+        <li class="nav-item active"  *ngIf="permission.Dept" >
           <a class="nav-link" href="javascript:void(0)" routerLink="/department"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dept.</a>
         </li>
-        <li class="nav-item active" *ngIf="userRole==='Admin'">
+        <li class="nav-item active" *ngIf="permission.Role" >
           <a class="nav-link" href="javascript:void(0)" routerLink="/role"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Roles</a>
         </li>
-        <li class="nav-item" *ngIf="userRole==='Admin'">
+        <li class="nav-item" *ngIf="permission.Employee">
           <a class="nav-link" href="javascript:void(0)" routerLink="/user"><i class="fa fa-tachometer icon" aria-hidden="true"></i>User</a>
         </li>
         <li class="nav-item">
