@@ -76,7 +76,7 @@ namespace SMLMS.Services.services
                         response.Message = "Invalid user";
                     }
                 }
-                response.IsSuccess = true;
+                //response.IsSuccess = true;
             }
             catch(Exception ex)
             {
