@@ -6,7 +6,7 @@ import { RoleTaskEnum } from "../enum/task.enum";
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
-  ApiBaseUrl: string ="http://localhost:52710/api";
+  ApiBaseUrl: string ="http://gshukla999-001-site1.ftempurl.com/api";
   roleEnum = RoleEnum;
   taskEnum = RoleTaskEnum;
   promoteRoleId: any;

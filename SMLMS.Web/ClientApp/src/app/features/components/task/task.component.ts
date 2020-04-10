@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { SharedService } from 'src/app/shared/services/shared.service.';
-import { TaskService } from 'src/app/core/services/Task.service';
-import { UserService } from '../../../../core/services/user.service';
-import { DepartmentService } from '../../../../core/services/department.service';
+//import { SharedService } from 'src/app/shared/services/shared.service.';
+//import { TaskService } from 'src/app/core/services/Task.service';
+import { DepartmentService } from '../../../core/services/department.service';
+import { UserService } from '../../../core/services/user.service';
+import { TaskService } from '../../../core/services/Task.service';
+import { SharedService } from '../../../shared/services/shared.service.';
+
 //import { ENGINE_METHOD_PKEY_ASN1_METHS } from 'constants';
 
 
 @Component({
-  selector: 'app-setting',
+  selector: 'app-task-component',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css']
+  //styleUrls: ['./task.component.css']
 })
-export class TaskComponent implements OnInit {
+export class MyTaskComponent implements OnInit {
 
   constructor(private taskService: TaskService, private deptService: DepartmentService, private sharedService: SharedService, private userService: UserService) { }
   isAddEdit = false;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 import { Router } from '@angular/router';
 import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog-service.service';
-import readXlsxFile from 'read-excel-file';
+//import readXlsxFile from 'read-excel-file';
 import { RoleService } from '../../../../core/services/role.service';
 
 @Component({
@@ -24,37 +24,37 @@ export class TaskRolePermissionComponent implements OnInit {
 
 
 
-  upload() {
-    const input = document.getElementById('input') as any;
+  //upload() {
+  //  const input = document.getElementById('input') as any;
 
-    input.addEventListener('change', () => {
-      readXlsxFile(input.files[0]).then((rows) => {
-        debugger;
-        for (var i = 1; i < rows[0].length; i++) {
-          for (var j = 1; j < rows.length; j++) {
-            this.rolepermission = {};
-            this.rolepermission.TaskName = rows[j][0];
-            this.rolepermission.RoleName = rows[0][i];
-            this.rolepermission.Permission = rows[j][i];
-            this.rolePermissionAdd.push(this.rolepermission);
-          }
-        }
-        this.roleService.permission(this.rolePermissionAdd).subscribe((data: any) => {
-          console.log(data);
-          if (data.isSuccess) {
-            this.sharedService.showPopup(data.message);
-            this.getAllPermissionList();
-          } else {
-            this.sharedService.showPopup(data.message);
-          }
-        })
+  //  input.addEventListener('change', () => {
+  //    readXlsxFile(input.files[0]).then((rows) => {
+  //      debugger;
+  //      for (var i = 1; i < rows[0].length; i++) {
+  //        for (var j = 1; j < rows.length; j++) {
+  //          this.rolepermission = {};
+  //          this.rolepermission.TaskName = rows[j][0];
+  //          this.rolepermission.RoleName = rows[0][i];
+  //          this.rolepermission.Permission = rows[j][i];
+  //          this.rolePermissionAdd.push(this.rolepermission);
+  //        }
+  //      }
+  //      this.roleService.permission(this.rolePermissionAdd).subscribe((data: any) => {
+  //        console.log(data);
+  //        if (data.isSuccess) {
+  //          this.sharedService.showPopup(data.message);
+  //          this.getAllPermissionList();
+  //        } else {
+  //          this.sharedService.showPopup(data.message);
+  //        }
+  //      })
       
-      })
-    })
-  }
+  //    })
+  //  })
+  //}
 
   ngOnInit() {
-    this.upload();
+    //this.upload();
     this.getAllPermissionList();
   }
 

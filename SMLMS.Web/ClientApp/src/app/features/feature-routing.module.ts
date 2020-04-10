@@ -4,7 +4,7 @@ import { MainLayoutComponent } from './layout/main-layout/main-layout.component'
 import { AccountLayoutComponent } from './layout/account-layout/account-layout.component';
 import { LoginComponent } from './components/account/login/login.component';
 import { SettingComponent } from './components/setting/setting.component';
-import { TaskComponent } from './components/task/tasksubmit/task.component';
+
 import { AuthGuard } from '../core/auth-guard/auth-guard';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './components/password/forgot/forgot.component';
@@ -24,6 +24,7 @@ import { PromoteUserComponent } from './components/user/promote/promote.componen
 import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
 import { AttendanceDetailComponent } from './components/attendance/attendance-detail/attendance-detail.component';
 import { AccountDetailComponent } from './components/account/detail/detail.component';
+import { MyTaskComponent } from './components/task/task.component';
 
 
 
@@ -61,12 +62,12 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'task', component: TaskComponent,
-        children: [
-          { path: '', component: TaskComponent },
-          { path: 'create', component: TaskComponent },
-          { path: 'edit/:id', component: TaskComponent },
-        ]
+        path: 'task', component: MyTaskComponent,
+        //children: [
+        //  { path: '', component: TaskComponent },
+        //  { path: 'create', component: TaskComponent },
+        //  { path: 'edit/:id', component: TaskComponent },
+        //]
       },
 
                 { path: 'type', component: LeaveTypeComponent },

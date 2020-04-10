@@ -19,5 +19,7 @@ export class LeftMenuComponent implements OnInit {
   showHideLeftNav() {
     this.isOpne = !this.isOpne;
   }
+  openNav() {
 
+  }
 }

@@ -14,7 +14,7 @@ export class ApproveComponent implements OnInit {
   pendingLeaves: any = [];
 
   leavesListById: any = [];
-
+  isAddEdit: boolean = false;
   userRole: string;
   tokendata: any = []
   rejectLeave: any = {};

@@ -14,7 +14,7 @@ import { ForgotPasswordComponent } from './components/password/forgot/forgot.com
 import { ResetPasswordComponent } from './components/password/reset/reset.component';
 import { ChangePasswordComponent } from './components/password/change/change.component';
 import { UserCreateUpdateComponent } from './components/user/create-update/create-update.component';
-import { TaskComponent } from './components/task/tasksubmit/task.component';
+
 
 
 import {TabModule} from 'angular-tabs-component';
@@ -33,6 +33,7 @@ import { AttendanceDetailComponent } from './components/attendance/attendance-de
 
 
 import { AccountDetailComponent } from './components/account/detail/detail.component';
+import { MyTaskComponent } from './components/task/task.component';
 
 
 
@@ -51,7 +52,6 @@ import { AccountDetailComponent } from './components/account/detail/detail.compo
     UserCreateUpdateComponent,
     UserComponent,
     DashboardComponent,
-    TaskComponent,
     DepartmentComponent,
     RoleComponent,
     LeaveTypeComponent,
@@ -63,7 +63,8 @@ import { AccountDetailComponent } from './components/account/detail/detail.compo
     PromoteUserComponent,
     TaskRolePermissionComponent,
         AttendanceDetailComponent,
-        AccountDetailComponent
+    AccountDetailComponent,
+    MyTaskComponent
   ],
   imports: [
     FeatureRoutingModule,
