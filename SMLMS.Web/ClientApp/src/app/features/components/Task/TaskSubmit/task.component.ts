@@ -13,7 +13,7 @@ import { DepartmentService } from '../../../../core/services/department.service'
 })
 export class TaskComponent implements OnInit {
 
-  constructor(private taskService: TaskService, private deptService: DepartmentService, private sharedService: SharedService,private userService:UserService ) { }
+  constructor(private taskService: TaskService, private deptService: DepartmentService, private sharedService: SharedService, private userService: UserService) { }
   isAddEdit = false;
 
   pageNumber = 1;
@@ -27,13 +27,14 @@ export class TaskComponent implements OnInit {
   sliceStartT = 0;
   sliceEndT = 5;
   userRole: string;
-  task: any = {};   
+  task: any = {};
   taskList: any;
   users: any;
   myTaskList: any;
-  
-  dept: any = "";/*this.sharedService.user.departmentId;
-*/  departments: any = [];
+  departmentId: any = this.sharedService.user.departmentId;
+
+  dept: any = "";/*this.sharedService.user.departmentId;*/
+  departments: any = [];
   isAssignTo: any = true;
   ngOnInit() {
     debugger;
@@ -70,11 +71,11 @@ export class TaskComponent implements OnInit {
   }
   getUsers() {
     this.userService.getAll().subscribe((data: any) => {
-     if (data.isSuccess) {
+      if (data.isSuccess) {
         this.users = data.data;
       } else {
         this.sharedService.showPopup(data.message);
-      } 
+      }
     });
   }
   getDepartments() {
@@ -91,9 +92,17 @@ export class TaskComponent implements OnInit {
     })
   }
   getTask() {
+    debugger;
     this.task.employeeId = this.sharedService.user.id;
     if (this.userRole === 'Admin') {
       this.taskService.getTask().subscribe((data: any) => {
+        this.taskList = data.data;
+        this.totalRecordT = data.data.length;
+      });
+    }
+    else if (this.userRole ==='Team Lead')
+    {
+      this.taskService.getTaskByDepartment(this.departmentId).subscribe((data: any) => {
         this.taskList = data.data;
         this.totalRecordT = data.data.length;
       });
@@ -103,7 +112,7 @@ export class TaskComponent implements OnInit {
         this.taskList = data.data;
         this.totalRecordT = data.data.length;
       });
-    }   
+    }
   }
   getTaskByDept() {
     this.taskService.getTaskByDepartment(this.dept).subscribe((data: any) => {
@@ -122,7 +131,7 @@ export class TaskComponent implements OnInit {
     this.task.departmentId = this.users.filter(x => x.userId == this.task.assignTo)[0].departmentId;
   }
   onSubmit(formValid: any) {
-    this.task.departmentId = this.sharedService.user.departmentId;
+    //this.task.departmentId = this.sharedService.user.departmentId;
     this.task.employeeId = this.sharedService.user.id;
     this.taskService.addTask(this.task).subscribe((res: any) => {
       debugger;

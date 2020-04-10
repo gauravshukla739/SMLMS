@@ -70,11 +70,11 @@
 
       <div *ngIf="!isAddEdit">
         <tabs>
-          <tab tabTitle="Task List (Created by me)">
+          <tab tabTitle="Task List">
             <div>
               <div class="row">
                 <div class="col-12 page-title">
-                  <h3 class="title-top">Task List (Created by me)</h3>
+                  <h3 class="title-top">Task List</h3>   <!--(Created by me)-->
                 </div>
               </div>
 
@@ -84,8 +84,8 @@
                 </div>
               </div>
               <div class="row">
-                <label class="col-3" for="select">Filter by department:</label>
-                <select class="form-control col-3" placeholder="Select Role" (change)="getTaskByDept()" name="dept" [(ngModel)]="dept">
+                <label class="col-3" for="select" *ngIf="userRole==='Admin'">Filter by department:</label>
+                <select class="form-control col-3" placeholder="Select Role" *ngIf="userRole==='Admin'" (change)="getTaskByDept()" name="dept" [(ngModel)]="dept">
                   <option selected="" value="">Select Department</option>
                   <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
                 </select>
