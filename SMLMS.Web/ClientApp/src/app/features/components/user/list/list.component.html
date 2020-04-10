@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-12 page-title">
         <h3 class="title-top">Employee</h3>
-        <a [routerLink]="['/user/add']" class="btn btn-primary">Add New</a>
+        <a [routerLink]="['/user/add']" class="btn btn-primary" *ngIf="roleName!=enum.TL">Add New</a>
 
 
       </div>

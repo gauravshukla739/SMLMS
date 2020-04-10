@@ -89,17 +89,11 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-               var count = unitOfWork.UserRepository.Delete(userId);
-                if (count > 0)
-                {
-                    response.IsSuccess = true;
-                }
-                else
-                {
-                    response.Data = "";
-                    response.IsSuccess = false;
-                    response.Message= "No user found with provided Id";
-                }
+                 unitOfWork.UserRepository.Delete(userId);
+                 unitOfWork.Commit();              
+                    response.IsSuccess = true;            
+                    response.Data = "Remove Successfully!";
+                
             }
             catch (Exception e)
             {
