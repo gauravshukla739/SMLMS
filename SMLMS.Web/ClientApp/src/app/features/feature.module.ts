@@ -32,6 +32,7 @@ import { TaskRolePermissionComponent } from './components/role/permission/permis
 import { AttendanceDetailComponent } from './components/attendance/attendance-detail/attendance-detail.component';
 
 
+import { AccountDetailComponent } from './components/account/detail/detail.component';
 
 
 
@@ -61,7 +62,8 @@ import { AttendanceDetailComponent } from './components/attendance/attendance-de
     AttendanceComponent,
     PromoteUserComponent,
     TaskRolePermissionComponent,
-    AttendanceDetailComponent
+        AttendanceDetailComponent,
+        AccountDetailComponent
   ],
   imports: [
     FeatureRoutingModule,

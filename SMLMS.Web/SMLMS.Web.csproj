@@ -35,6 +35,8 @@
     <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.html" />
     <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.spec.ts" />
     <None Remove="ClientApp\src\app\features\components\leave-management\leave\leave.component.ts" />
+    <None Remove="ClientApp\src\app\shared\enum\role.enum.ts" />
+    <None Remove="ClientApp\src\app\shared\enum\task.enum.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +54,8 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\core\services\attendance.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\enum\role.enum.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\enum\task.enum.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 import { Router } from '@angular/router';
 import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog-service.service';
 import readXlsxFile from 'read-excel-file';
+import { DepartmentService } from '../../../../core/services/department.service';
 
 @Component({
   selector: 'app-user-list',
@@ -19,9 +20,7 @@ export class UserComponent implements OnInit {
      "email"
     , "phoneNumber"
     , "dateOfJoin"
-    , "dateOfAppointment"
-    , "dateOfLeave"
-    , "departmentId"
+    , "departmentName"
     , "address"   
     , "firstName"
     , "lastName"
@@ -30,15 +29,40 @@ export class UserComponent implements OnInit {
   users = [];
 
   userDetail: any = {};
-  user=[];
+  user = [];
+
+  selectedDepartment: any="";
+  selectedUser: any="";
   constructor(private userService: UserService,
     private sharedService: SharedService,
     private confirmDialogService: ConfirmDialogService,
-    private router: Router) {
+    private router: Router, private deptService: DepartmentService) {
 
   }
   sliceStart = 0;
   sliceEnd = 5;
+  departments: any = [];
+
+
+  formatImage(img: any) {
+    return (img == "") ? "assets/images/user.png" : img;
+  }
+
+  getDepartments() {
+    var response = this.deptService.all().subscribe((data: any) => {
+      console.log(data);
+
+      if (data.isSuccess) {
+        this.departments = data.data;
+      } else {
+        this.sharedService.showPopup(data.message);
+      }
+    });
+    response.add(() => {
+      this.sharedService.stopLoading();
+    })
+  }
+
   goToPage(n: number): void {
     this.pageNumber = n;
     this.sliceArray();
@@ -121,6 +145,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.upload();
     this.getAllUsers();
+    this.getDepartments();
   }
 
   getAllUsers() {
@@ -129,6 +154,7 @@ export class UserComponent implements OnInit {
       debugger;
       if (data.isSuccess) {
         this.users = data.data;
+        this.users = data.data.filter(x => ((this.selectedDepartment != "") ? x.departmentId == this.selectedDepartment : true) && ((this.selectedUser != "") ? x.email == this.selectedUser : true));
         this.totalRecord = this.users.length;
       } else {
         this.sharedService.showPopup(data.message);
@@ -136,7 +162,17 @@ export class UserComponent implements OnInit {
     })
   }
 
-  promote(userId: any) {
+  selectedFilter() {
+    this.pageNumber = 1;
+    this.sliceStart = 0;
+    this.sliceEnd = this.pageSize;
+    this.getAllUsers();
+  }
+
+  promote(userId: any, roleId: any, departmentId: any) {
+    debugger;
+    this.sharedService.promoteRoleId = roleId;
+    this.sharedService.promoteDepartmentId = departmentId;
     if (confirm("are you sure wan to promote this user?")) {
       this.router.navigate(['/user/promote'], { queryParams: { id: userId } });
     }

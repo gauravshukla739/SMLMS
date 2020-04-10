@@ -23,11 +23,12 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   pwd: any = {};
-
+  invalidpwd: boolean = false;
   onSubmit(formValid: any) {
     debugger;
     this.sharedService.startLoading();
     if (this.pwd.Password == this.pwd.ConfirmPassword) {
+      this.invalidpwd = false;
       var response = this.passwordService.reset(this.pwd).subscribe((data: any) => {
         console.log(data);
         if (data.isSuccess) {
@@ -42,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
         this.sharedService.stopLoading();
       })
     } else {
-      this.sharedService.showPopup("Password & Confirm Password should be same");
+      this.invalidpwd = true;
     }
   }
 

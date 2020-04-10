@@ -36,7 +36,10 @@ export class PromoteUserComponent implements OnInit {
       debugger;
       console.log(data);
       if (data.isSuccess) {
+        debugger;
         this.user = data.data;
+        this.getRoles();
+        this.getDepartments();
       } else {
         this.sharedService.showPopup(data.message);
       }
@@ -51,6 +54,7 @@ export class PromoteUserComponent implements OnInit {
       console.log(data);
       if (data.isSuccess) {
         this.roles = data.data;
+        this.user.roleName= this.roles.filter(x => x.id == this.sharedService.promoteRoleId)[0].name;
       } else {
         this.sharedService.showPopup(data.message);
       }
@@ -65,6 +69,8 @@ export class PromoteUserComponent implements OnInit {
       console.log(data);
       if (data.isSuccess) {
         this.departments = data.data;
+        this.user.departmentId = this.sharedService.promoteDepartmentId;
+
       } else {
         this.sharedService.showPopup(data.message);
       }

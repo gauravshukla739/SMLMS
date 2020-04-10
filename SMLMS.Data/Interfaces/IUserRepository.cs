@@ -1,4 +1,5 @@
 ﻿using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,5 +17,7 @@ namespace SMLMS.Data.Interfaces
         UserRole GetRole(string key);
 
         int Delete(string key);
+        void UpdateImage(string userId, byte[] image,string updatedBy);
+        IEnumerable<UserDepartmentListDto> GetAll();
     }
 }

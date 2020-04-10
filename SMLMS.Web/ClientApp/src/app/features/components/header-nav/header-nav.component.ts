@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 import { AuthenticationService } from '../../../core/services/authentication.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-header-nav',
@@ -10,10 +11,26 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 })
 export class HeaderNavComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService, private router: Router, private sharedService: SharedService, private renderer: Renderer) { }
+  constructor(private authService: AuthenticationService, private userService: UserService, private router: Router, private sharedService: SharedService, private renderer: Renderer) { }
   isOpne = true;
   username: string;
+  userId: any;
+  image: any;
+  roleName: any;
   ngOnInit() {
+    debugger;
+    this.image = (this.sharedService.user.image == "") ? "/assets/images/user.png" : this.sharedService.user.image;
+    this.roleName = this.sharedService.user.roleName;
+    this.userService.response.subscribe((event: any) => {
+      debugger;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var output = document.getElementById('pImage') as any;
+        output.src = reader.result;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    });
+   this.userId = this.sharedService.user.id;
     if (this.sharedService.user.firstName == undefined || this.sharedService.user.firstName == null) {
       this.username = this.sharedService.user.email;
     } else {

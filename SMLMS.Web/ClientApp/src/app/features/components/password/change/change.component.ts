@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PasswordService } from 'src/app/core/services/password.service';
 @Component({
   selector: 'app-change',
-  templateUrl: './change.component.html',
+  templateUrl: './change.component.html'
 })
 
 export class ChangePasswordComponent implements OnInit {
@@ -15,10 +15,11 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   pwd: any = {};
-
+  invalidpwd: boolean = false;
   onSubmit(formValid: any) {
     this.sharedService.startLoading();
     if (this.pwd.NewPassword == this.pwd.ConfirmPassword) {
+      this.invalidpwd = false;
       var response = this.passwordService.change(this.pwd).subscribe((data: any) => {
         console.log(data);
         if (data.isSuccess) {
@@ -32,7 +33,7 @@ export class ChangePasswordComponent implements OnInit {
         this.sharedService.stopLoading();
       })
     } else {
-      this.sharedService.showPopup("Password & Confirm Password should be same");
+      this.invalidpwd = true;
     }
   }
 

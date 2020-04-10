@@ -35,7 +35,9 @@ namespace SMLMS.Data.Repositories
                 param: new { userId, departmentId  }
             );
         }
-      
+
+       
+
         public IEnumerable<string> GetRoleNamesByUserId(string userId)
         {
             return Query<string>(
