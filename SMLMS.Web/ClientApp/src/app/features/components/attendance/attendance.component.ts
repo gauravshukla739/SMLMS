@@ -90,6 +90,9 @@ export class AttendanceComponent implements OnInit {
     //this.getAllUsers();
     this.getMonth();
     this.getYear();
+    this.countupTimerService.stopTimer();
+    this.disable_SignIn = false;
+    this.disable_SignOut = false;
 
     if (this.userRole == "Developer") {
       this.GetEmployee_attendance();
@@ -216,6 +219,11 @@ export class AttendanceComponent implements OnInit {
       if (data.isSuccess) {
         this.GetEmployee_attendance();
         this.getAllUsers();
+        if (this.userRole == "HR Manager" || this.userRole == "Project Manager") {
+          this.TodayPuchIn();
+          this.Employee_PresentAbsent();
+        }
+
         this.disable_SignIn = true;
         debugger;
         this.countupTimerService.startTimer();
@@ -237,6 +245,11 @@ export class AttendanceComponent implements OnInit {
         this.getAllUsers();
         this.disable_SignIn = false;
         this.countupTimerService.stopTimer();
+
+        if (this.userRole == "HR Manager" || this.userRole == "Project Manager") {
+          this.TodayPuchIn();
+          this.Employee_PresentAbsent();
+        }
         this.sharedService.showPopup("Successfully punch Out");
       }
       else {
@@ -262,19 +275,19 @@ export class AttendanceComponent implements OnInit {
         this.AllEmployeeAttendance = data.data;
         console.log(data);
 
-        for (var i = 0; i < data.data.length; i++) {
-          let SignOutDate = new Date(data.data[i].signOut);
+        //for (var i = 0; i < data.data.length; i++) {
+        //  let SignOutDate = new Date(data.data[i].signOut);
 
-          if (data.data[i].signOut == null) {
-            this.disable_SignIn = true;
-            var signIn_Date = new Date(data.data[i].signIn);
-            this.countupTimerService.startTimer(signIn_Date);
-          }
-          else if (data.data[i].signOut != null && SignOutDate.getDate() == this.currentDate.getDate()) {
-            this.disable_SignOut = true;
-            this.disable_SignIn = true;
-          }
-        }
+        //  if (data.data[i].signOut == null) {
+        //    this.disable_SignIn = true;
+        //    var signIn_Date = new Date(data.data[i].signIn);
+        //    this.countupTimerService.startTimer(signIn_Date);
+        //  }
+        //  else if (data.data[i].signOut != null && SignOutDate.getDate() == this.currentDate.getDate()) {
+        //    this.disable_SignOut = true;
+        //    this.disable_SignIn = true;
+        //  }
+        //}
       } else {
         this.sharedService.showPopup(data.Message);
         //this.sharedService.showPopup("Login failed , Invalid user");
@@ -283,6 +296,7 @@ export class AttendanceComponent implements OnInit {
   }
 
   GetEmployee_attendance() {
+    
 
     let userDetails = JSON.parse(localStorage.getItem("user"));
     let userId = userDetails.id;
