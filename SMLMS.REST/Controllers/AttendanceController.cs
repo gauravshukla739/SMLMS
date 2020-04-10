@@ -82,9 +82,17 @@ namespace SMLMS.REST.Controllers
 
         [HttpGet]
         [Route("getAllEmployess")]
-        public async Task<ServiceResponse> getAllEmployess()
+        public async Task<ServiceResponse> getAllEmployess(string userid, string role ,string dept)
         {
-            return await _attendanceService.getAllEmployess();
+            if(role == "Team Lead")
+            {
+                return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, null, dept == "undefined" ? null : dept, null);
+            }
+            else
+            {
+                return await _attendanceService.getAllEmployess();
+            }
+           
         }
 
         [HttpGet]
