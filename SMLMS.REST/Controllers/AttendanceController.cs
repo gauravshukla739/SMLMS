@@ -63,7 +63,7 @@ namespace SMLMS.REST.Controllers
         [Route("AttendanceFilter")]
         public async Task<ServiceResponse> AttendanceFilter(string userid,string role, string month, string dept, string user)
         {
-            return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, month == "undefined" ? null : month, dept == "undefined" ? null : dept, user == "undefined" ? null : dept);
+            return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, month == "undefined" ? null : month, dept == "undefined" ? null : dept, user == "undefined" ? null : user);
         }
 
         [HttpGet]

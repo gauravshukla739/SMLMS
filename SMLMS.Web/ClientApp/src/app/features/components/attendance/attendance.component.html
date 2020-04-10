@@ -1,6 +1,6 @@
 
 
-
+<!--Punch in out Yimer-->
 <section *ngIf="allemployee">
   <div class="container-fluid">
     <div class="row">
@@ -32,17 +32,20 @@
 
 </section>
 
+<!--DropDowns-->
+
 <section *ngIf="allemployee">
   <div class="container-fluid">
     <div class="row">
       <div class="col-2">
-        <select class="form-control" name="month" >
+        <select class="form-control" name="month" [(ngModel)]="SelectedMonth">
+          <option selected="selected" value="">Select Month</option>
           <option *ngFor="let p of months" [selected]="mm === p.val" [value]="p.val">{{p.name}}</option>
         </select>
       </div>
       <div class="col-2">
         <select class="form-control" name="year">
-          <option *ngFor="let y of years"  [selected]="yy === y">{{y}}</option>
+          <option *ngFor="let y of years" [selected]="yy === y">{{y}}</option>
         </select>
       </div>
       <div class="col-3" *ngIf="userRole==='Admin'">
@@ -64,7 +67,10 @@
     </div>
   </div>
 </section>
-<section  *ngIf="userRole!='Admin'"> <div class="row" style="margin-left: 88%;">Total Records: {{totalRecord}}</div></section>
+<section *ngIf="userRole!='Admin'"> <div class="row" style="margin-left: 88%;">Total Records: {{totalRecord}}</div></section>
+
+<!--EmployeeList-->
+
 <section *ngIf="allemployee">
   <div class="container-fluid">
     <div class="row">
@@ -96,10 +102,10 @@
 
       </div>
       <!--<div class="col-4 sm-table employee">
-    <div>
-     test
-    </div>
-  </div>-->
+        <div>
+         test
+        </div>
+      </div>-->
     </div>
     <div class="row" *ngIf="totalRecord > pageSize">
       <div class="col-2"></div>
@@ -165,10 +171,10 @@
 
       </div>
       <!--<div class="col-4 sm-table employee">
-    <div>
-     test
-    </div>
-  </div>-->
+        <div>
+         test
+        </div>
+      </div>-->
     </div>
     <div class="row" *ngIf="totalRecord > pageSize">
       <div class="col-2"></div>
@@ -197,7 +203,7 @@
     </div>
   </div>
 </section>
-  <!--Absent present-->
+<!--Absent present-->
 
 <section *ngIf="userRole ==='Admin' && allemployee">
   <div class="container-fluid">
@@ -233,10 +239,10 @@
         </div>
       </div>
       <!--<div class="col-4 sm-table employee">
-    <div>
-     test
-    </div>
-  </div>-->
+        <div>
+         test
+        </div>
+      </div>-->
     </div>
   </div>
 </section>
@@ -270,11 +276,11 @@
         </div>
       </div>
       <!--<div class="col-4 sm-table employee">
-    <div>
-     test
-    </div>
-  </div>-->
-  <a (click)="back()" class="btn btn-primary">Back</a>
+        <div>
+         test
+        </div>
+      </div>-->
+      <a (click)="back()" class="btn btn-primary">Back</a>
     </div>
   </div>
 </section>

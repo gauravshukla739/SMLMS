@@ -109,6 +109,8 @@ export class AttendanceComponent implements OnInit {
     this.timerTextConfig = this.countUpTimerConfig && this.countUpTimerConfig.timerTexts ? Object.assign(this.countUpTimerConfig.timerTexts) : null;
     this.getDepartments();
     this.getUsers();
+   
+   
   }
 
   //get timer value
@@ -398,5 +400,7 @@ export class AttendanceComponent implements OnInit {
     this.details=false;
     this.ref.detectChanges();
   }
+
+
 
 }

@@ -51,6 +51,10 @@ namespace SMLMS.Data.Repositories
             {
                 query = query + " Where c.DepartmentId =@dept";
             }
+            else if (month == null && dept != null && email != null)
+            {
+                query = query + " Where c.DepartmentId =@dept and b.NormalizedEmail =@email";
+            }
 
             var data = Query<EmployeeAttendanceModel>(sql: query, param: new { month, dept, email });
 
@@ -194,7 +198,7 @@ namespace SMLMS.Data.Repositories
                "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
             if (userid != null)
             {
-                query = query + " where a.UserId=@userid  ORDER BY desc";
+                query = query + " where a.UserId=@userid";
             }
             var data = Query<EmployeeAttendanceModel>(sql: query, param: new { userid });
 
