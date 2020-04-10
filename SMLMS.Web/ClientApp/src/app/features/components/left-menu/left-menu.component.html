@@ -39,7 +39,10 @@
         <li class="nav-item active" *ngIf="permission.LeaveApprove">
           <a class="nav-link" href="javascript:void(0)" routerLink="/approve"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Pending Leave Requests</a>
         </li>
-
+        <li class="nav-item active" *ngIf="userRole=='Admin' || userRole=='HR Manager' || userRole=='Project Manager'">
+          <a class="nav-link" href="javascript:void(0)" routerLink="/epmloyee-leave"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Employee Leave</a>
+        </li>
+        
         <!--<li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fa fa-tachometer icon" aria-hidden="true"></i>Department
@@ -75,10 +78,10 @@
           <a class="nav-link" href="javascript:void(0)" routerLink="/task"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Task</a>
         </li>
 
-        <li class="nav-item active"  *ngIf="permission.Dept" >
+        <li class="nav-item active" *ngIf="permission.Dept">
           <a class="nav-link" href="javascript:void(0)" routerLink="/department"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Dept.</a>
         </li>
-        <li class="nav-item active" *ngIf="permission.Role" >
+        <li class="nav-item active" *ngIf="permission.Role">
           <a class="nav-link" href="javascript:void(0)" routerLink="/role"><i class="fa fa-tachometer icon" aria-hidden="true"></i>Roles</a>
         </li>
         <li class="nav-item" *ngIf="permission.Employee">
