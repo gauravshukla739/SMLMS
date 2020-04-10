@@ -1,13 +1,17 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { SharedService } from '../../../shared/services/shared.service.';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AttendanceService } from '../../../core/services/attendance.service';
 import { NgForm } from '@angular/forms';
 import { CountupTimerService } from '../../../core/services/countup.service';
 import { countUpTimerConfigModel, timerTexts } from '../../../core/models/countup-timer';
 import { DepartmentService } from '../../../core/services/department.service';
 import { UserService } from '../../../core/services/user.service';
+
+
+
+
 
 
 
@@ -21,11 +25,16 @@ export class AttendanceComponent implements OnInit {
   displayColumn = ["firstName", "lastName", "signIn", , "signOut", "createdOn", "totalTime"];
   userAttendance = [];
   employeeAttendanceTrack = [];
+  todayPuchInRecods = [];
   disable_SignIn: boolean = false;
   disable_SignOut: boolean = false;
   userRole: string;
   currentDate: Date;
-
+  Count: number;
+  allemployee: boolean = true;
+  todayattendance: boolean = true;
+  leavestatus: boolean = true;
+  details: boolean = false;
   @Input() startTime: String;
   @Input() countUpTimerConfig: countUpTimerConfigModel;
 
@@ -37,6 +46,7 @@ export class AttendanceComponent implements OnInit {
   departments: any = [];
   users: any = [];
   SelectedMonth: any = "";
+  SelectedYear: any = "";
   Selecteddepartment: any = "";
   Selecteduser: any = "";
 
@@ -45,7 +55,30 @@ export class AttendanceComponent implements OnInit {
   pageSize = 5;
   totalRecord = 0;
 
-  constructor(private countupTimerService: CountupTimerService, private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, private deptService: DepartmentService, private userService: UserService) {
+
+  private years: number[] = [];
+  private yy: number;
+  private mm: string;
+  val: string;
+  name: string;
+
+
+  months = [
+    { val: '01', name: 'Jan' },
+    { val: '02', name: 'Feb' },
+    { val: '03', name: 'Mar' },
+    { val: '04', name: 'Apr' },
+    { val: '05', name: 'May' },
+    { val: '06', name: 'Jun' },
+    { val: '07', name: 'Jul' },
+    { val: '08', name: 'Aug' },
+    { val: '09', name: 'Sep' },
+    { val: '10', name: 'Oct' },
+    { val: '11', name: 'Nov' },
+    { val: '12', name: 'Dec' }
+  ];
+
+  constructor(private countupTimerService: CountupTimerService, private ref: ChangeDetectorRef, private authService: AuthenticationService, private sharedService: SharedService, private router: Router, private attendanceService: AttendanceService, private deptService: DepartmentService, private userService: UserService, private route: ActivatedRoute, ) {
 
   }
 
@@ -54,13 +87,18 @@ export class AttendanceComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.sharedService.user.roleName || "";
     //this.getAllUsers();
+    this.getMonth();
+    this.getYear();
+
     if (this.userRole != "Admin") {
       this.GetEmployee_attendance();
     }
     else {
+      this.TodayPuchIn();
+      this.getAllUsers();
       this.Employee_PresentAbsent();
     }
-   
+
     this.currentDate = new Date();
 
     //Timer
@@ -86,6 +124,25 @@ export class AttendanceComponent implements OnInit {
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
   }
+
+
+
+
+  getMonth() {
+    var today = new Date();
+    this.mm = (today.getMonth() + 1).toString();
+    if (parseInt(this.mm) < 10) {
+      this.mm = '0' + this.mm
+    }
+  }
+  getYear() {
+    var today = new Date();
+    this.yy = today.getFullYear();
+    for (var i = (this.yy - 100); i <= this.yy; i++) {
+      this.years.push(i);
+    }
+  }
+
 
 
   //PAgination
@@ -126,7 +183,7 @@ export class AttendanceComponent implements OnInit {
   getDepartments() {
     var response = this.deptService.all().subscribe((data: any) => {
       console.log(data);
-     
+
       if (data.isSuccess) {
         this.departments = data.data;
       } else {
@@ -244,7 +301,7 @@ export class AttendanceComponent implements OnInit {
       if (data.isSuccess) {
         debugger;
         if (this.userRole == "Admin") {
-          this.employeeAttendanceTrack = data.data;
+          this.userAttendance = data.data;
           this.sharedService.stopLoading();
         }
         else {
@@ -282,6 +339,17 @@ export class AttendanceComponent implements OnInit {
     })
   }
 
+  TodayPuchIn() {
+    this.attendanceService.todayPunchIn().subscribe((data: any) => {
+      console.log(data);
+      if (data.isSuccess) {
+        this.todayPuchInRecods = data.data;
+      } else {
+        this.sharedService.showPopup(data.message);
+      }
+    })
+  }
+
 
   Employee_PresentAbsent() {
     let userDetails = JSON.parse(localStorage.getItem("user"));
@@ -290,15 +358,45 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.getEmployeeAttendance(userId, role).subscribe((data: any) => {
       debugger;
       if (data.isSuccess) {
-        
+
         this.employeeAttendanceTrack = data.data;
         this.sharedService.stopLoading();
-        
+
       } else {
         this.sharedService.showPopup(data.Message);
       }
     });
   }
 
+  employeeDetails(userId) {
+    debugger;
+    let userDetails = JSON.parse(localStorage.getItem("user"));
+    let role = userDetails.roleName;
+    this.attendanceService.GetEmployeeatendanceDetails(userId).subscribe((data: any) => {
+      debugger;
+      if (data.isSuccess) {
+        this.userAttendance = data.data;
+        this.leavestatus=false;
+        this.todayattendance=false;
+        this.allemployee=false;
+        this.details=true;
+        this.ref.detectChanges();
+        // this.router.navigate(['attendance/details'], { queryParams: { employeeAttendanceTrack: data.data } });
+        // this.ref.detectChanges();
+        this.sharedService.stopLoading();
+
+      } else {
+        this.sharedService.showPopup(data.Message);
+      }
+    });
+  }
+  back() {
+    this.sharedService.startLoading;
+    this.leavestatus=true;
+    this.todayattendance=true;
+    this.allemployee=true;
+    this.details=false;
+    this.ref.detectChanges();
+  }
 
 }

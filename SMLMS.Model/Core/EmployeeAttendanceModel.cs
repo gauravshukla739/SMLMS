@@ -6,6 +6,7 @@ namespace SMLMS.Model.Core
 {
     public class EmployeeAttendanceModel
     {
+       
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? SignIn { get; set; }
@@ -19,6 +20,7 @@ namespace SMLMS.Model.Core
         public string WorkingDays { get; set; }
         public string CurrentMonth { get; set; }
         public string DepartmentName { get; set; }
+       
 
     }
 }
