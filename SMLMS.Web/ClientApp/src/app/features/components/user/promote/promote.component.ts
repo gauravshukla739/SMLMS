@@ -64,6 +64,10 @@ export class PromoteUserComponent implements OnInit {
     })
   }
 
+  back() {
+    this.router.navigate(['/user']);
+  }
+
   getDepartments() {
     var response = this.deptService.all().subscribe((data: any) => {
       console.log(data);

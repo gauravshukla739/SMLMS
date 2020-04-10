@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog-service.service';
 import readXlsxFile from 'read-excel-file';
 import { DepartmentService } from '../../../../core/services/department.service';
+import { RoleEnum } from '../../../../shared/enum/role.enum';
 
 @Component({
   selector: 'app-user-list',
@@ -15,7 +16,7 @@ export class UserComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   totalRecord = 0;
-
+  enum = RoleEnum;
   displayColumn = [
      "email"
     , "phoneNumber"
@@ -37,12 +38,12 @@ export class UserComponent implements OnInit {
     private sharedService: SharedService,
     private confirmDialogService: ConfirmDialogService,
     private router: Router, private deptService: DepartmentService) {
-
+   
   }
   sliceStart = 0;
   sliceEnd = 5;
   departments: any = [];
-
+  roleName: any;
 
   formatImage(img: any) {
     return (img == "") ? "assets/images/user.png" : img;
@@ -53,7 +54,7 @@ export class UserComponent implements OnInit {
       console.log(data);
 
       if (data.isSuccess) {
-        this.departments = data.data;
+          this.departments = data.data;
       } else {
         this.sharedService.showPopup(data.message);
       }
@@ -141,8 +142,10 @@ export class UserComponent implements OnInit {
       })
     })
   }
-
+  deptShow: boolean=true;
   ngOnInit() {
+    this.deptShow = this.sharedService.dept();
+    this.roleName = this.sharedService.user.roleName;
     this.upload();
     this.getAllUsers();
     this.getDepartments();
@@ -154,6 +157,9 @@ export class UserComponent implements OnInit {
       debugger;
       if (data.isSuccess) {
         this.users = data.data;
+        if (this.roleName == RoleEnum.TL)
+          this.users = data.data.filter(x => x.departmentId == this.sharedService.user.departmentId && ((this.selectedUser != "") ? x.email == this.selectedUser : true));
+        else
         this.users = data.data.filter(x => ((this.selectedDepartment != "") ? x.departmentId == this.selectedDepartment : true) && ((this.selectedUser != "") ? x.email == this.selectedUser : true));
         this.totalRecord = this.users.length;
       } else {

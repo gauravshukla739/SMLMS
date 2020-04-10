@@ -141,7 +141,8 @@ namespace SMLMS.Services.services
             try
             {
                 var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
-                user.Password = GeneratePassword();
+                //user.Password = GeneratePassword();
+                user.Password = "Test@123";
                 var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
