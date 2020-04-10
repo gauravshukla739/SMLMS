@@ -1,4 +1,5 @@
-﻿using SMLMS.Model.DTO;
+﻿using SMLMS.Model.Core;
+using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,10 @@ namespace SMLMS.Data.Interfaces
         IEnumerable<RequestLeave> GetDataBasedOnId(Guid deptid, string RoleName);
 
         void ApproveLeaveRequest( RequestLeave requestLeave);
+
+        void RejectLeaveRequest(RequestLeave requestLeave);
         void RemoveRequest(string key);
+
+        IEnumerable<RequestLeave> FindByDepartmentId(Guid departmentId);
     }
 }

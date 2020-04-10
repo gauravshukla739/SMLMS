@@ -1,15 +1,22 @@
 
 <section>
   <div class="container-fluid">
-    
+
+    <div class="row">
+      <div class="col-12 page-title">
+        <h3 class="title-top">Request Leave</h3>
+
+      </div>
+    </div>
+
     <div class="row" *ngIf="isAddEdit">
 
       <div class="col-3"></div>
-      <div class="col-6">
+      <div class="col-12">
         <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
           <div class="form-group">
             <label for="title">From Date<sup>*</sup>:</label>
-            <input type="date" class="form-control requried" placeholder="yyyy-MM-dd" name="name" [(ngModel)]="leaveRequest.fromDate" required #name="ngModel" id="name">
+            <input type="date"   class="form-control requried" placeholder="yyyy-MM-dd" name="name" [(ngModel)]="leaveRequest.fromDate" required #name="ngModel" id="name">           
 
             <div *ngIf="f.submitted && name.invalid" class="alert-danger">
               <div *ngIf="name.errors.required">from date is required</div>
@@ -49,13 +56,13 @@
 
 
           <!--<div class="form-group">
-            <label for="title">Short Leave<sup>*</sup>:</label>
-            <input type="time" class="form-control requried" name="shortleavefrom" [(ngModel)]="leaveRequest.reason" required #shortleavefrom="ngModel" placeholder="Enter leave reason" id="shortleavefrom" >
-            <input type="time" class="form-control requried" name="shortleaveto" [(ngModel)]="leaveRequest.reason" required #shortleaveto="ngModel" placeholder="Enter leave reason" id="shortleaveto" >
-            <div *ngIf="f.submitted && shortleave.invalid" class="alert-danger">
-              <div *ngIf="shortleave.errors.required">leave reason is required</div>
-            </div>
-          </div>-->
+          <label for="title">Short Leave<sup>*</sup>:</label>
+          <input type="time" class="form-control requried" name="shortleavefrom" [(ngModel)]="leaveRequest.reason" required #shortleavefrom="ngModel" placeholder="Enter leave reason" id="shortleavefrom" >
+          <input type="time" class="form-control requried" name="shortleaveto" [(ngModel)]="leaveRequest.reason" required #shortleaveto="ngModel" placeholder="Enter leave reason" id="shortleaveto" >
+          <div *ngIf="f.submitted && shortleave.invalid" class="alert-danger">
+            <div *ngIf="shortleave.errors.required">leave reason is required</div>
+          </div>
+        </div>-->
 
 
 
@@ -64,13 +71,14 @@
         </form>
       </div>
     </div>
-    <div *ngIf="!isAddEdit">
-      <div class="row">
-        <div class="col-12 page-title">
-          <h3 class="title-top">Request Leave</h3>
 
-        </div>
+    <div *ngIf="!isAddEdit">
+      <!--<div class="row">
+      <div class="col-12">
+        <h3 class="title-top">Request Leave</h3>
+
       </div>
+    </div>-->
       <div class="row">
         <div class="col-12">
           <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Request Leave</button>
@@ -78,7 +86,7 @@
       </div>
       <div class="row">
         <div class="col-3"></div>
-        <div class="col-6 sm-table employee">
+        <div class="col-12 sm-table employee">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
@@ -90,41 +98,63 @@
                   <th class="img">From Date</th>
                   <th class="img">To Date</th>
                   <th class="img">Leave Type</th>
-                  <th class="img">Reason</th>
-                  <th class="img">Approval Status</th>
-                  <th class="img">Approved By</th>
+                  <th class="img">Reason For Leave</th>
+                  <th class="img">Leave Status</th>
+                  <th class="img">Approved/Rejected By</th>
+                  <th class="img">Reason For Rejection</th>
                   <th class="more">Actions</th>
                   <!--<th class="more">Leave Request</th>-->
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let rec of leaveRequests">
+                <tr *ngFor="let rec of leaveRequests | slice:sliceStart:sliceEnd; let i = index;">
                   <td class="select">
                     <input id="checkbox1" type="checkbox">
                     <label for="checkbox1">Select</label>
                   </td>
-                  <td>{{rec.fromDate }}</td>
-                  <td>{{rec.toDate}}</td>
+                  <td>{{rec.fromDate | date: 'dd-MM-yyyy' }}</td>
+                  <td>{{rec.toDate | date: 'dd-MM-yyyy'}}</td>
                   <td>{{rec.name}}</td>
                   <td>{{rec.reason}}</td>
-                  <td>{{rec.isApproved}}</td>
+                  <td>{{rec.approveStatus}}</td>
                   <td>{{rec.updatedBy}}</td>
-                  
+                  <td>{{rec.rejectionReason}}</td>
+
 
                   <td class="more">
                     <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(rec)">Edit</a>
                     <a class="action-btn fa fa-trash delete" (click)="delete(rec.id , rec)">Remove</a>
                   </td>
 
-                  <!--<td class="more">
-    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Approve</a>
-    <a class="action-btn fa fa-check-circle" href="javascript:void(0)" (click)="test">Reject</a>
-  </td>-->
 
                 </tr>
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="totalRecord > pageSize">
+        <div class="col-6">
+          <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                          [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+        </div>
+        <div class="col-1">
+          Record
+
+
+        </div>
+        <div class="col-1">
+          <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+            <option value=5>5</option>
+            <option value=10>10</option>
+            <option value=25>25</option>
+            <option value=50>50</option>
+            <option value=100>100</option>
+          </select>
+        </div>
+        <div class="col-2">
+          Per Page
         </div>
       </div>
     </div>
