@@ -55,7 +55,7 @@ export class AccountDetailComponent implements OnInit {
       this.sharedService.stopLoading();
     })
   }
-  @ViewChild('fileInput') fileInput: any;
+ /* @ViewChild('fileInput')*/ fileInput: any;
   public previewImage(event:any) {
     debugger;
    // let nativeElement: HTMLInputElement = this.fileInput.nativeElement;
