@@ -37,19 +37,23 @@ namespace SMLMS.Data.Repositories
                 "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
             if (month != null && dept == null && email == null)
             {
-                query = query + " Where MONTH(a.CreatedOn) = @month";
+                query = query + " Where MONTH(a.CreatedOn) = @month  and c.IsDeleted=0";
             }
             else if (month != null && dept != null && email == null)
             {
-                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept";
+                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and c.IsDeleted=0";
             }
             else if (month != null && dept != null && email != null)
             {
-                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email";
+                query = query + " Where MONTH(a.CreatedOn) = @month and c.DepartmentId =@dept and b.NormalizedEmail =@email and c.IsDeleted=0";
             }
             else if (month == null && dept != null && email == null)
             {
-                query = query + " Where c.DepartmentId =@dept";
+                query = query + " Where c.DepartmentId =@dept and c.IsDeleted=0";
+            }
+            else if (month == null && dept != null && email != null)
+            {
+                query = query + " Where c.DepartmentId =@dept and b.NormalizedEmail =@email and c.IsDeleted=0";
             }
 
             var data = Query<EmployeeAttendanceModel>(sql: query, param: new { month, dept, email });
@@ -107,16 +111,27 @@ namespace SMLMS.Data.Repositories
             );
         }
 
-        public IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId, string month)
+        public IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId, string month, string dept)
         {
-            string query = @"select a.UserId,b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ,(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id  Where a.UserId= @UserId";
-
-            if (month != null)
+            string query = @"select a.UserId,b.FirstName, b.LastName,a.SignIn,a.SignOut, a.CreatedOn  ,
+                          (SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime 
+                          from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id 
+                          join [dbo].[AspNetUserRoles] c on b.Id =c.UserId ";
+            if(UserId != null && dept == null  && month == null)
             {
-                query = query + " and MONTH(a.CreatedOn) = @month";
+                query = query + " Where a.UserId= @UserId  and c.IsDeleted=0";
             }
 
-            var data = Query<EmployeeAttendanceModel>(sql: query, param: new { UserId, month });
+           else if (month != null && dept == null && UserId != null)
+            {
+                query = query + " Where a.UserId = @UserId  and c.IsDeleted = 0 and MONTH(a.CreatedOn) = @month";
+            }
+            else if (month == null && dept != null && UserId != null)
+            {
+                query = query + " Where  c.IsDeleted = 0 and c.DepartmentId =@dept";
+            }
+
+                var data = Query<EmployeeAttendanceModel>(sql: query, param: new { UserId, month, dept });
             return data;
         }
 
@@ -147,7 +162,7 @@ namespace SMLMS.Data.Repositories
                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
                " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
-               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
+               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId and c.IsDeleted=0";
             var data = Query<EmployeeAttendanceModel>(sql: query);
             return data;
         }
@@ -158,7 +173,7 @@ namespace SMLMS.Data.Repositories
                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, a.SignOut),0), 108) as ElapsedTime) as TotalTime," +
                "(SELECT CONVERT(VARCHAR(8), DATEADD(SECOND, DATEDIFF(SECOND,a.SignIn, (SELECT GETDATE())),0), 108) as ElapsedTime) as ResumeTime" +
                " from [dbo].[Attendance] as a join [dbo].[AspNetUsers] b on a.UserId =b.Id " +
-               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId where cast(a.CreatedOn as Date) = cast(getdate() as Date) ";
+               "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId where cast(a.CreatedOn as Date) = cast(getdate() as Date) and c.IsDeleted=0 ";
             var data = Query<EmployeeAttendanceModel>(sql: query);
             return data;
         }
@@ -170,10 +185,14 @@ namespace SMLMS.Data.Repositories
             var query = @"select count(a.UserId)as PresentDays,a.UserId,b.FirstName,b.LastName,(d.Name) as DepartmentName from [dbo].[Attendance] as a
                          join [dbo].[AspNetUsers] b on a.UserId =b.Id 
                            join [dbo].[AspNetUserRoles] c on b.Id =c.UserId
-                           join [dbo].[Department] d on c.DepartmentId =d.Id group by a.UserId, b.FirstName,b.LastName,d.Name";
+                           join [dbo].[Department] d on c.DepartmentId =d.Id";
             if (userid != null)
             {
-                query = query + " where a.UserId=@userid";
+                query = query + " where a.UserId=@userid and c.IsDeleted=0";
+            }
+            else
+            {
+                query = query + " where  c.IsDeleted=0 group by a.UserId, b.FirstName,b.LastName,d.Name";
             }
             var data = Query<EmployeeAttendanceModel>(sql: query, param: new { userid });
             List<EmployeeAttendanceModel> model = new List<EmployeeAttendanceModel>();
@@ -194,7 +213,7 @@ namespace SMLMS.Data.Repositories
                "join [dbo].[AspNetUserRoles] c on b.Id =c.UserId";
             if (userid != null)
             {
-                query = query + " where a.UserId=@userid  ORDER BY desc";
+                query = query + " where a.UserId=@userid and c.IsDeleted=0";
             }
             var data = Query<EmployeeAttendanceModel>(sql: query, param: new { userid });
 

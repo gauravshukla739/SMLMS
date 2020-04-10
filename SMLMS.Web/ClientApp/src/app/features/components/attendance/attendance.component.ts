@@ -25,6 +25,7 @@ export class AttendanceComponent implements OnInit {
   displayColumn = ["firstName", "lastName", "signIn", , "signOut", "createdOn", "totalTime"];
   userAttendance = [];
   employeeAttendanceTrack = [];
+  AllEmployeeAttendance = [];
   todayPuchInRecods = [];
   disable_SignIn: boolean = false;
   disable_SignOut: boolean = false;
@@ -90,14 +91,25 @@ export class AttendanceComponent implements OnInit {
     this.getMonth();
     this.getYear();
 
-    if (this.userRole != "Admin") {
+    if (this.userRole == "Developer") {
       this.GetEmployee_attendance();
     }
-    else {
+    else if (this.userRole == "Admin") {
       this.TodayPuchIn();
       this.getAllUsers();
       this.Employee_PresentAbsent();
     }
+    else if (this.userRole == "HR Manager" || this.userRole == "Project Manager") {
+      this.GetEmployee_attendance();
+      this.getAllUsers();
+      this.TodayPuchIn();
+      this.Employee_PresentAbsent();
+    }
+    else if (this.userRole == "Team Lead") {
+      this.GetEmployee_attendance();
+      this.getAllUsers();
+    }
+   
 
     this.currentDate = new Date();
 
@@ -109,6 +121,8 @@ export class AttendanceComponent implements OnInit {
     this.timerTextConfig = this.countUpTimerConfig && this.countUpTimerConfig.timerTexts ? Object.assign(this.countUpTimerConfig.timerTexts) : null;
     this.getDepartments();
     this.getUsers();
+   
+   
   }
 
   //get timer value
@@ -201,6 +215,7 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
       if (data.isSuccess) {
         this.GetEmployee_attendance();
+        this.getAllUsers();
         this.disable_SignIn = true;
         debugger;
         this.countupTimerService.startTimer();
@@ -219,6 +234,7 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.CreateOrUpDate().subscribe((data: any) => {
       if (data.isSuccess) {
         this.GetEmployee_attendance();
+        this.getAllUsers();
         this.disable_SignIn = false;
         this.countupTimerService.stopTimer();
         this.sharedService.showPopup("Successfully punch Out");
@@ -234,11 +250,16 @@ export class AttendanceComponent implements OnInit {
   }
 
   getAllUsers() {
+    let userDetails = JSON.parse(localStorage.getItem("user"));
+    let userId = userDetails.id;
+    let userRole = userDetails.roleName;
+    let userdept = userDetails.departmentId;
     debugger;
-    this.attendanceService.all().subscribe((data: any) => {
+
+    this.attendanceService.all(userId, userRole, userdept).subscribe((data: any) => {
       if (data.isSuccess) {
         debugger;
-        this.userAttendance = data.data;
+        this.AllEmployeeAttendance = data.data;
         console.log(data);
 
         for (var i = 0; i < data.data.length; i++) {
@@ -269,6 +290,7 @@ export class AttendanceComponent implements OnInit {
     debugger;
     this.attendanceService.getemployee_attendance(userId, userRole).subscribe((data: any) => {
       if (data.isSuccess) {
+        debugger;
         this.userAttendance = data.data;
         this.totalRecord = this.userAttendance.length;
         console.log(data.data);
@@ -301,7 +323,7 @@ export class AttendanceComponent implements OnInit {
       if (data.isSuccess) {
         debugger;
         if (this.userRole == "Admin") {
-          this.userAttendance = data.data;
+          this.AllEmployeeAttendance = data.data;
           this.sharedService.stopLoading();
         }
         else {
@@ -398,5 +420,7 @@ export class AttendanceComponent implements OnInit {
     this.details=false;
     this.ref.detectChanges();
   }
+
+
 
 }

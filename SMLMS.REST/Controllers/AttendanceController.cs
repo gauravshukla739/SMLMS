@@ -63,7 +63,7 @@ namespace SMLMS.REST.Controllers
         [Route("AttendanceFilter")]
         public async Task<ServiceResponse> AttendanceFilter(string userid,string role, string month, string dept, string user)
         {
-            return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, month == "undefined" ? null : month, dept == "undefined" ? null : dept, user == "undefined" ? null : dept);
+            return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, month == "undefined" ? null : month, dept == "undefined" ? null : dept, user == "undefined" ? null : user);
         }
 
         [HttpGet]
@@ -82,9 +82,17 @@ namespace SMLMS.REST.Controllers
 
         [HttpGet]
         [Route("getAllEmployess")]
-        public async Task<ServiceResponse> getAllEmployess()
+        public async Task<ServiceResponse> getAllEmployess(string userid, string role ,string dept)
         {
-            return await _attendanceService.getAllEmployess();
+            if(role == "Team Lead")
+            {
+                return await _attendanceService.GetEmployeAttendance(userid, role == "undefined" ? null : role, null, dept == "undefined" ? null : dept, null);
+            }
+            else
+            {
+                return await _attendanceService.getAllEmployess();
+            }
+           
         }
 
         [HttpGet]

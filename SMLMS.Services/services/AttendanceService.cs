@@ -79,7 +79,7 @@ namespace SMLMS.Services.services
             {
                 response.IsSuccess = true;
                 response.Message = "Data Fetch";
-                response.Data = unitOfWork.AttendanceRepository.All(null, null, null,0);
+                response.Data = unitOfWork.AttendanceRepository.All(null, null, null, 0);
             }
             catch (Exception ex)
             {
@@ -105,7 +105,7 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-        
+
 
         public async Task<ServiceResponse> Employess(AttendanceDto model)
         {
@@ -140,7 +140,7 @@ namespace SMLMS.Services.services
                 }
                 else
                 {
-                    response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance(userid, month);
+                    response.Data = unitOfWork.AttendanceRepository.EmployeeAttendance(userid, month, dept);
                 }
 
             }
@@ -179,12 +179,12 @@ namespace SMLMS.Services.services
                 response.IsSuccess = true;
                 response.Message = "Data Fetch";
                 response.Data = null;
-              
-               
+
+
                 if (role == "Admin")
                 {
                     response.Data = unitOfWork.AttendanceRepository.GetAttendance(null, workingDays);
-                   
+
 
                 }
                 else
@@ -223,7 +223,7 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-        
+
 
 
         public int GetWorkingDays()
@@ -269,6 +269,6 @@ namespace SMLMS.Services.services
             return response;
         }
 
-        
+
     }
 }
