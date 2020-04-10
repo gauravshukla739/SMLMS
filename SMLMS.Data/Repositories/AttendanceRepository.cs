@@ -186,9 +186,11 @@ namespace SMLMS.Data.Repositories
                          join [dbo].[AspNetUsers] b on a.UserId =b.Id 
                            join [dbo].[AspNetUserRoles] c on b.Id =c.UserId
                            join [dbo].[Department] d on c.DepartmentId =d.Id";
+
             if (userid != null)
             {
-                query = query + " where a.UserId=@userid and c.IsDeleted=0";
+                query = query + " where c.IsDeleted=0 group by a.UserId, b.FirstName,b.LastName,d.Name";
+
             }
             else
             {
