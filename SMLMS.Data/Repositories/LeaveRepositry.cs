@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using SMLMS.Data.Interfaces;
+using SMLMS.Model.Core;
 using SMLMS.Model.DTO;
 using System;
 using System.Collections.Generic;
@@ -59,9 +60,10 @@ namespace SMLMS.Data.Repositories
         public IEnumerable<LeaveDto> All()
         {
             DynamicParameters param = new DynamicParameters();
-            param.Add("@flag", 0, DbType.Int32);
-            param.Add("@loggedInId", null, DbType.Guid);
-            IEnumerable<LeaveDto> result = ExecuteProcedureGetList<LeaveDto>("sp_getleave", param);
+            //param.Add("@flag", 0, DbType.Int32);
+            //param.Add("@loggedInId", null, DbType.Guid);
+            //param.Add("@status", null, DbType.String);
+            IEnumerable<LeaveDto> result = ExecuteProcedureGetList<LeaveDto>("getleaveType", param);
             return result;
         }
         public LeaveDto Find(string key)
@@ -114,10 +116,12 @@ namespace SMLMS.Data.Repositories
             param.Add("@Reason", entity.Reason, DbType.String, ParameterDirection.Input);
             param.Add("@CreatedBy", entity.CreatedBy, DbType.String, ParameterDirection.Input);
             param.Add("@Userid", entity.Userid, DbType.Guid, ParameterDirection.Input);
+            param.Add("@deptid", entity.DepartmentId, DbType.Guid, ParameterDirection.Input);
             ExecuteSP("sp_RequestLeave", param);
         }
         public IEnumerable<RequestLeave> GetLeaveRequest(Guid id)
         {
+
             DynamicParameters param = new DynamicParameters();
             param.Add("@flag", 1, DbType.Int32);
             param.Add("@loggedInId", id, DbType.Guid);
@@ -140,6 +144,25 @@ namespace SMLMS.Data.Repositories
             param.Add("@approveby", requestLeave.UpdatedBy, DbType.String, ParameterDirection.Input);
             ExecuteSP("sp_approve_leave", param);
         }
+        public void RejectLeaveRequest(RequestLeave requestLeave)
+        {
+            DynamicParameters param = new DynamicParameters();
+            param.Add("@leaveid", requestLeave.Id, DbType.Guid, ParameterDirection.Input);
+            param.Add("@approveby", requestLeave.UpdatedBy, DbType.String, ParameterDirection.Input);
+            param.Add("@rejectionReason", requestLeave.RejectionReason, DbType.String, ParameterDirection.Input);
+            ExecuteSP("sp_reject_leave", param);
+        }
 
+
+
+
+
+        public IEnumerable<RequestLeave> FindByDepartmentId(Guid departmentId)
+        {
+            DynamicParameters param = new DynamicParameters();
+            param.Add("@deptid", departmentId, DbType.Guid, ParameterDirection.Input);
+            IEnumerable<RequestLeave> result = ExecuteProcedureGetList<RequestLeave>("getLeaveDataByDept", param);
+            return result;
+        }
     }
 }

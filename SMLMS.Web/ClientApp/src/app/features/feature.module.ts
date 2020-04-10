@@ -17,7 +17,7 @@ import { UserCreateUpdateComponent } from './components/user/create-update/creat
 import { TaskComponent } from './components/task/tasksubmit/task.component';
 
 
-
+import {TabModule} from 'angular-tabs-component';
 import { UserComponent } from './components/user/list/list.component';
 import { DepartmentComponent } from './components/department/department.component';
 import { RoleComponent } from './components/role/role.component';
@@ -32,6 +32,7 @@ import { TaskRolePermissionComponent } from './components/role/permission/permis
 import { AttendanceDetailComponent } from './components/attendance/attendance-detail/attendance-detail.component';
 
 
+import { AccountDetailComponent } from './components/account/detail/detail.component';
 
 
 
@@ -61,12 +62,14 @@ import { AttendanceDetailComponent } from './components/attendance/attendance-de
     AttendanceComponent,
     PromoteUserComponent,
     TaskRolePermissionComponent,
-    AttendanceDetailComponent
+        AttendanceDetailComponent,
+        AccountDetailComponent
   ],
   imports: [
     FeatureRoutingModule,
     //BrowserModule,
     FormsModule,
+    TabModule,
     SharedModule
   ],
   providers: [],

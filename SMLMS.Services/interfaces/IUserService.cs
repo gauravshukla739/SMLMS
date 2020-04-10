@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using SMLMS.Helper.ServiceResponse;
 using SMLMS.Model.Core;
 using System;
@@ -18,6 +19,8 @@ namespace SMLMS.Services.interfaces
 
         Task<ServiceResponse> Delete(string userId);
         Task<ServiceResponse> Import(List<UserDto> user, ClaimsPrincipal claims);
+
+        Task<ServiceResponse> UploadImage(IFormFile file, ClaimsPrincipal claims);
         Task<ServiceResponse> Promote(UserDto user, ClaimsPrincipal claims);
 
 

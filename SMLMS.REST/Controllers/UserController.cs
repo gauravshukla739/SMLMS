@@ -44,6 +44,13 @@ namespace SMLMS.REST.Controllers
         }
 
         [HttpPost]
+        [Route("uploadImage")]
+        public async Task<ServiceResponse> UploadImage(IFormFile file)
+        {
+            return await _userService.UploadImage(file, User);
+        }
+
+        [HttpPost]
         [Route("promote")]
         public async Task<ServiceResponse> Promote(UserDto user)
         {

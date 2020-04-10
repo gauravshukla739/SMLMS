@@ -1,231 +1,253 @@
 
+  <style>
+    .tabs__panel[_ngcontent-ng-cli-universal-c7] {
+      background-color: #fff !important;
+    }
+  </style>
+  <section>
+    <div class="container-fluid">
 
-<section>
-  <div class="container-fluid">
+      <div *ngIf="isAddEdit">
+        <div class="row">
+          <div class="col-12 page-title">
+            <h3 class="title-top">Task Form</h3>
+            <!--<button class="btn sm-primary">Add New</button>-->
+          </div>
+        </div>
+        <div class="row">
 
-    <div *ngIf="isAddEdit">
-      <div class="row">
-        <div class="col-12 page-title">
-          <h3 class="title-top">Task Form</h3>
-          <!--<button class="btn sm-primary">Add New</button>-->
+          <div class="col-3"></div>
+          <div class="col-6">
+
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
+              <div class="form-group">
+                <label for="title">Task Title<sup>*</sup>:</label>
+                <input type="text" class="form-control requried" name="title" [(ngModel)]="task.title" required #title="ngModel" placeholder="Enter Title" id="title">
+
+                <div *ngIf="f.submitted && title.invalid" class="alert-danger">
+                  <div *ngIf="title.errors.required">Title is required</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="dsc">Task Description<sup>*</sup>:</label>
+                <input type="text" class="form-control requried" name="description" [(ngModel)]="task.description" required #description="ngModel" placeholder="Enter Description" id="description">
+
+                <div *ngIf="f.submitted && description.invalid" class="alert-danger">
+                  <div *ngIf="description.errors.required">Description is required</div>
+                </div>
+              </div>
+              <div class="form-group" *ngIf="userRole!='Admin'">
+                <label for="comment">Comment (if any):</label>
+                <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
+              </div>
+              <div class="form-group" *ngIf="userRole==='Admin' || userRole==='teamLead'">
+                <label for="admincomment">Admin Comment (if any):</label>
+                <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
+              </div>
+              <div class="form-group" >
+                <label for="select" >Assign To:</label>
+                <select [disabled]="!isAssignTo" class="form-control" placeholder="Select Employee" name="assignTo" (change)="setDeptId()" [(ngModel)]="task.assignTo" #assignTo="ngModel">
+                  <option selected="selected" value="">Select Employee</option>
+                  <option [value]="user.userId"  *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="select">Status:</label>
+                <select class="form-control" placeholder="Select Status" name="status" [(ngModel)]="task.status" #status="ngModel">
+                  <option selected="" value="">Select Status</option>
+                  <option [value]="25">25 %</option>
+                  <option [value]="50">50 %</option>
+                  <option [value]="75">75 %</option>
+                  <option [value]="100">100 %</option>
+                </select>
+              </div>
+              <button type="submit" class="btn-sm btn-primary">Submit</button>
+              <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="row">
 
-        <div class="col-3"></div>
-        <div class="col-6">
+      <div *ngIf="!isAddEdit">
+        <tabs>
+          <tab tabTitle="Task List (Created by me)">
+            <div>
+              <div class="row">
+                <div class="col-12 page-title">
+                  <h3 class="title-top">Task List (Created by me)</h3>
+                </div>
+              </div>
 
-          <form name="form" (ngSubmit)="f.form.valid && onSubmit(f.form.valid)" #f="ngForm" novalidate>
-            <div class="form-group">
-              <label for="title">Task Title<sup>*</sup>:</label>
-              <input type="text" class="form-control requried" name="title" [(ngModel)]="task.title" required #title="ngModel" placeholder="Enter Title" id="title">
+              <div class="row">
+                <div class="col-12">
+                  <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
+                </div>
+              </div>
+              <div class="row">
+                <label class="col-3" for="select">Filter by department:</label>
+                <select class="form-control col-3" placeholder="Select Role" (change)="getTaskByDept()" name="dept" [(ngModel)]="dept">
+                  <option selected="" value="">Select Department</option>
+                  <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+                </select>
+                <div class="col-12 sm-table employee">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th class="select">
+                            <input id="selectAll" type="checkbox">
+                            <label for="selectAll">Select</label>
+                          </th>
+                          <th class="img">Task Title</th>
+                          <th class="name">Task Description</th>
+                          <th class="department">Comment</th>
+                          <th class="mobile">Admin Comment</th>
+                          <th class="mobile">Assigned To</th>
+                          <th class="mobile">Progress %</th>
+                          <th class="createdBy">Created By</th>
+                          <th class="createdDate">Created Date</th>
+                          <th class="more">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let task of taskList | slice:sliceStartT:sliceEndT; let i = index;">
+                          <td class="select">
+                            <input id="checkbox1" type="checkbox">
+                            <label for="checkbox1">Select</label>
+                          </td>
+                          <td class="img">{{task.title}}</td>
+                          <td class="name">{{task.description}}</td>
+                          <td class="department">{{task.comment}}</td>
+                          <td class="mobile">{{task.adminComment}}</td>
+                          <td class="mobile">{{task.assignToName}}</td>
+                          <td class="mobile">{{task.status}} %</td>
+                          <td class="createdBy">{{task.createdBy}}</td>
+                          <td class="createdDate">{{task.createDate | date: 'dd-MM-yyyy'}}</td>
+                          <td class="more">
+                            <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
+                            <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
 
-              <div *ngIf="f.submitted && title.invalid" class="alert-danger">
-                <div *ngIf="title.errors.required">Title is required</div>
+              <div class="row" *ngIf="totalRecordT > pageSizeT">
+                <div class="col-2"></div>
+                <div class="col-6">
+                  <app-pagination (goPage)="goToPageT($event)" (goNext)="onNextT()" (goPrev)="onPrevT()" [pagesToShow]="5"
+                                  [pageSize]="pageSizeT" [totalRecord]="totalRecordT" [pageNumber]="pageNumberT"></app-pagination>
+
+                </div>
+                <div class="col-1">
+                  Record
+
+
+                </div>
+                <div class="col-1">
+                  <select class="form-control" [(ngModel)]="pageSizeT" (change)="changePageSizeT()">
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=25>25</option>
+                    <option value=50>50</option>
+                    <option value=100>100</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  Per Page
+                </div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="dsc">Task Description<sup>*</sup>:</label>
-              <input type="text" class="form-control requried" name="description" [(ngModel)]="task.description" required #description="ngModel" placeholder="Enter Description" id="description">
+          </tab>
+          <tab tabTitle="Task List (Assigned to me)">
 
-              <div *ngIf="f.submitted && description.invalid" class="alert-danger">
-                <div *ngIf="description.errors.required">Description is required</div>
+            <!--assigned to me-->
+            <div>
+              <div class="row">
+                <div class="col-12 page-title">
+                  <h3 class="title-top">Task List (Assigned to me)</h3>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 sm-table task">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th class="select">
+                            <input id="selectAll" type="checkbox">
+                            <label for="selectAll">Select</label>
+                          </th>
+                          <th class="img">Task Title</th>
+                          <th class="name">Task Description</th>
+                          <th class="department">Comment</th>
+                          <th class="mobile">Admin Comment</th>
+                          <th class="mobile">Assigned To</th>
+                          <th class="mobile">Progress %</th>
+                          <th class="createdBy">Created By</th>
+                          <th class="createdDate">Created Date</th>
+                          <th class="more">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let task of myTaskList | slice:sliceStart:sliceEnd; let i = index;">
+                          <td class="select">
+                            <input id="checkbox1" type="checkbox">
+                            <label for="checkbox1">Select</label>
+                          </td>
+                          <td class="img">{{task.title}}</td>
+                          <td class="name">{{task.description}}</td>
+                          <td class="department">{{task.comment}}</td>
+                          <td class="mobile">{{task.adminComment}}</td>
+                          <td class="mobile">{{task.assignToName}}</td>
+                          <td class="mobile">{{task.status}} %</td>
+                          <td class="createdBy">{{task.createdBy}}</td>
+                          <td class="createdDate">{{task.createDate | date: 'dd-MM-yyyy'}}</td>
+                          <td class="more">
+                            <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="editMyTask(task)">Edit</a>
+                            <a class="action-btn fa fa-trash delete" href="javascript:void(0)" *ngIf="userRole==='Admin' || userRole==='teamLead'" (click)="delete(task.id)">Remove</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngIf="totalRecord > pageSize">
+                <div class="col-2"></div>
+                <div class="col-6">
+                  <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
+                                  [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
+
+                </div>
+                <div class="col-1">
+                  Record
+
+
+                </div>
+                <div class="col-1">
+                  <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
+                    <option value=5>5</option>
+                    <option value=10>10</option>
+                    <option value=25>25</option>
+                    <option value=50>50</option>
+                    <option value=100>100</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  Per Page
+                </div>
               </div>
             </div>
-            <div class="form-group" *ngIf="userRole!='Admin'">
-              <label for="comment">Comment (if any):</label>
-              <input type="text" class="form-control" name="comment" [(ngModel)]="task.comment" #comment="ngModel" placeholder="Enter Comment" id="comment">
-            </div>
-            <div class="form-group" *ngIf="userRole==='Admin' || userRole==='teamLead'">
-              <label for="admincomment">Admin Comment (if any):</label>
-              <input type="text" class="form-control" name="adminComment" [(ngModel)]="task.adminComment" #adminComment="ngModel" placeholder="Enter Admin Comment" id="admincomment">
-            </div>
-            <div class="form-group">
-              <label for="select">Assign To:</label>
-              <select class="form-control" placeholder="Select Employee" name="assignTo" [(ngModel)]="task.assignTo" #assignTo="ngModel">
-                <option selected="" value="">Select Employee</option>
-                <option [value]="user.id" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="select">Status:</label>
-              <select class="form-control" placeholder="Select Status" name="status" [(ngModel)]="task.status" #status="ngModel">
-                <option selected="" value="">Select Status</option>
-                <option [value]="25">25 %</option>
-                <option [value]="50">50 %</option>
-                <option [value]="75">75 %</option>
-                <option [value]="100">100 %</option>
-              </select>
-            </div>
-            <button type="submit" class="btn-sm btn-primary">Submit</button>
-            <button type="button" class="btn-sm btn-danger" (click)="cancel()">Cancel</button>
-          </form>
-        </div>
+          </tab>
+          </tabs>
+
       </div>
     </div>
 
-    <div *ngIf="!isAddEdit">
-      <div>
-        <div class="row">
-          <div class="col-12 page-title">
-            <h3 class="title-top">Task List (Created by me)</h3>
-          </div>
-        </div>
+  </section>
 
-        <div class="row">
-          <div class="col-12">
-            <button type="button" class="btn-sm btn-primary" (click)="addNew()">+ Add</button>
-          </div>
-        </div>
-        <div class="row">
-          <label class="col-3" for="select">Filter by department:</label>
-          <select class="form-control col-3" placeholder="Select Role" (change)="getTaskByDept()" name="dept" [(ngModel)]="dept">
-            <option selected="" value="">Select Department</option>
-            <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
-          </select>
-          <div class="col-12 sm-table employee">
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th class="select">
-                      <input id="selectAll" type="checkbox">
-                      <label for="selectAll">Select</label>
-                    </th>
-                    <th class="img">Task Title</th>
-                    <th class="name">Task Description</th>
-                    <th class="department">Comment</th>
-                    <th class="mobile">Admin Comment</th>
-                    <th class="mobile">Assigned To</th>
-                    <th class="mobile">Progress %</th>
-                    <th class="more">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let task of taskList | slice:sliceStartT:sliceEndT; let i = index;">
-                    <td class="select">
-                      <input id="checkbox1" type="checkbox">
-                      <label for="checkbox1">Select</label>
-                    </td>
-                    <td class="img">{{task.title}}</td>
-                    <td class="name">{{task.description}}</td>
-                    <td class="department">{{task.comment}}</td>
-                    <td class="mobile">{{task.adminComment}}</td>
-                    <td class="mobile">{{task.assignToName}}</td>
-                    <td class="mobile">{{task.status}} %</td>
-                    <td class="more">
-                      <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
-                      <a class="action-btn fa fa-trash delete" href="javascript:void(0)" (click)="delete(task.id)">Remove</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="totalRecordT > pageSizeT">
-          <div class="col-2"></div>
-          <div class="col-6">
-            <app-pagination (goPage)="goToPageT($event)" (goNext)="onNextT()" (goPrev)="onPrevT()" [pagesToShow]="5"
-                            [pageSize]="pageSizeT" [totalRecord]="totalRecordT" [pageNumber]="pageNumberT"></app-pagination>
-
-          </div>
-          <div class="col-1">
-            Record
-
-
-          </div>
-          <div class="col-1">
-            <select class="form-control" [(ngModel)]="pageSizeT" (change)="changePageSizeT()">
-              <option value=5>5</option>
-              <option value=10>10</option>
-              <option value=25>25</option>
-              <option value=50>50</option>
-              <option value=100>100</option>
-            </select>
-          </div>
-          <div class="col-2">
-            Per Page
-          </div>
-        </div>
-      </div>
-      <!--assigned to me-->
-      <div>
-        <div class="row">
-          <div class="col-12 page-title">
-            <h3 class="title-top">Task List (Assigned to me)</h3>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12 sm-table task">
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th class="select">
-                      <input id="selectAll" type="checkbox">
-                      <label for="selectAll">Select</label>
-                    </th>
-                    <th class="img">Task Title</th>
-                    <th class="name">Task Description</th>
-                    <th class="department">Comment</th>
-                    <th class="mobile">Admin Comment</th>
-                    <th class="mobile">Assigned To</th>
-                    <th class="mobile">Progress %</th>
-                    <th class="more">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let task of myTaskList | slice:sliceStart:sliceEnd; let i = index;">
-                    <td class="select">
-                      <input id="checkbox1" type="checkbox">
-                      <label for="checkbox1">Select</label>
-                    </td>
-                    <td class="img">{{task.title}}</td>
-                    <td class="name">{{task.description}}</td>
-                    <td class="department">{{task.comment}}</td>
-                    <td class="mobile">{{task.adminComment}}</td>
-                    <td class="mobile">{{task.assignToName}}</td>
-                    <td class="mobile">{{task.status}} %</td>
-                    <td class="more">
-                      <a class="action-btn fa fa-eye view" href="javascript:void(0)" (click)="edit(task)">Edit</a>
-                      <a class="action-btn fa fa-trash delete" href="javascript:void(0)" *ngIf="userRole==='Admin' || userRole==='teamLead'" (click)="delete(task.id)">Remove</a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="totalRecord > pageSize">
-          <div class="col-2"></div>
-          <div class="col-6">
-            <app-pagination (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5"
-                            [pageSize]="pageSize" [totalRecord]="totalRecord" [pageNumber]="pageNumber"></app-pagination>
-
-          </div>
-          <div class="col-1">
-            Record
-
-
-          </div>
-          <div class="col-1">
-            <select class="form-control" [(ngModel)]="pageSize" (change)="changePageSize()">
-              <option value=5>5</option>
-              <option value=10>10</option>
-              <option value=25>25</option>
-              <option value=50>50</option>
-              <option value=100>100</option>
-            </select>
-          </div>
-          <div class="col-2">
-            Per Page
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>

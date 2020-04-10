@@ -8,6 +8,8 @@ namespace SMLMS.Model.Core
     {
         public Guid Id { get; set; }
         public string DepartmentName { get; set; }
+        public Guid DepartmentId { get; set; }
+        public Guid EmployeeId { get; set; }
         public Guid AssignTo { get; set; }
         public string AssignToName { get; set; }
         public string Status { get; set; }

@@ -1,0 +1,60 @@
+
+<div><img src="{{image}}" id="profileImage" height="100" width="100" alt="profile Image" class="img-responsive" /></div>
+<div>
+  <input type="file" id="file" name="file"  accept="image/*" #fileInput (change)="previewImage($event)">
+  <button (click)="uploadImage()">Upload</button>
+</div>
+<div>
+
+</div>
+<div class="form-group">
+  <label for="text">First Name:</label>
+  <label for="text">{{user.firstName}}</label>
+</div>
+<div class="form-group">
+  <label for="text">Last Name:</label>
+  <label for="text">{{user.lastName}}</label>
+</div>
+<div class="form-group">
+  <label for="text">Email:</label>
+  <label for="text">{{user.email}}</label>
+</div>
+
+
+<div class="form-group">
+  <label for="text">Role:</label>
+  <label for="text">{{roleName}}</label>
+
+</div>
+
+<div class="form-group">
+  <label for="text">Department:</label>
+  <label for="text">{{department}}</label>
+
+</div>
+<div class="form-group">
+  <label for="text">Date Of Birth:</label>
+  <label for="text">{{user.dateOfBirth}}</label>
+</div>
+<div class="form-group">
+  <label for="text">Date Of Joining:</label>
+  <label for="text">{{user.dateOfJoin}}</label>
+
+</div>
+<div class="form-group">
+  <label for="text">Date Of Appointment:</label>
+  <label for="text">{{user.dateOfAppointment}}</label>
+</div>
+
+<div class="form-group">
+  <label for="text">Phone Number:</label>
+  <label for="text">{{user.phoneNumber}}</label>
+
+</div>
+<div class="form-group">
+  <label for="text">Address:</label>
+  <label for="text">{{user.address}}</label>
+
+</div>
+
+

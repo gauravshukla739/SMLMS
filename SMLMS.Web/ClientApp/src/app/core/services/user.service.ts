@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedService } from 'src/app/shared/services/shared.service.';
 
@@ -7,9 +7,13 @@ import { SharedService } from 'src/app/shared/services/shared.service.';
 
 export class UserService {
   apiBaseUrl = "";
-
+  public response = new EventEmitter();
   constructor(protected http: HttpClient ,private sharedService: SharedService) {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
+  }
+
+  imageChange(data: any) {
+    this.response.emit(data);
   }
 
   getAll() {
@@ -33,6 +37,10 @@ export class UserService {
 
   import(user: any) {
     return this.http.post(this.apiBaseUrl + "/user/import", user);
+  }
+
+  uploadImage(image: any) {
+    return this.http.post(this.apiBaseUrl + "/user/uploadImage", image);
   }
 
   promote(user: any) {

@@ -8,7 +8,7 @@ import { SharedService } from '../../shared/services/shared.service.';
   providedIn: 'root'
 })
 export class LeaveService {
-  
+
   apiBaseUrl: string;
 
   constructor(protected http: HttpClient, private sharedService: SharedService) {
@@ -43,8 +43,21 @@ export class LeaveService {
   }
 
   approveLeave(id: any) {
-    return this.http.post(this.apiBaseUrl + "/Leave/ApproveLeaveRequest?id=" + id,null);
-    }
+    return this.http.post(this.apiBaseUrl + "/Leave/ApproveLeaveRequest?id=" + id, null);
+  }
+
+
+  rejectLeave(data: any) {
+    return this.http.post(this.apiBaseUrl + "/Leave/RejectLeaveRequest", data);
+  }
+
+
+
+  getLeaveByDepartment(departmentId: any) {
+    return this.http.get(this.apiBaseUrl + "/Leave/getLeaveByDepartmentId?DepartmentId=" + departmentId);
+  }
+
+
 
     allEmpLeaves() {
         return this.http.get(this.apiBaseUrl + "/EmployeeLeave");

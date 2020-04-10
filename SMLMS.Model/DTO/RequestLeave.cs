@@ -18,7 +18,14 @@ namespace SMLMS.Model.DTO
         public String Reason { get; set; }
         public Guid Userid { get; set; }
         public dynamic  isApproved { get; set; }
-        
+        public dynamic isRejected { get; set; }
+        public string RejectionReason { get; set; }
+        public string ApproveStatus { get; set; }
+        public Guid DepartmentId { get; set; }
+
+
+
+
 
     }
 }

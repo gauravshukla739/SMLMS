@@ -21,10 +21,14 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> GetDataBasedOnId(ClaimsPrincipal claim);
 
         Task<ServiceResponse> ApproveLeaveRequest(Guid id, ClaimsPrincipal claim);
+        Task<ServiceResponse> RejectLeaveRequest(RejectLeave model, ClaimsPrincipal claim);
+
+        
 
         Task<ServiceResponse> GetEmployeeLeaves(Guid id, Guid deptId);
         Task<ServiceResponse> SaveUpdateEmployeeLeave(EmpolyeeLeaveDto model);
         Task<ServiceResponse> DeleteEmployeeLeave(Guid id);
+        Task<ServiceResponse> GetLeaveByDepartmentId(Guid id);
 
     }
 }

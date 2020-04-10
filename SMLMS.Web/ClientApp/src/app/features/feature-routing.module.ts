@@ -23,6 +23,7 @@ import { AttendanceComponent } from './components/attendance/attendance.componen
 import { PromoteUserComponent } from './components/user/promote/promote.component';
 import { TaskRolePermissionComponent } from './components/role/permission/permission.component';
 import { AttendanceDetailComponent } from './components/attendance/attendance-detail/attendance-detail.component';
+import { AccountDetailComponent } from './components/account/detail/detail.component';
 
 
 
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'setting', component: SettingComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'password/change', component: ChangePasswordComponent },
+      { path: 'account/detail', component: AccountDetailComponent },
       {
         path: 'user',
         children: [
@@ -66,15 +68,22 @@ const routes: Routes = [
           { path: 'edit/:id', component: TaskComponent },
         ]
       },
-      {
-        path: 'leave', component: LeaveComponent,
-        children: [
-          { path: 'type', component: LeaveTypeComponent },
-            { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
-            { path: 'request', component: LeaveRequestComponent },
-            { path: 'approve', component: ApproveComponent }
-        ]
-      },
+
+                { path: 'type', component: LeaveTypeComponent },
+                { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+                { path: 'request', component: LeaveRequestComponent },
+                { path: 'approve', component: ApproveComponent }
+
+
+      //{
+      //  path: 'leave', component: LeaveComponent,
+      //  children: [
+      //    { path: 'type', component: LeaveTypeComponent },
+      //      { path: 'epmloyee-leave', component: EmployeeLeaveComponent },
+      //      { path: 'request', component: LeaveRequestComponent },
+      //      { path: 'approve', component: ApproveComponent }
+      //  ]
+      //},
     ]
   },
   {
