@@ -23,12 +23,13 @@ export class LoginComponent implements OnInit {
       console.log(data);
       debugger;
       if (data.isSuccess) {
+        this.router.navigate(['/dashboard']);
         this.sharedService.showPopup("Successfully login");
         localStorage.setItem("user-token", data.data.token);
         this.sharedService.setUser(data.data.user);
         this.sharedService.setPermission(data.data.permission);
         this.sharedService.accessToken = data.data.token;
-        this.router.navigate(['/dashboard']);
+        
       } else {
         this.sharedService.showPopup(data.message);
         //this.sharedService.showPopup("Login failed , Invalid user");

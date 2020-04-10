@@ -18,7 +18,7 @@ namespace SMLMS.Services.interfaces
         Task<ServiceResponse> GetRole(string userId);
 
         Task<ServiceResponse> Delete(string userId);
-        Task<ServiceResponse> Import(List<UserDto> user, ClaimsPrincipal claims);
+        Task<ServiceResponse> Import(List<UserDto> user, ClaimsPrincipal claims,string type);
 
         Task<ServiceResponse> UploadImage(IFormFile file, ClaimsPrincipal claims);
         Task<ServiceResponse> Promote(UserDto user, ClaimsPrincipal claims);

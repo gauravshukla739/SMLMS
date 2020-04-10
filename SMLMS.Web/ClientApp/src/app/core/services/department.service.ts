@@ -16,7 +16,7 @@ export class DepartmentService {
   }
 
   post(data) {
-    return this.http.post(this.apiBaseUrl + "/Department" ,data);
+    return this.http.post(this.apiBaseUrl + "/Department/CreateOrUpdate" ,data);
   }
 
   delete(id) {

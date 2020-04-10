@@ -135,7 +135,7 @@ namespace SMLMS.Services.services
             return password.ToString();
         }
 
-        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims)
+        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims,string type)
         {
             ServiceResponse response = new ServiceResponse();
             try
@@ -149,16 +149,22 @@ namespace SMLMS.Services.services
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, user.RoleName);
-                    _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
-                    _unitOfWork.Commit();
+                   
+                    if (type != "Import")
+                    {
+                        _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
+                        _unitOfWork.Commit();
+                    }
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
+                    response.Data = appUser.Id.ToString();
                 }
                 else
                 {
                     response.IsSuccess = false;
                     response.Message = "Invalid user";
                 }
+               
             }
             catch (Exception ex)
             {
