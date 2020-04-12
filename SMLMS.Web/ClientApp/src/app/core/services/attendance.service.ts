@@ -12,13 +12,13 @@ export class AttendanceService {
     this.apiBaseUrl = sharedService.ApiBaseUrl;
   }
 
-  all() {
-    return this.http.get(this.apiBaseUrl + `/Attendance/getAllEmployess`);
+  all(userid, Role, department) {
+    return this.http.get(this.apiBaseUrl + `/Attendance/getAllEmployess?userid=` + userid + `&role=` + Role + `&dept=` + department);
   }
   todayPunchIn() {
     return this.http.get(this.apiBaseUrl + `/Attendance/getTodayPunchIn`);
   }
-  
+
 
   CreateOrUpDate() {
     return this.http.post(this.apiBaseUrl + `/Attendance/CreateOrUpdate`, null);

@@ -19,6 +19,8 @@ export class UserCreateUpdateComponent implements OnInit {
   roles: any=[];
   departments: any=[];
   ngOnInit() {
+    this.user.roleName = "";
+    this.user.departmentId = "";
     this.route.queryParamMap
       .subscribe(params => {
         this.queryFields = { ...params };
@@ -99,6 +101,10 @@ export class UserCreateUpdateComponent implements OnInit {
     response.add(() => {
       this.sharedService.stopLoading();
     })
+  }
+
+  back() {
+    this.router.navigate(['/user']);
   }
 
   onSubmit(formValid: any) {

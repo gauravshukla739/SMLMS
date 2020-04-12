@@ -76,7 +76,7 @@ namespace SMLMS.Services.services
                         response.Message = "Invalid user";
                     }
                 }
-                response.IsSuccess = true;
+                //response.IsSuccess = true;
             }
             catch(Exception ex)
             {
@@ -135,29 +135,36 @@ namespace SMLMS.Services.services
             return password.ToString();
         }
 
-        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims)
+        public async Task<ServiceResponse> CreateUser(UserDto user,ClaimsPrincipal claims,string type)
         {
             ServiceResponse response = new ServiceResponse();
             try
             {
                 var email = claims.Claims.First(x => x.Type == ClaimTypes.Email).Value;
-                user.Password = GeneratePassword();
+                //user.Password = GeneratePassword();
+                user.Password = "Test@123";
                 var appUser = new ApplicationUser { UserName = user.Email, Email = user.Email,Address=user.Address, CreatedBy=email, DateOfAppointment=user.DateOfAppointment,DateOfBirth=user.DateOfBirth,DateOfJoin=user.DateOfJoin,DateOfLeave=user.DateOfLeave,FirstName=user.FirstName,LastName=user.LastName,PhoneNumber=user.PhoneNumber};
                 var result = await _userManager.CreateAsync(appUser, user.Password);
                 
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(appUser, user.RoleName);
-                    _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
-                    _unitOfWork.Commit();
+                   
+                    if (type != "Import")
+                    {
+                        _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
+                        _unitOfWork.Commit();
+                    }
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
+                    response.Data = appUser.Id.ToString();
                 }
                 else
                 {
                     response.IsSuccess = false;
                     response.Message = "Invalid user";
                 }
+               
             }
             catch (Exception ex)
             {

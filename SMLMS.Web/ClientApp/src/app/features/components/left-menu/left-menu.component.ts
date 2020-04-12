@@ -12,8 +12,10 @@ export class LeftMenuComponent implements OnInit {
   }
 
   userRole: string;
+  permission: any;
   ngOnInit() {
     this.userRole = this.sharedService.user.roleName || "";
+    this.permission = this.sharedService.setRolePermission;
   }
 
   showHideLeftNav() {

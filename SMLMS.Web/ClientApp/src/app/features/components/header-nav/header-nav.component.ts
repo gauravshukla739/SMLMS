@@ -47,6 +47,7 @@ export class HeaderNavComponent implements OnInit {
       if (data.isSuccess) {
         localStorage.removeItem("user-token");
         localStorage.removeItem("user");
+        localStorage.removeItem("role-permission");
         this.sharedService.accessToken = "";
         this.router.navigate(['/secure']);
       } else {

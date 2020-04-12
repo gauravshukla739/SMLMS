@@ -40,7 +40,7 @@ namespace SMLMS.REST.Controllers
         [Route("import")]
         public async Task<ServiceResponse> Import(List<UserDto> user)
         {
-            return await _userService.Import(user,User);
+            return await _userService.Import(user,User,"Import");
         }
 
         [HttpPost]

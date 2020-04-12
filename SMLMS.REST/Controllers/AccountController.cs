@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SMLMS.Helper.ServiceResponse;
@@ -18,8 +19,9 @@ namespace SMLMS.REST.Controllers
         {
             _authenticationService = authenticationService;
         }
-        [HttpPost]
+        [HttpPost]     
         [Route("Login")]
+        [AllowAnonymous]
         public async Task<ServiceResponse> Login(UserDto user)
         {
             return await _authenticationService.SignIn(user);
@@ -29,7 +31,7 @@ namespace SMLMS.REST.Controllers
         [Route("Register")]
         public async Task<ServiceResponse> Register(UserDto user)
         {
-            return await  _authenticationService.CreateUser(user,User);
+            return await  _authenticationService.CreateUser(user,User,"register");
         }
 
         [HttpPost]

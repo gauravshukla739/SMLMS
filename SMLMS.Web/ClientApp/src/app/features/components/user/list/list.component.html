@@ -4,34 +4,50 @@
     <div class="row">
       <div class="col-12 page-title">
         <h3 class="title-top">Employee</h3>
-        <button [routerLink]="['/user/add']" class="btn sm-primary">Add New</button>
-        <a class="action-btn fa fa-eye view" target="_blank" href="/assets/file/Employee.xlsx">Download</a>
-        <input type="file" id="input" value="Upload Employee" />
+        <a [routerLink]="['/user/add']" class="btn btn-primary" *ngIf="roleName!=enum.TL">Add New</a>
+
+
       </div>
 
 
     </div>
-    
-        <div class="row">
-          
-          <div class="col-4">
-            <select class="form-control" name="dept" [(ngModel)]="selectedDepartment">
-              <option selected="selected" value="">Select Department</option>
-              <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
-            </select>
-          </div>
-          <div class="col-4">
-            <select class="form-control" name="user" [(ngModel)]="selectedUser">
-              <option selected="selected" value="">Select User</option>
-              <option [value]="user.email" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
-            </select>
-          </div>
-          <div class="col-4">
-            <button class="btn btn-primary" (click)="selectedFilter()">Search</button>
-          </div>
+    <div style="height:10px;"></div>
 
-        </div>
-     
+    <div class="row">
+      <div class="col-4">
+        Employee Information (Format):<a class="btn btn-primary" target="_blank" href="/assets/file/Employee.xlsx">Download</a>
+      </div>
+      <div class="col-2">
+
+      </div>
+
+      <div class="col-6">
+        <label>Upload Excel:<input type="file" id="input" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" value="Upload" /></label>
+      </div>
+
+    </div>
+    <div style="height:10px;"></div>
+    <div class="row">
+
+      <div class="col-4" *ngIf="deptShow">
+        <select class="form-control" name="dept" [(ngModel)]="selectedDepartment" >
+          <option selected="selected" value="">Select Department</option>
+          <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
+        </select>
+      </div>
+      <div class="col-4">
+        <select class="form-control" name="user" [(ngModel)]="selectedUser">
+          <option selected="selected" value="">Select User</option>
+          <option [value]="user.email" *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+        </select>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-primary" (click)="selectedFilter()">Search</button>
+      </div>
+
+    </div>
+    <div style="height:10px;"></div>
+
     <div class="row">
       <div class="col-12 sm-table employee">
         <div class="table-responsive">
@@ -47,8 +63,8 @@
                 <th class="img">Img</th>
 
                 <th *ngFor="let item of displayColumn">{{item}}</th>
-                <th>Promotion</th>
-                <th class="more">Actions</th>
+                <th *ngIf="roleName!=enum.TL">Promotion</th>
+                <th class="more" *ngIf="roleName!=enum.TL">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -61,8 +77,8 @@
 
                 <td *ngFor="let i of displayColumn">{{(i=='dateOfBirth' || i=='dateOfJoin')?formatDate(user[i]):user[i] || '-'}}</td>
 
-                <td> <a href="javascript:void(0);" (click)="promote(user.userId,user.roleId,user.departmentId)">Promote</a></td>
-                <td class="more">
+                <td *ngIf="roleName!=enum.TL"> <a href="javascript:void(0);" (click)="promote(user.userId,user.roleId,user.departmentId)">Promote</a></td>
+                <td class="more" *ngIf="roleName!=enum.TL">
                   <a class="action-btn fa fa-eye view" href="javascript:void(0);" [routerLink]="['/user/update']" [queryParams]="{id:user.userId}">Edit</a>
                   <a class="action-btn fa fa-trash delete" (click)="delete(user.userId , user)">Remove</a>
                 </td>

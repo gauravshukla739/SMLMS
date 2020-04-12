@@ -43,7 +43,7 @@ export class SharedService {
     localStorage.setItem("user" , JSON.stringify(user));
   }
   dept() {
-    this.deptShow = ((this.user.roleName == RoleEnum.Admin) || (this.user.roleName == RoleEnum.HR) || (this.user.roleName == RoleEnum.PM));
+    return this.deptShow = ((this.user.roleName == RoleEnum.Admin) || (this.user.roleName == RoleEnum.HR) || (this.user.roleName == RoleEnum.PM));
   }
   setPermission(permission: any) {
     debugger;
@@ -60,11 +60,21 @@ export class SharedService {
     this.setRolePermission.LeaveApprove = (this.permissionFilter(permission, RoleTaskEnum.LeaveApprove) == "Y") ? true : false;
     this.setRolePermission.LeaveType = (this.permissionFilter(permission, RoleTaskEnum.LeaveType) == "Y") ? true : false;
     this.setRolePermission.TaskCRUD = (this.permissionFilter(permission, RoleTaskEnum.TaskCRUD) == "Y") ? true : false;
-    this.setRolePermission.RemoveTask = (this.permissionFilter(permission, RoleTaskEnum.RemoveTask) == "Y") ? true : false;
-    this.setRolePermission.Present = (this.permissionFilter(permission, RoleTaskEnum.Present) == "Y") ? true : false;
+    this.setRolePermission.Dept = (this.permissionFilter(permission, RoleTaskEnum.Dept) == "Y") ? true : false;
+    this.setRolePermission.EmpLeaveStatus = (this.permissionFilter(permission, RoleTaskEnum.EmpLeaveStatus) == "Y") ? true : false;
+    this.setRolePermission.Employee = (this.permissionFilter(permission, RoleTaskEnum.Employee) == "Y") ? true : false;
+    this.setRolePermission.Role = (this.permissionFilter(permission, RoleTaskEnum.Role) == "Y") ? true : false;
+    this.setRolePermission.RolePermission = (this.permissionFilter(permission, RoleTaskEnum.RolePermission) == "Y") ? true : false;
+    this.setRolePermission.TodayAttendance = (this.permissionFilter(permission, RoleTaskEnum.TodayAttendance) == "Y") ? true : false;
+
   }
   permissionFilter(permission: any, task: any) {
-    return permission.filter(x => x.taskName == task)[0].permission;
+    var data = permission.filter(x => x.taskName == task)[0];
+    if (data == undefined) {
+      return "N";
+    } else {
+      return data.permission;
+    }
   }
   
 

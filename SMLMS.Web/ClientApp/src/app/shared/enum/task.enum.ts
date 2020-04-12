@@ -4,7 +4,12 @@ Punch = "PuncIn/PunchOut",
 LeaveRequest= "Leave Request",
 LeaveApprove="LeaveApprove",
 LeaveType="LeaveType",
-TaskCRUD="Add edit remove Task",
-RemoveTask = "Remove assigned task",
-Present= "Present"
+TaskCRUD = "Task",
+  EmpLeaveStatus = "Employees Leaves Status",
+  TodayAttendance = "Today Attendance",
+  Employee = "Employee",
+  RolePermission = "Task Role Permission",
+  Role = "Role",
+  Dept="Department"
 }
+

@@ -89,17 +89,11 @@ namespace SMLMS.Services.services
             ServiceResponse response = new ServiceResponse();
             try
             {
-               var count = unitOfWork.UserRepository.Delete(userId);
-                if (count > 0)
-                {
-                    response.IsSuccess = true;
-                }
-                else
-                {
-                    response.Data = "";
-                    response.IsSuccess = false;
-                    response.Message= "No user found with provided Id";
-                }
+                 unitOfWork.UserRepository.Delete(userId);
+                 unitOfWork.Commit();              
+                    response.IsSuccess = true;            
+                    response.Data = "Remove Successfully!";
+                
             }
             catch (Exception e)
             {
@@ -109,7 +103,7 @@ namespace SMLMS.Services.services
         }
 
 
-        public async Task<ServiceResponse> Import(List<UserDto> user,ClaimsPrincipal claims)
+        public async Task<ServiceResponse> Import(List<UserDto> user,ClaimsPrincipal claims,string type)
         {
             ServiceResponse response = new ServiceResponse();
             try
@@ -122,14 +116,19 @@ namespace SMLMS.Services.services
                     
                     var dept = unitOfWork.DepartmentRepository.Find(item.DepartmentName);
                     item.DepartmentId = dept.Id;
-                    var result= await _authenticationService.CreateUser(item, claims);
+                    var result= await _authenticationService.CreateUser(item, claims,type);
                     if (!result.IsSuccess)
                     {
                         i++;
                     }
+                    else
+                    {
+                        unitOfWork.UserRoleRepository.UpdateDepartment(result.Data.ToString(), item.DepartmentId.ToString());
+                        
+                    }
                    
                 }
-
+                unitOfWork.Commit();
                 if (i == 0)
                 {
                     response.Message = "All record inserted successfully!";

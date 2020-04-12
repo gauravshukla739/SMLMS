@@ -13,7 +13,7 @@ namespace SMLMS.Data.Interfaces
         IEnumerable<EmployeeAttendanceModel> All(string month, string dept, string user,int workingDays);
         IEnumerable<Attendance> EmployeeAttendance_DateFilter(string startDate, string endDate);
         Attendance FindUserById(string UserId);
-        IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId, string month);
+        IEnumerable<EmployeeAttendanceModel> EmployeeAttendance(string UserId, string month , string dept);
         ApplicationUser FindByNormalizedEmail(string normalizedEmail);
         IEnumerable<EmployeeAttendanceModel> GetAttendance(string userid, int workingDays);
         IEnumerable<EmployeeAttendanceModel> getAllEmployess();
