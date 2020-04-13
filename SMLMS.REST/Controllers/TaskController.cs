@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SMLMS.Helper.ServiceResponse;
@@ -12,6 +13,7 @@ namespace SMLMS.REST.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class TaskController : ControllerBase
     {
         private ITaskService _taskService;
@@ -32,6 +34,7 @@ namespace SMLMS.REST.Controllers
         {
             //model.Id =  Guid.NewGuid();
             //model.CreateDate = DateTime.Now;
+           var h= HttpContext.User.Identity;
             return await _taskService.SaveUpdateTask(model, User);
         }        
 

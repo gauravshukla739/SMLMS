@@ -61,7 +61,7 @@ namespace SMLMS.Services.services
                     }
                     response.IsSuccess = true;
                     response.Message = "Login Succsessfull!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, appUser,role.Name, role.Id.ToString(),data.DepartmentId,dept.Name),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id,DepartmentName=dept.Name, image },permission= rolePermission };
+                    response.Data= new {  token = await GenerateJwtToken(user.UserName, userDetail, role.Name, role.Id.ToString(),data.DepartmentId,dept.Name),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id,DepartmentName=dept.Name, image },permission= rolePermission };
                 }
                 else
                 {
@@ -155,6 +155,18 @@ namespace SMLMS.Services.services
                         _unitOfWork.UserRoleRepository.UpdateDepartment(appUser.Id.ToString(), user.DepartmentId.ToString());
                         _unitOfWork.Commit();
                     }
+                    await _userManager.AddClaimsAsync(appUser,new List<Claim>() {
+                    new Claim("UserId", appUser.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.FirstName + " " + user.LastName),
+                    new Claim(ClaimTypes.Email, user.Email),
+                   new Claim(ClaimTypes.Role, user.RoleName),
+                     new Claim("RoleId", user.RoleId.ToString()),
+                     new Claim("DepartmentId", user.DepartmentId.ToString()),
+                     new Claim("DepartmentName", user.DepartmentName)
+                });
+
                     response.IsSuccess = true;
                     response.Message = "User Create Successfully!";
                     response.Data = appUser.Id.ToString();
@@ -223,37 +235,50 @@ namespace SMLMS.Services.services
         }
         private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId,string deptName)
         {
+          //  var jwtSecretKey = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
             var claims = _userManager.GetClaimsAsync(user).Result.ToList();
-            var claimsnew = new List<Claim>
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.FirstName+" "+user.LastName),
-                new Claim(ClaimTypes.Email, user.UserName),
-                new Claim(ClaimTypes.Role,role),
-                new Claim("RoleId",roleId),
-                new Claim("DepartmentId",(string.IsNullOrEmpty(departmentId))?"NA":departmentId),
-                new Claim("DepartmentName",deptName),
-                 new Claim("UserId",user.Id.ToString() )
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            claims.AddRange(claimsnew);
-            var identity = new ClaimsIdentity(claims);
-            var claimsPrincipal = new ClaimsPrincipal(identity);
-            // Set current principal
-            Thread.CurrentPrincipal = claimsPrincipal;
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+           return tokenHandler.WriteToken(token);
 
-            var token = new JwtSecurityToken(
-                _configuration["JwtIssuer"],
-                _configuration["JwtIssuer"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
+            //var claims = _userManager.GetClaimsAsync(user).Result.ToList();
+            ////var claimsnew = new List<Claim>
+            ////{
+            ////    new Claim(JwtRegisteredClaimNames.Sub, email),
+            ////    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            ////    new Claim(ClaimTypes.NameIdentifier, user.FirstName+" "+user.LastName),
+            ////    new Claim(ClaimTypes.Email, user.UserName),
+            ////    new Claim(ClaimTypes.Role,role),
+            ////    new Claim("RoleId",roleId),
+            ////    new Claim("DepartmentId",(string.IsNullOrEmpty(departmentId))?"NA":departmentId),
+            ////    new Claim("DepartmentName",deptName),
+            ////     new Claim("UserId",user.Id.ToString() )
+            ////};
+            ////claims.AddRange(claimsnew);
+            ////var identity = new ClaimsIdentity(claims);
+            ////var claimsPrincipal = new ClaimsPrincipal(identity);
+            ////// Set current principal
+            ////Thread.CurrentPrincipal = claimsPrincipal;
+            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            //var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            //var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
 
-            return  new  JwtSecurityTokenHandler().WriteToken(token);
+            //var token = new JwtSecurityToken(
+            //    _configuration["JwtIssuer"],
+            //    _configuration["JwtIssuer"],
+            //    claims,
+            //    expires: expires,
+            //    signingCredentials: creds
+            //);
+
+            //return  new  JwtSecurityTokenHandler().WriteToken(token);
         }
 
 

@@ -36,7 +36,20 @@ export class UserCreateUpdateComponent implements OnInit {
       this.getDepartments();
     }
   }
+  getRoleId() {
+    var roleDetail = this.roles.filter(x => x.name == this.user.roleName)[0];
+    if (roleDetail != null || roleDetail != undefined) {
+      this.user.roleId = roleDetail.id;
+    }
+  }
 
+  getDepartmentName() {
+    debugger;
+    var deptDetail = this.departments.filter(x => x.id == this.user.departmentId)[0];
+    if (deptDetail != null || deptDetail != undefined) {
+      this.user.departmentName = deptDetail.name;
+    }
+  }
   getAccountInfo() {
     debugger;
     var response = this.authService.detail(this.user.id).subscribe((data: any) => {

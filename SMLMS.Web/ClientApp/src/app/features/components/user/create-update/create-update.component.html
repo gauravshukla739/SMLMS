@@ -45,7 +45,7 @@
 
             <div class="form-group" *ngIf="isAdd">
               <label for="select">Role:</label>
-              <select class="form-control" placeholder="Select Role" name="rolename" required [(ngModel)]="user.roleName" #rolename="ngModel">
+              <select class="form-control" placeholder="Select Role" name="rolename" required [(ngModel)]="user.roleName" (change)="getRoleId()" #rolename="ngModel">
                 <option selected="" value="">Select Role</option>
                 <option [value]="role.name" *ngFor="let role of roles">{{role.name}}</option>
               </select>
@@ -56,7 +56,7 @@
 
             <div class="form-group" *ngIf="isAdd">
               <label for="select">Department:</label>
-              <select class="form-control" placeholder="Select Role" name="dept" required [(ngModel)]="user.departmentId" #dept="ngModel">
+              <select class="form-control" placeholder="Select Role" name="dept" required [(ngModel)]="user.departmentId" (change)="getDepartmentName()" #dept="ngModel">
                 <option selected="" value="">Select Department</option>
                 <option [value]="dept.id" *ngFor="let dept of departments">{{dept.name}}</option>
               </select>
