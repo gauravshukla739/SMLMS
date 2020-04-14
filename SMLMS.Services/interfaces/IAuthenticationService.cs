@@ -11,7 +11,7 @@ namespace SMLMS.Services.interfaces
 {
     public interface IAuthenticationService
     {
-         Task<ServiceResponse> SignIn(UserDto user);
+         Task<ServiceResponse> SignIn(UserDto user, ClaimsPrincipal claims);
 
         Task<ServiceResponse> CreateUser(UserDto _user,ClaimsPrincipal claims,string type);
 

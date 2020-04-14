@@ -34,7 +34,6 @@ namespace SMLMS.REST.Controllers
         {
             //model.Id =  Guid.NewGuid();
             //model.CreateDate = DateTime.Now;
-           var h= HttpContext.User.Identity;
             return await _taskService.SaveUpdateTask(model, User);
         }        
 

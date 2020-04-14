@@ -11,9 +11,10 @@ export class SharedService {
   taskEnum = RoleTaskEnum;
   promoteRoleId: any;
   promoteDepartmentId: any;
-  constructor(protected http: HttpClient) {
+  constructor() {
     this.roleEnum = RoleEnum;
     this.taskEnum = RoleTaskEnum;
+    debugger;
     this.accessToken = localStorage.getItem("user-token");
     this.user = localStorage.getItem("user") as any != null ? JSON.parse(localStorage.getItem("user") as any) : {};
     this.rolePermisssion = localStorage.getItem("role-permission") as any != null ? JSON.parse(localStorage.getItem("role-permission") as any) : {};

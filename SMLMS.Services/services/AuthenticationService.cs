@@ -37,7 +37,7 @@ namespace SMLMS.Services.services
         }
       
 
-        public async Task<ServiceResponse> SignIn(UserDto user)
+        public async Task<ServiceResponse> SignIn(UserDto user, ClaimsPrincipal claims)
         {
             ServiceResponse response = new ServiceResponse();
             try
@@ -61,7 +61,7 @@ namespace SMLMS.Services.services
                     }
                     response.IsSuccess = true;
                     response.Message = "Login Succsessfull!";
-                    response.Data= new {  token = await GenerateJwtToken(user.UserName, userDetail, role.Name, role.Id.ToString(),data.DepartmentId,dept.Name),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id,DepartmentName=dept.Name, image },permission= rolePermission };
+                    response.Data= new {  token =  GenerateJwtToken(user.UserName, userDetail, role.Name, role.Id.ToString(),data.DepartmentId,dept.Name),user=new {appUser.FirstName,appUser.LastName,RoleName=role.Name,appUser.Email,appUser.PhoneNumber,appUser.Id,data.DepartmentId,RoleId=role.Id,DepartmentName=dept.Name, image },permission= rolePermission };
                 }
                 else
                 {
@@ -233,20 +233,18 @@ namespace SMLMS.Services.services
             }
             return response;
         }
-        private async Task<object> GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId,string deptName)
-        {
-          //  var jwtSecretKey = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
+        private string GenerateJwtToken(string email, ApplicationUser user,string role,string roleId,string departmentId,string deptName)
+        { 
+            //  var jwtSecretKey = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
+            var jwtSecretKey = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
             var claims = _userManager.GetClaimsAsync(user).Result.ToList();
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["JwtKey"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-           return tokenHandler.WriteToken(token);
+            claims.Add(new Claim(ClaimTypes.Name, user.Email));
+            claims.Add(new Claim(ClaimTypes.PrimarySid, user.Id.ToString()));
+            var key = new SymmetricSecurityKey(jwtSecretKey);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.UtcNow.AddDays(7);
+            var token = new JwtSecurityToken(claims: claims, expires: expires, signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
 
             //var claims = _userManager.GetClaimsAsync(user).Result.ToList();
             ////var claimsnew = new List<Claim>

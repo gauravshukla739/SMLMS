@@ -19,10 +19,13 @@ export class RequestInterceptor implements HttpInterceptor {
             this.sharedService.startLoading();
       }
      
-        if (true) {
+      if (true) {
+        debugger;
+        console.log("token" + this.sharedService.accessToken);
+        var token = localStorage.getItem('user-token');
             request = request.clone({
                 setHeaders: {
-                    Authorization: `Bearer ${this.sharedService.accessToken}`
+                Authorization: `Bearer ${token}`
                 }
             });
         }

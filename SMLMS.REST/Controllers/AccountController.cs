@@ -24,7 +24,7 @@ namespace SMLMS.REST.Controllers
         [AllowAnonymous]
         public async Task<ServiceResponse> Login(UserDto user)
         {
-            return await _authenticationService.SignIn(user);
+            return await _authenticationService.SignIn(user,User);
         }
 
         [HttpPost]
